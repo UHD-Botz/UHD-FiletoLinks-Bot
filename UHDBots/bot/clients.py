@@ -1,17 +1,13 @@
-# Don't Remove Credit @VJ_Botz
-# Subscribe YouTube Channel For Amazing Bot @Tech_VJ
-# Ask Doubt on telegram @KingVJ01
-
 import asyncio
 import logging
 from info import *
 from pyrogram import Client
-from TechVJ.util.config_parser import TokenParser
-from TechVJ.bot import multi_clients, work_loads, TechVJBot
+from UHDBots.util.config_parser import TokenParser
+from UHDBots.bot import multi_clients, work_loads, UHDBots
 
 
 async def initialize_clients():
-    multi_clients[0] = TechVJBot
+    multi_clients[0] = UHDBots
     work_loads[0] = 0
     all_tokens = TokenParser().parse_from_env()
     if not all_tokens:
@@ -45,3 +41,4 @@ async def initialize_clients():
         print("Multi-Client Mode Enabled")
     else:
         print("No additional clients were initialized, using default client")
+
