@@ -1,7 +1,3 @@
-# Don't Remove Credit @VJ_Botz
-# Subscribe YouTube Channel For Amazing Bot @Tech_VJ
-# Ask Doubt on telegram @KingVJ01
-
 import logging
 import logging.config
 logging.config.fileConfig('logging.conf')
@@ -25,7 +21,7 @@ from pyrogram import Client
 from info import *
 
 
-class TechVJXBot(Client):
+class UHDXBots(Client):
 
     def __init__(self):
         super().__init__(
@@ -80,7 +76,8 @@ class TechVJXBot(Client):
                 yield message
                 current += 1
       
-TechVJBot = TechVJXBot()
+UHDBots = UHDXBots()
 
 multi_clients = {}
 work_loads = {}
+
