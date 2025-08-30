@@ -3,7 +3,7 @@ from typing import Any, Optional
 from pyrogram.types import Message
 from pyrogram.file_id import FileId
 from pyrogram.raw.types.messages import Messages
-from TechVJ.server.exceptions import FIleNotFound
+from UHDBots.server.exceptions import FIleNotFound
 
 
 async def parse_file_id(message: "Message") -> Optional[FileId]:
@@ -57,3 +57,4 @@ def get_name(media_msg: Message) -> str:
 def get_media_file_size(m):
     media = get_media_from_message(m)
     return getattr(media, "file_size", 0)
+
