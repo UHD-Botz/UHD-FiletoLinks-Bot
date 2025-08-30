@@ -1,9 +1,9 @@
 import jinja2
 from info import *
-from TechVJ.bot import TechVJBot
-from TechVJ.util.human_readable import humanbytes
-from TechVJ.util.file_properties import get_file_ids
-from TechVJ.server.exceptions import InvalidHash
+from UHDBots.bot import TechVJBot
+from UHDBots.util.human_readable import humanbytes
+from UHDBots.util.file_properties import get_file_ids
+from UHDBots.server.exceptions import InvalidHash
 import urllib.parse
 import logging
 import aiohttp
@@ -11,7 +11,7 @@ import aiohttp
 
 async def render_page(id, secure_hash, src=None):
     file = await TechVJBot.get_messages(int(LOG_CHANNEL), int(id))
-    file_data = await get_file_ids(TechVJBot, int(LOG_CHANNEL), int(id))
+    file_data = await get_file_ids(UHDBots, int(LOG_CHANNEL), int(id))
     if file_data.unique_id[:6] != secure_hash:
         logging.debug(f"link hash: {secure_hash} - {file_data.unique_id[:6]}")
         logging.debug(f"Invalid hash for message with - ID {id}")
@@ -25,9 +25,9 @@ async def render_page(id, secure_hash, src=None):
     tag = file_data.mime_type.split("/")[0].strip()
     file_size = humanbytes(file_data.file_size)
     if tag in ["video", "audio"]:
-        template_file = "TechVJ/template/req.html"
+        template_file = "UHDBots/template/req.html"
     else:
-        template_file = "TechVJ/template/dl.html"
+        template_file = "UHDBots/template/dl.html"
         async with aiohttp.ClientSession() as s:
             async with s.get(src) as u:
                 file_size = humanbytes(int(u.headers.get("Content-Length")))
@@ -43,3 +43,4 @@ async def render_page(id, secure_hash, src=None):
         file_size=file_size,
         file_unique_id=file_data.unique_id,
     )
+
