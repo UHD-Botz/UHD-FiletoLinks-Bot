@@ -5,8 +5,8 @@ from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ForceReply, CallbackQuery
 from info import URL, LOG_CHANNEL, SHORTLINK
 from urllib.parse import quote_plus
-from TechVJ.util.file_properties import get_name, get_hash, get_media_file_size
-from TechVJ.util.human_readable import humanbytes
+from UHDBots.util.file_properties import get_name, get_hash, get_media_file_size
+from UHDBots.util.human_readable import humanbytes
 from database.users_chats_db import db
 from utils import temp, get_shortlink
 
@@ -17,7 +17,7 @@ async def start(client, message):
         await client.send_message(LOG_CHANNEL, script.LOG_TEXT_P.format(message.from_user.id, message.from_user.mention))
     rm = InlineKeyboardMarkup(
         [[
-            InlineKeyboardButton("✨ Update Channel", url="https://t.me/vj_botz")
+            InlineKeyboardButton("✨ Update Channel", url="https://t.me/uhd_bots")
         ]] 
     )
     await client.send_message(
