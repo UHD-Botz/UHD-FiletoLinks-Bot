@@ -1,0 +1,14 @@
+pyrofork
+tgcrypto
+aiohttp
+python-dotenv<=0.20.0
+motor
+aiofiles
+dnspython
+apscheduler
+requests
+psutil
+shortzy
+jinja2
+humanize
+pytz
