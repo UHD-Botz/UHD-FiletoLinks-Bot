@@ -1,7 +1,3 @@
-# Don't Remove Credit @VJ_Botz
-# Subscribe YouTube Channel For Amazing Bot @Tech_VJ
-# Ask Doubt on telegram @KingVJ01
-
 FROM python:3.10.8-slim-buster
 
 RUN apt update && apt upgrade -y
@@ -14,3 +10,4 @@ RUN mkdir /FileToLink
 WORKDIR /FileToLink
 COPY . /FileToLink
 CMD ["python", "bot.py"]
+
