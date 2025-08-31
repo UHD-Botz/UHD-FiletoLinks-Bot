@@ -1,5 +1,5 @@
 import re, math, logging, secrets, mimetypes, time
-from info import *
+from config import *
 from aiohttp import web
 from aiohttp.http_exceptions import BadStatusLine
 from UHDBots.bot import multi_clients, work_loads, UHDBots
@@ -143,4 +143,5 @@ async def media_streamer(request: web.Request, id: int, secure_hash: str):
             "Accept-Ranges": "bytes",
         },
     )
+
 
