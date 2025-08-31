@@ -1,11 +1,6 @@
-class FileNotFound(Exception):
-    """Raised when the requested file is not found"""
-    pass
+class InvalidHash(Exception):
+    message = "Invalid hash"
 
-class InvalidFileID(Exception):
-    """Raised when a file ID is invalid"""
-    pass
 
-class UnauthorizedAccess(Exception):
-    """Raised when user tries to access without permission"""
-    pass
+class FileNotFound(Exception):   # <-- sahi naam
+    message = "File not found"
