@@ -3,7 +3,7 @@ from aiohttp import web
 from aiohttp.http_exceptions import BadStatusLine
 from config import *
 from UHDBots.bot import multi_clients, work_loads, UHDBots
-from UHDBots.server.exceptions import FIleNotFound, InvalidHash
+from UHDBots.server.exceptions import FileNotFound, InvalidHash
 from UHDBots import StartTime, __version__
 from UHDBots.util.custom_dl import ByteStreamer
 from UHDBots.util.time_format import get_readable_time
@@ -117,3 +117,4 @@ async def _stream_file(request: web.Request, file_id: int, secure_hash: str):
             "Accept-Ranges": "bytes"
         }
     )
+
