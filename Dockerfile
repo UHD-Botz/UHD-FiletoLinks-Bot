@@ -1,13 +1,8 @@
-FROM python:3.10.8-slim-buster
-
-RUN apt update && apt upgrade -y
-RUN apt install git -y
-COPY requirements.txt /requirements.txt
-
-RUN cd /
-RUN pip3 install -U pip && pip3 install -U -r requirements.txt
-RUN mkdir /FileToLink
-WORKDIR /FileToLink
-COPY . /FileToLink
-CMD ["python", "bot.py"]
-
+FROM python:3.10-slim-buster
+RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -U pip && pip3 install --no-cache-dir -r requirements.txt
+COPY . .
+EXPOSE 8080
+CMD ["python3","bot.py"]
