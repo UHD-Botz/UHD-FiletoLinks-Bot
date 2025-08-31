@@ -3,7 +3,7 @@ import datetime, time, asyncio
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait, InputUserDeactivated, UserIsBlocked, PeerIdInvalid
 from database.users_chats_db import db
-from info import ADMINS
+from config import ADMINS
 
 
 @Client.on_message(filters.command("broadcast") & filters.user(ADMINS))
@@ -92,3 +92,4 @@ async def broadcast_messages(user_id, message):
     except Exception as e:
         logging.error(f"Error while broadcasting to {user_id}: {e}")
         return False, "Error"
+
