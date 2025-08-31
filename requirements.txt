@@ -12,4 +12,4 @@ shortzy
 jinja2
 humanize
 pytz
-Adarsh
+adarsh
