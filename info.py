@@ -28,9 +28,9 @@ ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ
 
 # MongoDB information
 DATABASE_URI = environ.get('DATABASE_URI', "")
-DATABASE_NAME = environ.get('DATABASE_NAME', "techvjautobot")
+DATABASE_NAME = environ.get('DATABASE_NAME', "HDMoviesEarth")
 
 # Shortlink Info
-SHORTLINK = bool(environ.get('SHORTLINK', True)) # Set True Or False
+SHORTLINK = bool(environ.get('SHORTLINK', False)) # Set True Or False
 SHORTLINK_URL = environ.get('SHORTLINK_URL', 'https://linkshortify.com/')
 SHORTLINK_API = environ.get('SHORTLINK_API', '')
