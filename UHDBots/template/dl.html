@@ -3,110 +3,560 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>%s | UHD Bots</title>
+  <title>QUANTUM DOWNLOAD | UHD Bots</title>
   <link rel="icon" href="https://i.ibb.co/qJyZWCv/20230629-081948-0000.png" />
-  <meta property="og:title" content="%s | UHD Bots">
-  <meta property="og:description" content="Download your file instantly with UHD Bots futuristic downloader 🚀">
+  <meta property="og:title" content="QUANTUM DOWNLOAD | UHD Bots">
+  <meta property="og:description" content="Experience next-generation file delivery with our quantum download technology">
   <meta property="og:image" content="https://i.ibb.co/qJyZWCv/20230629-081948-0000.png">
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <!-- Animate -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
+    :root {
+      --primary: #00f0ff;
+      --secondary: #00ff80;
+      --accent: #ff00ff;
+      --dark: #0a0a14;
+      --darker: #050508;
+      --card-bg: rgba(15, 15, 35, 0.7);
+      --glow: 0 0 15px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      font-family: 'Exo 2', sans-serif;
+      background: linear-gradient(-45deg, var(--darker), var(--dark), #0f0f1f, #070710);
       background-size: 400% 400%;
-      animation: gradientBG 12s ease infinite;
-      font-family: 'Poppins', sans-serif;
+      animation: gradientBG 15s ease infinite;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
     }
+    
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 70%, rgba(0, 255, 128, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 50% 30%, rgba(255, 0, 255, 0.08) 0%, transparent 30%);
+      z-index: -1;
+    }
+    
     @keyframes gradientBG {
-      0% {background-position:0% 50%}
-      50% {background-position:100% 50%}
-      100% {background-position:0% 50%}
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-    .glass {
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 40px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: var(--glow) rgba(0, 240, 255, 0.5);
+    }
+    
+    .theme-toggle {
       background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: rotate(30deg);
+    }
+    
+    /* Main Content */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .file-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: var(--glow) rgba(0, 240, 255, 0.3);
+    }
+    
+    .subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      max-width: 600px;
+    }
+    
+    /* Download Card */
+    .download-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 30px;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
     }
-    .glow-btn {
-      background: linear-gradient(90deg,#ff0080,#7928ca,#2afadf);
-      background-size: 300% 300%;
-      animation: glowMove 6s ease infinite;
-      border-radius: 12px;
-      padding: 1rem 2rem;
-      font-weight: bold;
-      color: white;
-      box-shadow: 0 0 20px rgba(255,0,128,0.6);
-      transition: transform .2s ease;
+    
+    .download-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      z-index: -1;
+      background: linear-gradient(45deg, var(--primary), transparent, var(--accent), transparent, var(--secondary));
+      background-size: 400% 400%;
+      animation: border-glow 6s linear infinite;
+      border-radius: 22px;
     }
-    .glow-btn:hover { transform: scale(1.05); }
-    @keyframes glowMove {
-      0%{background-position:0% 50%}
-      50%{background-position:100% 50%}
-      100%{background-position:0% 50%}
+    
+    @keyframes border-glow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Download Button */
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none;
+      padding: 18px 35px;
+      border-radius: 50px;
+      color: #000;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(0, 255, 200, 0.4);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    
+    .download-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: 0.5s;
+    }
+    
+    .download-btn:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 10px 25px rgba(0, 255, 200, 0.6);
+    }
+    
+    .download-btn:hover::before {
+      left: 100%;
+    }
+    
+    .file-size {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+    
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .action-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .action-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+    }
+    
+    /* QR Code */
+    .qr-container {
+      margin-top: 30px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 20px;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: none;
+      max-width: 300px;
+    }
+    
+    .qr-container.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .qr-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 40px;
+    }
+    
+    .footer-text {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+    
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card-bg);
+      color: var(--secondary);
+      padding: 15px 25px;
+      border-radius: 50px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 255, 200, 0.3);
+    }
+    
+    .toast.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    /* Particle effects */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      opacity: 0;
+      animation: float 15s linear infinite;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .file-title {
+        font-size: 1.8rem;
+      }
+      
+      .download-btn {
+        padding: 15px 25px;
+        font-size: 1.1rem;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .action-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .file-title {
+        font-size: 1.5rem;
+      }
+      
+      .logo {
+        font-size: 1.5rem;
+      }
+      
+      .download-card {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 
-<body class="text-white min-h-screen flex flex-col justify-between">
+<body>
+  <div class="particles" id="particles"></div>
+  
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <i class="fas fa-satellite"></i>
+        <span>QUANTUM DOWNLOAD</span>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+        <i class="fas fa-moon"></i>
+      </button>
+    </header>
 
-  <!-- Navbar -->
-  <header class="glass p-4 flex justify-between items-center">
-    <h1 class="text-xl font-bold">⚡ UHD Bots</h1>
-    <button onclick="toggleTheme()" class="p-2 rounded-lg glass">
-      <i id="themeIcon" class="bi bi-moon-stars-fill"></i>
-    </button>
-  </header>
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1 class="file-title">%s</h1>
+      <p class="subtitle">Your quantum download is ready. Experience the future of file delivery.</p>
+      
+      <!-- Download Card -->
+      <div class="download-card">
+        <a href="%s" class="download-btn">
+          <i class="fas fa-bolt"></i>
+          <span>DOWNLOAD NOW</span>
+        </a>
+        <p class="file-size">File size: %s</p>
+      </div>
 
-  <!-- File Info -->
-  <main class="flex flex-col items-center justify-center text-center p-6 flex-1">
-    <h2 class="text-2xl font-semibold animate__animated animate__fadeInDown">%s</h2>
-    <p class="text-sm opacity-80">Your futuristic download is ready 🚀</p>
-    
-    <!-- Download Button -->
-    <a href="%s" class="mt-6 glow-btn inline-flex items-center gap-2">
-      <i class="bi bi-download"></i> Download (%s)
-    </a>
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="action-btn" onclick="copyLink()">
+          <i class="fas fa-link"></i>
+          <span>Copy Link</span>
+        </button>
+        <button class="action-btn" onclick="generateQR()">
+          <i class="fas fa-qrcode"></i>
+          <span>QR Code</span>
+        </button>
+      </div>
 
-    <!-- Copy + QR -->
-    <div class="mt-4 flex flex-col sm:flex-row gap-3">
-      <button onclick="copyLink()" class="glass px-4 py-2 rounded-lg">📋 Copy Link</button>
-      <button onclick="generateQR()" class="glass px-4 py-2 rounded-lg">🔗 QR Code</button>
-    </div>
+      <!-- QR Code Container -->
+      <div class="qr-container" id="qrCode">
+        <h3 class="qr-title">Scan to Download</h3>
+        <canvas id="qrCanvas"></canvas>
+      </div>
+    </main>
 
-    <div id="qrCode" class="mt-4"></div>
-  </main>
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-text">Powered by <strong>QUANTUM TECHNOLOGY</strong> | Secure & High-Speed Transfers</p>
+    </footer>
+  </div>
 
-  <!-- Footer -->
-  <footer class="glass text-center py-4">
-    <p class="text-xs">Made with ❤️ by UHD Bots</p>
-  </footer>
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage">✅ Link copied to clipboard!</span>
+  </div>
 
-  <!-- QR & Theme JS -->
+  <!-- QR Code Library -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  
   <script>
+    // Create particle effect
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 25;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random() * 3 + 1;
+        const left = Math.random() * 100;
+        const animationDelay = Math.random() * 15;
+        const animationDuration = Math.random() * 10 + 15;
+        
+        particle.style.width = ${size}px;
+        particle.style.height = ${size}px;
+        particle.style.left = ${left}%;
+        particle.style.animationDelay = ${animationDelay}s;
+        particle.style.animationDuration = ${animationDuration}s;
+        
+        // Random color from theme
+        const colors = ['rgba(0, 240, 255, 0.7)', 'rgba(0, 255, 128, 0.7)', 'rgba(255, 0, 255, 0.7)'];
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // Copy link function with toast notification
     function copyLink() {
       navigator.clipboard.writeText("%s");
-      alert("✅ Link copied!");
+      
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      toastMessage.textContent = "✅ Link copied to clipboard!";
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
     }
+    
+    // Generate QR Code
     function generateQR() {
-      document.getElementById("qrCode").innerHTML = "";
-      QRCode.toCanvas(document.getElementById("qrCode"), "%s", { width: 180 }, function (err) {
+      const qrContainer = document.getElementById('qrCode');
+      const qrCanvas = document.getElementById('qrCanvas');
+      
+      if (qrContainer.classList.contains('active')) {
+        qrContainer.classList.remove('active');
+        return;
+      }
+      
+      // Clear previous QR code
+      qrCanvas.width = 180;
+      qrCanvas.height = 180;
+      const ctx = qrCanvas.getContext('2d');
+      ctx.clearRect(0, 0, qrCanvas.width, qrCanvas.height);
+      
+      // Generate new QR code
+      QRCode.toCanvas(qrCanvas, "%s", { 
+        width: 180,
+        color: {
+          dark: '#00f0ff',
+          light: 'transparent'
+        }
+      }, function (err) {
         if (err) console.error(err);
       });
+      
+      qrContainer.classList.add('active');
     }
+    
+    // Theme toggle function
     function toggleTheme() {
-      document.body.classList.toggle("bg-white");
-      document.body.classList.toggle("text-black");
-      const icon = document.getElementById("themeIcon");
-      icon.classList.toggle("bi-brightness-high-fill");
-      icon.classList.toggle("bi-moon-stars-fill");
+      document.body.classList.toggle('light-theme');
+      const themeToggle = document.getElementById('themeToggle');
+      const icon = themeToggle.querySelector('i');
+      
+      if (document.body.classList.contains('light-theme')) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+        document.body.style.background = "linear-gradient(135deg, #e0e0e0, #f5f5f5, #e8e8e8)";
+        document.body.style.color = "#333";
+      } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+        document.body.style.background = "linear-gradient(-45deg, var(--darker), var(--dark), #0f0f1f, #070710)";
+        document.body.style.color = "#fff";
+      }
     }
+    
+    // Initialize effects when page loads
+    window.addEventListener('load', function() {
+      createParticles();
+      
+      // Add subtle animation to download card
+      const downloadCard = document.querySelector('.download-card');
+      downloadCard.style.transform = 'translateY(0)';
+      downloadCard.style.transition = 'transform 0.5s ease, box-shadow 0.3s ease';
+    });
   </script>
 </body>
 </html>
