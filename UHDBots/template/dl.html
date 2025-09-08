@@ -1,124 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>%s | UHD Bots</title>
-  <link rel="icon" href="https://i.ibb.co/qJyZWCv/20230629-081948-0000.png" />
-  <meta property="og:title" content="%s | UHD Bots">
-  <meta property="og:description" content="Download your file instantly with UHD Bots futuristic downloader 🚀">
-  <meta property="og:image" content="https://i.ibb.co/qJyZWCv/20230629-081948-0000.png">
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <!-- Animate.css -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UHD File Stream</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
-    /* Animated Futuristic Neon Gradient Background */
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background: linear-gradient(135deg, #010917 0%, #232361 35%, #0f0c29 70%, #ff00b4 100%);
-      background-size: 600% 600%;
-      animation: gradientBG 14s ease-in-out infinite;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Roboto Mono', monospace;
+      background: linear-gradient(-45deg, #0a0a0a, #1c2526, #13232f, #000000);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      color: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       min-height: 100vh;
+      overflow: hidden;
     }
-    @keyframes gradientBG {
-      0% {background-position:0% 50%;}
-      50% {background-position:100% 50%;}
-      100% {background-position:0% 50%;}
+
+    /* Gradient Animation */
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-    .glass {
-      background: rgba(30,30,60,0.15);
-      backdrop-filter: blur(20px) brightness(1.13);
-      border: 1.5px solid rgba(255,255,255,.13);
-      box-shadow: 0 0 40px #23236155, 0 0 8px #ff00b455, 0 2px 24px #11193144;
+
+    /* Container */
+    .container {
+      max-width: 800px;
+      padding: 2rem;
+      background: rgba(20, 20, 20, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
     }
-    /* Neon Glowing Button */
-    .glow-btn {
-      background: linear-gradient(90deg,#23a6d5,#7928ca,#ff00b4);
-      background-size: 300% 300%;
-      animation: glowMove 8s ease infinite;
-      border-radius: 14px;
-      padding: 1.15rem 2.3rem;
-      font-weight: bold;
+
+    .container:hover {
+      transform: translateY(-10px);
+    }
+
+    /* Title */
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      color: #00f0ff;
+      text-shadow: 0 0 15px rgba(0, 240, 255, 0.7);
+      margin-bottom: 1.5rem;
+      position: relative;
+      animation: neon-flicker 4s infinite;
+    }
+
+    @keyframes neon-flicker {
+      0%, 100% { text-shadow: 0 0 15px rgba(0, 240, 255, 0.7), 0 0 30px rgba(0, 240, 255, 0.5); }
+      50% { text-shadow: 0 0 10px rgba(0, 240, 255, 0.4), 0 0 20px rgba(0, 240, 255, 0.2); }
+    }
+
+    /* File Stream Button */
+    .stream-btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      font-size: 1.2rem;
+      font-weight: 700;
       color: #fff;
-      letter-spacing:1.3px;
-      box-shadow: 0 0 16px #ff00b4a0, 0 0 24px #23a6d570;
+      background: linear-gradient(90deg, #00f0ff, #ff00ff);
       border: none;
-      outline: none;
-      font-family: 'Poppins', sans-serif;
-      transition: transform .18s, box-shadow .19s;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      margin: 1rem 0;
     }
-    .glow-btn:hover {
-      transform: scale(1.07);
-      box-shadow: 0 0 38px #ff00b4CC, 0 0 42px #23a6d588;
-      background: linear-gradient(90deg,#ff00b4,#23a6d5,#7928ca);
+
+    .stream-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+      background: linear-gradient(90deg, #ff00ff, #00f0ff);
     }
-    @keyframes glowMove {
-      0%{background-position:0% 50%;}
-      50%{background-position:100% 50%;}
-      100%{background-position:0% 50%;}
+
+    .stream-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: 0.5s;
     }
-    .futuristic-border {
-      border: 2px solid #23a6d566 !important;
-      box-shadow: 0 0 14px #7928ca44;
-      border-radius: 16px;
+
+    .stream-btn:hover::before {
+      left: 100%;
     }
-    .text-neon {
-      text-shadow: 0 0 10px #23a6d5, 0 0 14px #ff00b4, 0 0 3px #fff;
-      color: #fff;
+
+    /* Copy Link Button */
+    .copy-btn {
+      background: transparent;
+      border: 2px solid #00f0ff;
+      color: #00f0ff;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .copy-btn:hover {
+      background: #00f0ff;
+      color: #000;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+    }
+
+    /* Particle Background Effect */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(0, 240, 255, 0.5);
+      border-radius: 50%;
+      animation: float 10s infinite linear;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0); }
+      100% { transform: translateY(-100vh) scale(1); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .container {
+        padding: 1.5rem;
+      }
+
+      .stream-btn, .copy-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .container {
+        margin: 1rem;
+      }
     }
   </style>
 </head>
-<body class="text-white min-h-screen flex flex-col justify-between">
-  <!-- Navbar -->
-  <header class="glass p-5 mb-6 flex justify-between items-center futuristic-border animate_animated animate_fadeInDown">
-    <h1 class="text-xl font-bold text-neon tracking-widest">⚡️ UHD Bots</h1>
-    <button onclick="toggleTheme()" class="p-2 rounded-lg glass border border-purple-500">
-      <i id="themeIcon" class="bi bi-moon-stars-fill"></i>
-    </button>
-  </header>
+<body>
+  <div class="particles" id="particles"></div>
+  <div class="container">
+    <h1>🚀 UHD File Stream</h1>
+    <p style="font-size: 1.2rem; margin-bottom: 1.5rem; color: #b0b0b0;">
+      Stream and share your files with cutting-edge technology
+    </p>
+    <button class="stream-btn" onclick="startStream()">Start Streaming</button>
+    <br />
+    <button class="copy-btn" onclick="copyLink()">Copy Stream Link</button>
+  </div>
 
-  <!-- File Info & Download -->
-  <main class="flex flex-col items-center justify-center text-center flex-1">
-    <div class="glass p-8 futuristic-border w-full max-w-lg animate_animated animate_fadeIn">
-      <h2 class="text-2xl font-semibold text-neon mb-2 tracking-wide">%s</h2>
-      <p class="text-md opacity-90 mb-6">Your futuristic download is ready 🚀</p>
-      <div class="flex flex-col gap-5 items-center">
-        <button class="glow-btn w-full" onclick="window.open('%s','_blank')"><i class="bi bi-download text-xl mr-2"></i> Download Now</button>
-        <button class="glow-btn w-full" onclick="copyLink()"><i class="bi bi-link-45deg text-xl mr-2"></i> Copy Link</button>
-        <div id="qrCode" class="mt-2"></div>
-        <button class="glow-btn w-full" onclick="generateQR()"><i class="bi bi-qr-code text-xl mr-2"></i> Show QR</button>
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="glass text-center py-4 mt-4 animate_animated animate_fadeInUp futuristic-border">
-    <p class="text-xs opacity-80 text-neon">Made with <span class="text-pink-500">❤️</span> by UHD Bots</p>
-  </footer>
-
-  <!-- QR & Theme JS -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
+    // Copy Link Functionality
     function copyLink() {
-      navigator.clipboard.writeText("%s");
-      alert("✅ Link copied!");
-    }
-    function generateQR() {
-      document.getElementById("qrCode").innerHTML = "";
-      QRCode.toCanvas(document.getElementById("qrCode"), "%s", { width: 180, color: { dark:"#7928ca", light:"#ffffff00"} }, function (err) {
-        if (err) console.error(err);
+      navigator.clipboard.writeText("{{ file_url }}").then(() => {
+        alert("✅ Link copied to clipboard!");
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+        alert("❌ Failed to copy link!");
       });
     }
-    function toggleTheme() {
-      document.body.classList.toggle("bg-white");
-      document.body.classList.toggle("text-black");
-      const icon = document.getElementById("themeIcon");
-      icon.classList.toggle("bi-brightness-high-fill");
-      icon.classList.toggle("bi-moon-stars-fill");
+
+    // Placeholder for Stream Function
+    function startStream() {
+      alert("🚀 Initiating UHD File Stream...");
+      // Add your streaming logic here
     }
+
+    // Particle Animation
+    const particlesContainer = document.getElementById('particles');
+    function createParticle() {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      particle.style.width = ${Math.random() * 5 + 2}px;
+      particle.style.height = particle.style.width;
+      particle.style.left = ${Math.random() * 100}%;
+      particle.style.animationDuration = ${Math.random() * 5 + 5}s;
+      particle.style.opacity = Math.random() * 0.5 + 0.2;
+      particlesContainer.appendChild(particle);
+      setTimeout(() => particle.remove(), 10000);
+    }
+
+    setInterval(createParticle, 300);
   </script>
 </body>
 </html>
