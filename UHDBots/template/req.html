@@ -345,7 +345,7 @@
 
     <div class="card">
       <h2 class="card-title"><i class="fas fa-play-circle"></i> {{ file_name }}</h2>
-      <video controls poster="{{ thumb }}" autoplay>
+      <video controls poster="{{ thumb }}" autoplay muted>
         <source src="{{ file_url }}" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -426,3 +426,4 @@
   </script>
 </body>
 </html>
+
