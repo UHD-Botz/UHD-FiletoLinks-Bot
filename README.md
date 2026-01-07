@@ -80,7 +80,7 @@ python3 bot.py
 <p align="center">
   💡 <strong>Need Help? Facing an Issue?</strong><br>
   Join our <a href="https://t.me/UHDBots_Support">Support Group</a> to ask questions, report bugs, or suggest new features.<br>
-  📢 Stay updated with latest news on our <a href="https://t.me/UHD_Bots">Updates Channel</a>.
+  📢 Stay updated with latest news on our <a href="https://t.me/UHDBots">Updates Channel</a>.
 </p>
 
 <p align="center">
@@ -92,7 +92,7 @@ python3 bot.py
 ## 👨‍💻 Developer
 
 - [![MR ANKAN](https://img.shields.io/static/v1?label=MR&message=ANKAN&color=green)](https://t.me/Ankan_Contact_Bot)  
-- [![UHD Official](https://img.shields.io/static/v1?label=UHD&message=Official&color=purple)](https://t.me/UHD_Official)
+- [![UHD Official](https://img.shields.io/static/v1?label=UHD&message=Official&color=purple)](https://t.me/UHD_NETWORK)
 
 ---
 
