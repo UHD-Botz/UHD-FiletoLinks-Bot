@@ -202,8 +202,9 @@
 
     <div class="card">
       <h2 class="card-title"><i class="fas fa-play-circle"></i> {{ file_name }}</h2>
-      <video controls poster="{{ thumb }}" autoplay playsinline>
-        <source src="{{ file_url }}" type="video/mp4">
+      <video controls preload="metadata" playsinline>
+        <source src="{{ file_url }}">
+        Your browser does not support video playback.
       </video>
       <div class="file-info"><p><b>Size:</b> {{ file_size }}</p></div>
     </div>
@@ -236,6 +237,7 @@
   </script>
 </body>
 </html>
+
 
 
 
