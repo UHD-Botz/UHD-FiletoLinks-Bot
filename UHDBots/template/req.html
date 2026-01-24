@@ -77,23 +77,29 @@
       position:fixed;
       left:18px;
       bottom:90px;
-      width:54px;
-      height:54px;
-      background:#0088cc;
-      color:#fff;
+      width:56px;
+      height:56px;
+      background:#ffffff;
       border-radius:50%;
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size:26px;
+      font-size:28px;
       z-index:9999;
       box-shadow:0 0 18px rgba(0,136,204,0.6);
       transition:transform .3s ease, box-shadow .3s ease;
     }
 
+/* REMOVE unwanted outline / line */
+    .telegram-float::after,
+    .telegram-float::before{
+      display:none !important;
+      content:none !important;
+    }
+
     .telegram-float:hover{
       transform:scale(1.15);
-      box-shadow:0 0 28px rgba(0,136,204,0.9);
+      box-shadow:0 0 30px rgba(0,136,204,1);
     }
     
     .card {
@@ -243,8 +249,8 @@
     </div>
 
     <a href="https://t.me/UHDBots" class="telegram-float" target="_blank">
-      <i class="fa-brands fa-telegram"></i>
-    </a>
+  <i class="fa-brands fa-telegram fa-beat" style="color:#0088CC;"></i>
+</a>
     
     <footer>
       <p>© 2026 <b>UHD Bots</b> All Rights Reserved</p>
@@ -264,6 +270,7 @@
   </script>
 </body>
 </html>
+
 
 
 
