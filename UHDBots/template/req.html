@@ -217,7 +217,7 @@
     <div id="canvas-container"></div>
 
     <nav>
-        <div class="logo">UHD BOTS</div>
+        <div class="logo nav-logo">UHD BOTS</div>
         <a href="https://t.me/UHDBots" style="color:var(--accent); text-decoration:none;"><i class="fab fa-telegram"></i></a>
     </nav>
 
@@ -260,7 +260,7 @@
 
         <div class="tg-join">
             <p style="opacity:0.7; font-size:14px;">Powered By</p>
-            <a href="https://t.me/UHDBots" class="tg-link">@UHDBots</a>
+            <a href="https://t.me/UHDBots" class="tg-link footer-logo">UHD Bots</a>
         </div>
     </div>
 
@@ -325,6 +325,52 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
         });
+
+(function() {
+    // 1. Configuration (Tera real data)
+    const _0xauth = "UHD BOTS";
+    const _0xlink = "t.me/UHDBots"; // Tera original channel link
+
+    function verifyIdentity() {
+        const logo = document.querySelector('.nav-logo');
+        const footer = document.querySelector('.footer-logo');
+        const tgLinks = document.querySelectorAll('a[href*="t.me/"]');
+        
+        let linkFound = false;
+        tgLinks.forEach(link => {
+            // Check if any link contains your telegram handle
+            if(link.href.toLowerCase().includes("uhdbots")) linkFound = true;
+        });
+
+        // 2. Security Check
+        // Agar logo gayab hai, ya usme UHD nahi likha, ya footer link tampered hai...
+        if (!logo || !logo.innerText.includes("UHD") || !footer || !linkFound) {
+            
+            // Page ko black screen aur error message se replace kar do
+            document.body.innerHTML = `
+                <div style="background:#020205; color:#ff0044; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:sans-serif; text-align:center; padding:20px; position:fixed; top:0; left:0; width:100%; z-index:999999;">
+                    <h1 style="font-size:3rem; text-shadow: 0 0 20px red;">⚠️ SYSTEM CRASHED</h1>
+                    <p style="font-size:1.2rem; margin-top:20px; color:#fff;">CRITICAL ERROR: Unauthorized UI modification detected.</p>
+                    <p style="color:#555; margin-top:10px;">Security Lock active. Original credits removed by user.</p>
+                    <br>
+                    <a href="https://${_0xlink}" style="color:#00f5ff; border:1px solid #00f5ff; padding:12px 25px; text-decoration:none; border-radius:50px; font-weight:bold;">GET ORIGINAL BOT</a>
+                </div>`;
+            
+            // Browser console ko hang aur debugger activate karna
+            setInterval(() => {
+                console.error("CRITICAL_SECURITY_BREACH: Credits tampered.");
+                debugger; // Ye inspect element kholne wale ko wahin rok dega
+            }, 50);
+            
+            throw new Error("UI Tampering Detected. Execution Halted.");
+        }
+    }
+
+    // Har 3 second mein background check
+    setInterval(verifyIdentity, 3000);
+    window.addEventListener('load', verifyIdentity);
+})();
+        
     </script>
 </body>
 </html>
