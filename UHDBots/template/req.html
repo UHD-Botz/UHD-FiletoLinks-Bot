@@ -3,343 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UHD Bots - {{file_name}}</title>
+    <title>UHD Bots | Premium Stream</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <link href="https://unpkg.com/@videojs/themes@1.0.1/dist/city/index.css" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #9333ea;
-            --secondary: #c084fc;
-            --bg-dark: #09011a;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-main: #ffffff;
-            --text-dim: #a78bfa;
+            --accent: #00f2ff;
+            --secondary: #7000ff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 20% 20%, rgba(147, 51, 234, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(192, 132, 252, 0.1) 0%, transparent 40%);
-            color: var(--text-main);
-            min-height: 100vh;
+            background: #020205;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* Navbar */
-        .navbar {
-            padding: 1.5rem;
+        /* Three.js Canvas Container */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* Navbar with Blur */
+        nav {
+            padding: 20px 5%;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(15px);
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(9, 1, 26, 0.8);
-            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
         }
 
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            background: linear-gradient(to right, #fff, var(--secondary));
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .main-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 1rem;
+        .main-wrapper {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease-out;
         }
 
-        /* Player Section */
-        .player-card {
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Premium Video Box */
+        .video-card {
             background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
+            border: 1px solid var(--border);
+            border-radius: 30px;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            margin-bottom: 2rem;
+            backdrop-filter: blur(25px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
         }
 
-        .video-wrapper {
-            position: relative;
-            background: #000;
+        .vjs-matrix.video-js {
+            width: 100%;
             aspect-ratio: 16/9;
+            font-family: 'Outfit', sans-serif;
         }
 
-        /* Info Section */
-        .info-content {
-            padding: 1.5rem;
+        .info-panel {
+            padding: 35px;
         }
 
-        .badge-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
+        .status-tag {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            box-shadow: 0 0 20px rgba(112, 0, 255, 0.4);
         }
 
-        .badge {
-            background: rgba(147, 51, 234, 0.2);
-            color: var(--secondary);
-            padding: 4px 12px;
-            border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            border: 1px solid rgba(147, 51, 234, 0.3);
+        .movie-title {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            letter-spacing: -1px;
+            line-height: 1.2;
         }
 
-        .file-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.3;
-        }
-
-        /* Buttons Styling */
-        .action-grid {
+        /* Neon Action Buttons */
+        .action-row {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
-        .btn-main {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 14px;
+        .btn-neon {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 18px;
+            border-radius: 18px;
+            text-align: center;
+            text-decoration: none;
             font-weight: 600;
-            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-
-        .btn-main:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(147, 51, 234, 0.3);
-        }
-
-        .btn-sec {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 14px;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-sec:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* External Player Panel */
-        .ext-panel {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            padding: 15px;
-            margin-top: 15px;
-        }
-
-        .ext-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin-top: 10px;
         }
 
-        .ext-item {
-            background: var(--bg-dark);
-            border: 1px solid var(--glass-border);
-            padding: 10px;
-            border-radius: 12px;
+        .btn-neon:hover {
+            background: #fff;
+            color: #000;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255,255,255,0.2);
+        }
+
+        .btn-dl {
+            background: linear-gradient(45deg, #00f2ff, #006aff);
+            border: none;
+            color: #000;
+        }
+
+        /* External App Links */
+        .app-panel {
+            background: rgba(255,255,255,0.02);
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+
+        .app-grid {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .app-chip {
+            min-width: 120px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 15px;
             text-align: center;
-            font-size: 0.8rem;
             cursor: pointer;
             transition: 0.3s;
         }
 
-        .ext-item:hover {
-            border-color: var(--primary);
-            color: var(--secondary);
-        }
+        .app-chip:hover { border-color: var(--accent); background: rgba(0,242,255,0.1); }
 
-        /* Warning Box */
-        .audio-notice {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px dashed #ef4444;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            color: #fca5a5;
-            margin-top: 20px;
-            display: none;
-        }
-
-        /* Footer Links */
-        .footer-card {
+        /* Telegram Box */
+        .tg-card {
+            margin-top: 40px;
+            background: linear-gradient(135deg, rgba(36, 161, 222, 0.2), rgba(0,0,0,0));
+            border: 1px solid rgba(36, 161, 222, 0.3);
+            border-radius: 30px;
+            padding: 40px;
             text-align: center;
-            padding: 2rem;
-            background: var(--glass);
-            border-radius: 24px;
-            border: 1px solid var(--glass-border);
         }
 
-        .social-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
+        .tg-btn {
+            display: inline-block;
             background: #24A1DE;
-            color: white;
+            color: #fff;
+            padding: 15px 40px;
             border-radius: 100px;
             text-decoration: none;
-            font-weight: 600;
-            margin: 10px;
+            font-weight: 700;
+            margin-top: 20px;
+            transition: 0.3s;
         }
 
-        @media (max-width: 600px) {
-            .action-grid { grid-template-columns: 1fr; }
-            .ext-grid { grid-template-columns: 1fr 1fr; }
-            .file-title { font-size: 1.1rem; }
+        .tg-btn:hover { box-shadow: 0 0 30px #24A1DE; transform: scale(1.05); }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .movie-title { font-size: 1.5rem; }
+            .action-row { grid-template-columns: 1fr 1fr; }
+            .btn-dl { grid-column: span 2; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-logo">UHD Bots</div>
+    <div id="canvas-container"></div>
+
+    <nav>
+        <div class="logo">UHD BOTS</div>
+        <a href="https://t.me/UHDBots" style="color:var(--accent); text-decoration:none;"><i class="fab fa-telegram"></i> Join</a>
     </nav>
 
-    <div class="main-container">
-        <div class="player-card">
-            <div class="video-wrapper">
-                <video id="player" playsinline controls preload="metadata">
-                    <source src="{{file_url}}" type="video/mp4">
+    <div class="main-wrapper">
+        <div class="video-card">
+            <video id="uhd-player" class="video-js vjs-theme-city" controls preload="auto" data-setup='{}'>
+                <source src="{{file_url}}" type="video/mp4">
+                <source src="{{file_url}}" type="video/webm">
                 </video>
-            </div>
 
-            <div class="info-content">
-                <div class="badge-group">
-                    <span class="badge">4K Ultra HD</span>
-                    <span class="badge"><i class="fas fa-bolt"></i> Fast Stream</span>
-                </div>
-                
-                <h1 class="file-title" id="display-name">{{file_name}}</h1>
+            <div class="info-panel">
+                <div class="status-tag"><i class="fas fa-crown"></i> UHD PREMIUM QUALITY</div>
+                <h1 class="movie-title" id="title-text">{{file_name}}</h1>
 
-                <div class="action-grid">
-                    <a href="#" class="btn-main" onclick="downloadFile()">
-                        <i class="fas fa-cloud-download-alt"></i> Download Now
+                <div class="action-row">
+                    <a href="#" class="btn-neon btn-dl" onclick="handleDownload()">
+                        <i class="fas fa-download"></i> Download High Speed
                     </a>
-                    <button class="btn-sec" onclick="copyUrl()" id="copyBtn">
-                        <i class="fas fa-link"></i>
+                    <button class="btn-neon" onclick="copyLink()">
+                        <i class="fas fa-link"></i> Copy
                     </button>
-                    <button class="btn-sec" onclick="shareUrl()">
-                        <i class="fas fa-share-alt"></i>
+                    <button class="btn-neon" onclick="shareMe()">
+                        <i class="fas fa-share-alt"></i> Share
                     </button>
                 </div>
 
-                <div class="ext-panel">
-                    <p style="font-size: 0.85rem; font-weight: 600; color: var(--text-dim);">OPEN IN APP</p>
-                    <div class="ext-grid">
-                        <div class="ext-item" onclick="openVLC()"><i class="fas fa-play"></i><br>VLC</div>
-                        <div class="ext-item" onclick="openMX()"><i class="fas fa-play"></i><br>MX Player</div>
-                        <div class="ext-item" onclick="openPlayIt()"><i class="fas fa-play"></i><br>PlayIt</div>
+                <div class="app-panel">
+                    <p style="font-size:13px; color:#aaa; margin-bottom:10px;">PLAY IN EXTERNAL APP (Fixes Audio/Subtitle Issues)</p>
+                    <div class="app-grid">
+                        <div class="app-chip" onclick="launchApp('vlc')"><i class="fas fa-play"></i><br>VLC</div>
+                        <div class="app-chip" onclick="launchApp('mx')"><i class="fas fa-play"></i><br>MX Player</div>
+                        <div class="app-chip" onclick="launchApp('playit')"><i class="fas fa-play"></i><br>PlayIt</div>
+                        <div class="app-chip" onclick="launchApp('nplayer')"><i class="fas fa-play"></i><br>nPlayer</div>
                     </div>
-                </div>
-
-                <div class="audio-notice" id="audio-warning">
-                    <i class="fas fa-exclamation-triangle"></i> Browser audio issues? Use external players for best sound.
                 </div>
             </div>
         </div>
 
-        <div class="footer-card">
-            <h3>Join Our Community</h3>
-            <p style="color: var(--text-dim); margin-bottom: 1rem;">Get latest updates and more bots.</p>
-            <a href="https://t.me/UHDBots" class="social-btn">
-                <i class="fab fa-telegram-plane"></i> Telegram Channel
-            </a>
-            <p style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.5;">&copy; 2026 UHD Bots. All Rights Reserved.</p>
+        <div class="tg-card">
+            <h2>Join Our Master Channel</h2>
+            <p>Get instant access to 4K Movies, Series and Latest Bots</p>
+            <a href="https://t.me/UHDBots" class="tg-btn">@UHDBots</a>
         </div>
     </div>
 
-    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
     <script>
-        // Initialize Player
-        const player = new Plyr('#player', {
-            controls: ['play-large', 'play', 'progress', 'current-time', 'duration', 'mute', 'volume', 'settings', 'fullscreen'],
-            settings: ['quality', 'speed']
-        });
+        // 1. Three.js Background Animation
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        const fileUrl = "{{file_url}}";
-        const cleanUrl = fileUrl.replace('/watch/', '/dl/');
+        const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+        const material = new THREE.MeshPhongMaterial({ color: 0x7000ff, wireframe: true });
+        const torusKnot = new THREE.Mesh(geometry, material);
+        scene.add(torusKnot);
 
-        // Clean Title Function
-        function cleanFileName() {
-            const el = document.getElementById('display-name');
-            let name = el.textContent;
-            name = name.replace(/[._\-+]/g, ' ')
-                       .replace(/\[.*?\]/g, '')
-                       .replace(/\(.*?\)/g, '')
-                       .trim();
-            el.textContent = name;
+        const light = new THREE.PointLight(0xffffff, 1, 100);
+        light.position.set(10, 10, 10);
+        scene.add(light);
+        camera.position.z = 30;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            torusKnot.rotation.x += 0.005;
+            torusKnot.rotation.y += 0.005;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // 2. File Name Cleaning
+        const titleEl = document.getElementById('title-text');
+        let rawName = titleEl.innerText;
+        titleEl.innerText = rawName.replace(/[._\-+]/g, ' ')
+                                   .replace(/\[.*?\]/g, '')
+                                   .replace(/\(.*?\)/g, '')
+                                   .replace(/\d{3,4}p/g, '[$&]') // Highlights 1080p, 720p
+                                   .trim();
+
+        // 3. Download Logic (Anti-Bug)
+        function handleDownload() {
+            const dlLink = window.location.href.replace('/watch/', '/dl/');
+            const link = document.createElement('a');
+            link.href = dlLink;
+            link.setAttribute('download', '');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
-        // Functions
-        function downloadFile() {
-            window.location.href = cleanUrl;
+        // 4. App Intents
+        const streamUrl = "{{file_url}}";
+        function launchApp(type) {
+            const cleanUrl = streamUrl.replace(/^https?:\/\//, '');
+            let intent = "";
+            if(type === 'vlc') intent = `intent://${cleanUrl}#Intent;scheme=https;package=org.videolan.vlc;end`;
+            if(type === 'mx') intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.mxtech.videoplayer.ad;end`;
+            if(type === 'playit') intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.playit.videoplayer;end`;
+            
+            window.location.href = intent;
         }
 
-        async function copyUrl() {
-            const btn = document.getElementById('copyBtn');
-            await navigator.clipboard.writeText(window.location.href);
-            btn.innerHTML = '<i class="fas fa-check"></i>';
-            setTimeout(() => btn.innerHTML = '<i class="fas fa-link"></i>', 2000);
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link Copied Successfully!");
         }
 
-        function shareUrl() {
-            if (navigator.share) {
-                navigator.share({ title: document.title, url: window.location.href });
-            }
-        }
-
-        // App Intents
-        function openVLC() {
-            window.location.href = `intent://${fileUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=org.videolan.vlc;end`;
-        }
-        function openMX() {
-            window.location.href = `intent://${fileUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.mxtech.videoplayer.ad;end`;
-        }
-        function openPlayIt() {
-            window.location.href = `intent://${fileUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.playit.videoplayer;end`;
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            cleanFileName();
-            // Audio check
-            const v = document.createElement('video');
-            if (v.canPlayType('audio/mp4; codecs="ec-3"') === '') {
-                document.getElementById('audio-warning').style.display = 'block';
-            }
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
         });
     </script>
 </body>
