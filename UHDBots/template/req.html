@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UHD Bots | Premium Stream</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
-    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-    <link href="https://unpkg.com/@videojs/themes@1.0.1/dist/city/index.css" rel="stylesheet">
-
     <style>
         :root {
             --accent: #00f2ff;
@@ -29,7 +26,6 @@
             min-height: 100vh;
         }
 
-        /* Three.js Canvas Container */
         #canvas-container {
             position: fixed;
             top: 0;
@@ -37,16 +33,15 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
-        /* Navbar with Blur */
         nav {
-            padding: 20px 5%;
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.6);
             backdrop-filter: blur(15px);
             position: sticky;
             top: 0;
@@ -56,7 +51,7 @@
 
         .logo {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             background: linear-gradient(to right, #fff, var(--accent));
             -webkit-background-clip: text;
@@ -64,149 +59,156 @@
         }
 
         .main-wrapper {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-            animation: fadeInUp 1s ease-out;
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 15px;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Premium Video Box */
+        /* The Container */
         .video-card {
             background: var(--glass);
             border: 1px solid var(--border);
-            border-radius: 30px;
+            border-radius: 24px;
             overflow: hidden;
-            backdrop-filter: blur(25px);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
         }
 
-        .vjs-matrix.video-js {
+        /* Native Google/Chrome Style Player */
+        video {
             width: 100%;
+            display: block;
             aspect-ratio: 16/9;
-            font-family: 'Outfit', sans-serif;
+            background: #000;
+            outline: none;
         }
 
         .info-panel {
-            padding: 35px;
+            padding: 25px;
         }
 
         .status-tag {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             background: linear-gradient(45deg, var(--secondary), var(--accent));
-            padding: 6px 15px;
+            padding: 5px 12px;
             border-radius: 50px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
-            margin-bottom: 15px;
-            box-shadow: 0 0 20px rgba(112, 0, 255, 0.4);
+            margin-bottom: 12px;
+            text-transform: uppercase;
         }
 
         .movie-title {
-            font-size: 2.2rem;
-            margin-bottom: 25px;
-            letter-spacing: -1px;
-            line-height: 1.2;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            word-break: break-word;
         }
 
-        /* Neon Action Buttons */
+        /* Action Buttons */
         .action-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
-        .btn-neon {
+        .btn-uhd {
             background: var(--glass);
             border: 1px solid var(--border);
             color: #fff;
-            padding: 18px;
-            border-radius: 18px;
+            padding: 15px;
+            border-radius: 15px;
             text-align: center;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
+            cursor: pointer;
         }
 
-        .btn-neon:hover {
+        .btn-uhd:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .btn-primary {
             background: #fff;
             color: #000;
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(255,255,255,0.2);
-        }
-
-        .btn-dl {
-            background: linear-gradient(45deg, #00f2ff, #006aff);
             border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
             color: #000;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
         }
 
-        /* External App Links */
-        .app-panel {
+        /* External Apps */
+        .app-section {
             background: rgba(255,255,255,0.02);
-            padding: 20px;
-            border-radius: 20px;
-            margin-top: 20px;
-        }
-
-        .app-grid {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding: 10px 0;
-        }
-
-        .app-chip {
-            min-width: 120px;
-            background: var(--glass);
+            padding: 15px;
+            border-radius: 18px;
             border: 1px solid var(--border);
-            padding: 12px;
-            border-radius: 15px;
+        }
+
+        .app-list {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 5px 0;
+        }
+
+        .app-list::-webkit-scrollbar { display: none; }
+
+        .app-item {
+            min-width: 100px;
+            background: var(--glass);
+            padding: 10px;
+            border-radius: 12px;
             text-align: center;
+            font-size: 12px;
+            border: 1px solid var(--border);
             cursor: pointer;
-            transition: 0.3s;
         }
 
-        .app-chip:hover { border-color: var(--accent); background: rgba(0,242,255,0.1); }
+        .app-item:hover { border-color: var(--accent); }
 
-        /* Telegram Box */
-        .tg-card {
-            margin-top: 40px;
-            background: linear-gradient(135deg, rgba(36, 161, 222, 0.2), rgba(0,0,0,0));
-            border: 1px solid rgba(36, 161, 222, 0.3);
-            border-radius: 30px;
-            padding: 40px;
+        .tg-join {
+            margin-top: 30px;
+            background: linear-gradient(135deg, rgba(36, 161, 222, 0.1), transparent);
+            border: 1px solid rgba(36, 161, 222, 0.2);
+            border-radius: 20px;
+            padding: 30px;
             text-align: center;
         }
 
-        .tg-btn {
-            display: inline-block;
-            background: #24A1DE;
-            color: #fff;
-            padding: 15px 40px;
-            border-radius: 100px;
+        .tg-link {
+            color: #24A1DE;
+            font-weight: 800;
             text-decoration: none;
-            font-weight: 700;
-            margin-top: 20px;
-            transition: 0.3s;
+            font-size: 1.2rem;
+            display: block;
+            margin-top: 10px;
         }
 
-        .tg-btn:hover { box-shadow: 0 0 30px #24A1DE; transform: scale(1.05); }
-
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            .movie-title { font-size: 1.5rem; }
+        @media (max-width: 600px) {
+            .movie-title { font-size: 1.3rem; }
             .action-row { grid-template-columns: 1fr 1fr; }
-            .btn-dl { grid-column: span 2; }
+            .full-mobile { grid-column: span 2; }
         }
     </style>
 </head>
@@ -216,115 +218,106 @@
 
     <nav>
         <div class="logo">UHD BOTS</div>
-        <a href="https://t.me/UHDBots" style="color:var(--accent); text-decoration:none;"><i class="fab fa-telegram"></i> Join</a>
+        <a href="https://t.me/UHDBots" style="color:var(--accent); text-decoration:none;"><i class="fab fa-telegram"></i></a>
     </nav>
 
     <div class="main-wrapper">
         <div class="video-card">
-            <video id="uhd-player" class="video-js vjs-theme-city" controls preload="auto" data-setup='{}'>
+            <video id="main-player" controls poster="https://i.ibb.co/vxsL0pS/uhd-poster.jpg" preload="metadata">
                 <source src="{{file_url}}" type="video/mp4">
                 <source src="{{file_url}}" type="video/webm">
-                </video>
+                <source src="{{file_url}}" type="video/ogg">
+                Your browser does not support the video tag.
+            </video>
 
             <div class="info-panel">
-                <div class="status-tag"><i class="fas fa-crown"></i> UHD PREMIUM QUALITY</div>
-                <h1 class="movie-title" id="title-text">{{file_name}}</h1>
+                <div class="status-tag"><i class="fas fa-check-circle"></i> Google Native Engine</div>
+                <h1 class="movie-title" id="clean-title">{{file_name}}</h1>
 
                 <div class="action-row">
-                    <a href="#" class="btn-neon btn-dl" onclick="handleDownload()">
-                        <i class="fas fa-download"></i> Download High Speed
+                    <a href="#" class="btn-uhd btn-primary full-mobile" onclick="startDownload()">
+                        <i class="fas fa-download"></i> Direct Download
                     </a>
-                    <button class="btn-neon" onclick="copyLink()">
+                    <div class="btn-uhd" onclick="copyLink()">
                         <i class="fas fa-link"></i> Copy
-                    </button>
-                    <button class="btn-neon" onclick="shareMe()">
+                    </div>
+                    <div class="btn-uhd" onclick="sharePage()">
                         <i class="fas fa-share-alt"></i> Share
-                    </button>
+                    </div>
                 </div>
 
-                <div class="app-panel">
-                    <p style="font-size:13px; color:#aaa; margin-bottom:10px;">PLAY IN EXTERNAL APP (Fixes Audio/Subtitle Issues)</p>
-                    <div class="app-grid">
-                        <div class="app-chip" onclick="launchApp('vlc')"><i class="fas fa-play"></i><br>VLC</div>
-                        <div class="app-chip" onclick="launchApp('mx')"><i class="fas fa-play"></i><br>MX Player</div>
-                        <div class="app-chip" onclick="launchApp('playit')"><i class="fas fa-play"></i><br>PlayIt</div>
-                        <div class="app-chip" onclick="launchApp('nplayer')"><i class="fas fa-play"></i><br>nPlayer</div>
+                <div class="app-section">
+                    <p style="font-size:11px; opacity:0.6; margin-bottom:10px;">FAST PLAY IN EXTERNAL APPS</p>
+                    <div class="app-list">
+                        <div class="app-item" onclick="launchApp('vlc')"><i class="fas fa-play"></i><br>VLC</div>
+                        <div class="app-item" onclick="launchApp('mx')"><i class="fas fa-play"></i><br>MX Player</div>
+                        <div class="app-item" onclick="launchApp('playit')"><i class="fas fa-play"></i><br>PlayIt</div>
+                        <div class="app-item" onclick="launchApp('km')"><i class="fas fa-play"></i><br>KM Player</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="tg-card">
-            <h2>Join Our Master Channel</h2>
-            <p>Get instant access to 4K Movies, Series and Latest Bots</p>
-            <a href="https://t.me/UHDBots" class="tg-btn">@UHDBots</a>
+        <div class="tg-join">
+            <p style="opacity:0.7; font-size:14px;">Powered By</p>
+            <a href="https://t.me/UHDBots" class="tg-link">@UHDBots</a>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 
     <script>
-        // 1. Three.js Background Animation
+        // 1. Smooth Three.js Background
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-        const material = new THREE.MeshPhongMaterial({ color: 0x7000ff, wireframe: true });
-        const torusKnot = new THREE.Mesh(geometry, material);
-        scene.add(torusKnot);
-
-        const light = new THREE.PointLight(0xffffff, 1, 100);
-        light.position.set(10, 10, 10);
-        scene.add(light);
+        const geometry = new THREE.IcosahedronGeometry(15, 1);
+        const material = new THREE.MeshBasicMaterial({ color: 0x7000ff, wireframe: true, transparent: true, opacity: 0.2 });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
         camera.position.z = 30;
 
         function animate() {
             requestAnimationFrame(animate);
-            torusKnot.rotation.x += 0.005;
-            torusKnot.rotation.y += 0.005;
+            sphere.rotation.y += 0.002;
+            sphere.rotation.x += 0.001;
             renderer.render(scene, camera);
         }
         animate();
 
-        // 2. File Name Cleaning
-        const titleEl = document.getElementById('title-text');
-        let rawName = titleEl.innerText;
-        titleEl.innerText = rawName.replace(/[._\-+]/g, ' ')
-                                   .replace(/\[.*?\]/g, '')
-                                   .replace(/\(.*?\)/g, '')
-                                   .replace(/\d{3,4}p/g, '[$&]') // Highlights 1080p, 720p
-                                   .trim();
+        // 2. Title Cleaner
+        const titleText = document.getElementById('clean-title');
+        titleText.innerText = titleText.innerText.replace(/[._\-+]/g, ' ')
+                                               .replace(/\[.*?\]/g, '')
+                                               .replace(/\(.*?\)/g, '')
+                                               .trim();
 
-        // 3. Download Logic (Anti-Bug)
-        function handleDownload() {
-            const dlLink = window.location.href.replace('/watch/', '/dl/');
-            const link = document.createElement('a');
-            link.href = dlLink;
-            link.setAttribute('download', '');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+        // 3. Functions
+        const rawUrl = "{{file_url}}";
 
-        // 4. App Intents
-        const streamUrl = "{{file_url}}";
-        function launchApp(type) {
-            const cleanUrl = streamUrl.replace(/^https?:\/\//, '');
-            let intent = "";
-            if(type === 'vlc') intent = `intent://${cleanUrl}#Intent;scheme=https;package=org.videolan.vlc;end`;
-            if(type === 'mx') intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.mxtech.videoplayer.ad;end`;
-            if(type === 'playit') intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.playit.videoplayer;end`;
-            
-            window.location.href = intent;
+        function startDownload() {
+            const dl = window.location.href.replace('/watch/', '/dl/');
+            window.location.href = dl;
         }
 
         function copyLink() {
             navigator.clipboard.writeText(window.location.href);
-            alert("Link Copied Successfully!");
+            alert("Link Copied!");
+        }
+
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({ title: 'Stream UHD', url: window.location.href });
+            }
+        }
+
+        function launchApp(app) {
+            const clean = rawUrl.replace(/^https?:\/\//, '');
+            let pkg = app === 'vlc' ? 'org.videolan.vlc' : (app === 'mx' ? 'com.mxtech.videoplayer.ad' : 'com.playit.videoplayer');
+            window.location.href = `intent://${clean}#Intent;scheme=https;package=${pkg};end`;
         }
 
         window.addEventListener('resize', () => {
