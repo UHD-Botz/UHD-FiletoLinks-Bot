@@ -1,289 +1,876 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UHD Bots | UHD Streaming</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UHD BOTS | {{file_name}}</title>
 
-  <link rel="shortcut icon" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png" type="image/x-icon">
-  <meta property="og:image" content="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png" itemprop="thumbnailUrl">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="icon" type="image/png" sizes="16x16" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+
+    <link rel="icon" type="image/png" sizes="192x192" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="icon" type="image/png" sizes="384x384" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
   
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@700&display=swap">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        :root {
+            --cyan: #00f5ff;
+            --purple: #9d00ff;
+            --pink: #ff0080;
+            --green: #00ff88;
+            --yellow: #ffe600;
+            --dark: #000008;
+            --dark2: #020010;
+            --glass: rgba(0,245,255,.04);
+            --glass2: rgba(0,0,20,.7);
+            --border: rgba(0,245,255,.14);
+            --border2: rgba(0,245,255,.28);
+            --text: #e8f4f8;
+            --muted: rgba(232,244,248,.45);
+        }
 
-  <style>
-    :root {
-      --neon-pink: #ff00c8;
-      --neon-blue: #00f7ff;
-      --neon-purple: #9d00ff;
-      --dark: #0a0a0f;
-      --grid: rgba(255,255,255,0.05);
-    }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(180deg, #0a0a0f 0%, #120024 100%);
-      min-height: 100vh;
-      color: #fff;
-      overflow-x: hidden;
-      display: flex;
-      justify-content: center;
-      padding: 40px 15px;
-      position: relative;
-    }
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-    
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: repeating-linear-gradient(
-        to right,
-        var(--grid) 0px,
-        var(--grid) 1px,
-        transparent 1px,
-        transparent 60px
-      ),
-      repeating-linear-gradient(
-        to bottom,
-        var(--grid) 0px,
-        var(--grid) 1px,
-        transparent 1px,
-        transparent 60px
-      );
-      z-index: 0;
-    }
+        /* ── BACKGROUND ── */
+        #bg-canvas {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            z-index: 0; opacity:.35; pointer-events:none;
+        }
+        .grid-overlay {
+            position: fixed; inset:0; z-index:1; pointer-events:none;
+            background-image:
+                linear-gradient(rgba(0,245,255,.022) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,245,255,.022) 1px, transparent 1px);
+            background-size: 55px 55px;
+        }
+        .vignette {
+            position: fixed; inset:0; z-index:1; pointer-events:none;
+            background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,8,.9) 100%);
+        }
+        .orb {
+            position:fixed; border-radius:50%; filter:blur(100px);
+            pointer-events:none; z-index:1;
+        }
+        .orb1 { width:450px; height:450px; background:rgba(0,245,255,.055); top:-120px; left:-120px; animation:ob1 22s ease-in-out infinite; }
+        .orb2 { width:550px; height:550px; background:rgba(157,0,255,.045); bottom:-160px; right:-160px; animation:ob2 28s ease-in-out infinite; }
+        @keyframes ob1 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(70px,50px);} }
+        @keyframes ob2 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-70px,-50px);} }
 
-    .container { width: 100%; max-width: 900px; text-align: center; z-index: 1; }
+        .content { position:relative; z-index:10; }
 
-    .header h1 {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 2rem;
-      background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-blue);
-      margin-bottom: 15px;
-    }
-    .subtitle {
-      font-size: 1rem;
-      color: #ccc;
-      margin-bottom: 30px;
-      font-family: 'Orbitron', sans-serif;
-    }
+        /* ── NAV ── */
+        .nav {
+            position: fixed; top:0; width:100%; z-index:200;
+            padding: 0 32px; height:64px;
+            display:flex; align-items:center; justify-content:space-between;
+            background: rgba(0,0,8,.8);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-logo {
+            font-family:'Orbitron',monospace; font-weight:900; font-size:1.1rem;
+            letter-spacing:.15em; display:flex; align-items:center; gap:9px;
+            text-decoration:none; color:#fff;
+        }
+        .logo-pulse {
+            width:8px; height:8px; background:var(--cyan); border-radius:50%;
+            box-shadow:0 0 10px var(--cyan); animation:lp 2s ease-in-out infinite;
+        }
+        @keyframes lp { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.7);opacity:.4;} }
+        .logo-c { color:var(--cyan); }
 
-    .telegram-float{
-  position:fixed;
-  left:18px;
-  bottom:90px;
-  width:56px;
-  height:56px;
-  background:#ffffff;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+        .nav-right { display:flex; align-items:center; gap:14px; }
+        .nav-tag {
+            font-family:'Share Tech Mono',monospace; font-size:.55rem;
+            letter-spacing:.25em; color:var(--cyan);
+            border:1px solid rgba(0,245,255,.25); padding:5px 12px;
+            background:rgba(0,245,255,.05);
+            display:none;
+        }
+        @media(min-width:500px){ .nav-tag{display:block;} }
+        .nav-tg {
+            font-family:'Share Tech Mono',monospace; font-size:.55rem;
+            letter-spacing:.2em; padding:8px 18px;
+            border:1px solid var(--cyan); background:transparent; color:var(--cyan);
+            text-decoration:none; transition:all .3s;
+            clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+        }
+        .nav-tg:hover { background:var(--cyan); color:#000; box-shadow:0 0 20px rgba(0,245,255,.35); }
 
-  text-decoration:none !important;   /* 🔥 REMOVE LINE */
-  line-height:0 !important;          /* 🔥 REMOVE BASELINE */
-  border:none;
-  outline:none;
+        /* ── MAIN LAYOUT ── */
+        .main {
+            max-width:1160px; margin:0 auto;
+            padding: 80px 20px 60px;
+        }
 
-  font-size:28px;
-  z-index:9999;
-  box-shadow:0 0 18px rgba(0,136,204,0.6);
-  transition:.3s ease;
-}
+        /* ── PLAYER SECTION ── */
+        .player-section { margin-bottom:20px; }
 
-/* ICON */
-.telegram-float i{
-  color:#0088CC;
-  line-height:1;          /* 🔥 fix icon baseline */
-  text-decoration:none !important;
-}
+        .player-wrap {
+            position:relative; border-radius:0;
+            border:1px solid var(--border);
+            background:#000;
+            box-shadow: 0 0 0 1px rgba(0,245,255,.06), 0 30px 80px rgba(0,0,0,.7);
+            overflow:hidden;
+        }
+        /* Corner deco */
+        .player-wrap::before, .player-wrap::after {
+            content:''; position:absolute; width:18px; height:18px; z-index:5;
+        }
+        .player-wrap::before { top:0; left:0; border-top:2px solid var(--cyan); border-left:2px solid var(--cyan); }
+        .player-wrap::after  { bottom:0; right:0; border-bottom:2px solid var(--cyan); border-right:2px solid var(--cyan); }
 
-/* hover */
-.telegram-float:hover{
-  transform:scale(1.15);
-  box-shadow:0 0 30px rgba(0,136,204,1);
-}
+        .player-top-bar {
+            position:absolute; top:0; left:0; right:0; z-index:4;
+            padding:10px 16px;
+            display:flex; align-items:center; justify-content:space-between;
+            background:linear-gradient(to bottom, rgba(0,0,8,.8), transparent);
+            pointer-events:none;
+        }
+        .player-live-dot {
+            display:flex; align-items:center; gap:7px;
+            font-family:'Share Tech Mono',monospace; font-size:.55rem;
+            letter-spacing:.25em; color:var(--green);
+        }
+        .live-dot {
+            width:6px; height:6px; border-radius:50%;
+            background:var(--green); box-shadow:0 0 8px var(--green);
+            animation:lp 1.5s ease-in-out infinite;
+        }
+        .player-res {
+            font-family:'Share Tech Mono',monospace; font-size:.5rem;
+            letter-spacing:.2em; color:rgba(255,255,255,.4);
+        }
 
-    
-    .card {
-      background: rgba(10, 10, 25, 0.8);
-      border-radius: 18px;
-      padding: 25px;
-      border: 2px solid var(--neon-purple);
-      box-shadow: 0 0 15px var(--neon-purple), inset 0 0 20px rgba(255,255,255,0.05);
-      margin-bottom: 25px;
-      transition: transform 0.3s ease;
-    }
-    .card:hover { transform: translateY(-5px) scale(1.02); }
+        .video-box {
+            position:relative; width:100%; padding-bottom:56.25%;
+            background:#000; overflow:hidden;
+        }
+        .video-box video,
+        .video-box .plyr {
+            position:absolute; top:0; left:0; width:100%; height:100%;
+        }
+        .video-box video { object-fit:contain; }
 
-    .card-title {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 1rem;
-      color: var(--neon-blue);
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px var(--neon-blue);
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      align-items: center;
-    }
+        /* Plyr theme */
+        .plyr { --plyr-color-main: var(--cyan); }
+        .plyr__control { color:#fff; transition:all .2s; }
+        .plyr__control:hover { background:rgba(0,245,255,.2); color:var(--cyan); }
+        .plyr__control--overlaid { background:rgba(0,0,8,.6)!important; border:1px solid var(--border)!important; }
+        .plyr__control--overlaid:hover { background:var(--cyan)!important; color:#000!important; }
+        .plyr__menu__container { background:#000914; border:1px solid var(--border); border-radius:0; }
+        .plyr__menu__container .plyr__control { border-radius:0; }
 
-    video {
-      width: 100%;
-      border-radius: 10px;
-      border: 2px solid var(--neon-pink);
-      background: #000;
-      box-shadow: 0 0 20px var(--neon-pink);
-    }
+        /* Speed tooltip */
+        .spd-toast {
+            position:absolute; top:14px; left:50%; transform:translateX(-50%);
+            font-family:'Share Tech Mono',monospace; font-size:.65rem; letter-spacing:.2em;
+            color:#000; background:var(--cyan);
+            padding:5px 14px;
+            clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+            z-index:20; pointer-events:none;
+            opacity:0; transition:opacity .25s;
+        }
+        .spd-toast.show { opacity:1; }
 
-    .file-info {
-      margin-top: 14px;
-      font-size: 0.85rem;
-      color: #bbb;
-      font-family: 'Orbitron', sans-serif;
-    }
-    .file-info b { color: var(--neon-blue); }
+        /* ── INFO CARD ── */
+        .info-card {
+            background: var(--glass2);
+            backdrop-filter: blur(20px);
+            border:1px solid var(--border);
+            border-top:none;
+            padding:24px 26px 20px;
+        }
 
-    .btn-group {
-      margin-top: 25px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      justify-content: center;
-    }
+        .info-top { display:flex; align-items:flex-start; gap:14px; margin-bottom:16px; flex-wrap:wrap; }
+        .quality-badge {
+            font-family:'Share Tech Mono',monospace; font-size:.55rem; letter-spacing:.25em;
+            padding:6px 14px; background:var(--cyan); color:#000; font-weight:700;
+            flex-shrink:0;
+            clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+        }
+        .file-title {
+            font-family:'Rajdhani',sans-serif; font-size:1.15rem; font-weight:600;
+            line-height:1.4; color:var(--text); word-break:break-word; flex:1;
+        }
 
-    .btn {
-      padding: 12px 20px;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      font-family: 'Orbitron', sans-serif;
-    }
+        /* ── ACTION BUTTONS ── */
+        .actions { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+        .act-btn {
+            flex:1; min-width:110px;
+            display:flex; align-items:center; justify-content:center; gap:7px;
+            padding:11px 14px;
+            border:1px solid var(--border);
+            background:rgba(0,245,255,.04);
+            color:var(--text); font-family:'Share Tech Mono',monospace;
+            font-size:.58rem; letter-spacing:.18em;
+            cursor:pointer; transition:all .3s; text-decoration:none;
+            clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+        }
+        .act-btn:hover {
+            border-color:var(--cyan); color:var(--cyan);
+            background:rgba(0,245,255,.1);
+            box-shadow:0 0 18px rgba(0,245,255,.12);
+        }
+        .act-btn.success { border-color:var(--green); color:var(--green); }
+        .act-btn i { font-size:.8rem; }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
-      color: #000;
-      text-shadow: none;
-      box-shadow: 0 0 12px var(--neon-pink), 0 0 18px var(--neon-blue);
-    }
-    .btn-primary:hover { transform: scale(1.08); }
+        /* Download special */
+        .act-btn.dl-btn {
+            background:linear-gradient(90deg,rgba(0,245,255,.12),rgba(157,0,255,.12));
+            border-color:rgba(0,245,255,.3);
+        }
+        .act-btn.dl-btn:hover {
+            background:linear-gradient(90deg,rgba(0,245,255,.22),rgba(157,0,255,.22));
+            border-color:var(--cyan);
+        }
 
-    .btn-alt {
-      background: transparent;
-      border: 2px solid var(--neon-blue);
-      color: var(--neon-blue);
-      text-shadow: 0 0 8px var(--neon-blue);
-    }
-    .btn-alt:hover {
-      background: var(--neon-blue);
-      color: #000;
-      box-shadow: 0 0 12px var(--neon-blue);
-    }
+        /* ── EXT PLAYERS ── */
+        .ext-section { margin-top:4px; }
+        .ext-toggle {
+            width:100%; display:flex; align-items:center; justify-content:center; gap:8px;
+            padding:12px; border:1px solid var(--border);
+            background:rgba(157,0,255,.07); color:rgba(255,255,255,.65);
+            font-family:'Share Tech Mono',monospace; font-size:.6rem; letter-spacing:.2em;
+            cursor:pointer; transition:all .3s;
+            clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+        }
+        .ext-toggle:hover { border-color:var(--purple); color:var(--purple); background:rgba(157,0,255,.14); }
+        .ext-toggle .ext-arrow { transition:transform .3s; }
+        .ext-toggle.open .ext-arrow { transform:rotate(180deg); }
 
-    footer {
-      margin-top: 35px;
-      font-size: 0.75rem;
-      color: #aaa;
-      padding-top: 15px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      font-family: 'Orbitron', sans-serif;
-    }
-    footer b {
-      color: var(--neon-pink);
-      text-shadow: 0 0 8px var(--neon-pink);
-    }
+        .ext-players {
+            display:none; margin-top:8px;
+            display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
+            overflow:hidden; max-height:0;
+            transition:max-height .4s ease;
+        }
+        .ext-players.open { max-height:200px; }
 
-    
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #111;
-      color: var(--neon-blue);
-      padding: 10px 20px;
-      border-radius: 6px;
-      border: 1px solid var(--neon-blue);
-      font-size: 0.85rem;
-      text-shadow: 0 0 8px var(--neon-blue);
-      box-shadow: 0 0 12px rgba(0,255,255,0.3);
-      opacity: 0; visibility: hidden;
-      transition: opacity 0.3s, visibility 0.3s;
-    }
-    .toast.show { opacity: 1; visibility: visible; }
+        .ext-btn {
+            display:flex; flex-direction:column; align-items:center; gap:8px;
+            padding:16px 10px;
+            border:1px solid var(--border); background:rgba(0,0,20,.5);
+            color:var(--muted); font-family:'Share Tech Mono',monospace;
+            font-size:.52rem; letter-spacing:.15em;
+            cursor:pointer; transition:all .3s; text-align:center;
+        }
+        .ext-btn img { width:28px; height:28px; object-fit:contain; border-radius:6px; filter:brightness(.8); transition:filter .3s; }
+        .ext-btn:hover { border-color:var(--cyan); color:var(--cyan); background:rgba(0,245,255,.06); }
+        .ext-btn:hover img { filter:brightness(1); }
 
-    @media (max-width: 600px) {
-      .header h1 { font-size: 1.4rem; }
-      .btn { flex: 1 1 100%; justify-content: center; }
-    }
-  </style>
+        /* ── AUDIO WARNING ── */
+        .audio-warn {
+            display:none; align-items:center; gap:10px;
+            padding:12px 16px; margin-top:10px;
+            border:1px solid rgba(255,230,0,.3);
+            background:rgba(255,230,0,.05);
+            border-left:3px solid var(--yellow);
+            font-family:'Share Tech Mono',monospace; font-size:.58rem; letter-spacing:.1em;
+            color:rgba(255,230,0,.8);
+        }
+        .audio-warn i { font-size:.9rem; color:var(--yellow); flex-shrink:0; }
+
+        /* ── SPEED & ASPECT CONTROLS ── */
+        .control-row {
+            display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;
+        }
+        .ctrl-group { flex:1; min-width:140px; }
+        .ctrl-label {
+            font-family:'Share Tech Mono',monospace; font-size:.5rem;
+            letter-spacing:.3em; color:var(--cyan); margin-bottom:6px; display:block;
+        }
+        .ctrl-btns { display:flex; gap:4px; }
+        .ctrl-pill {
+            flex:1; padding:8px 6px; text-align:center;
+            border:1px solid var(--border); background:rgba(0,245,255,.03);
+            color:rgba(255,255,255,.45); font-family:'Share Tech Mono',monospace;
+            font-size:.52rem; letter-spacing:.1em;
+            cursor:pointer; transition:all .25s;
+        }
+        .ctrl-pill:hover { border-color:var(--cyan); color:var(--cyan); }
+        .ctrl-pill.active { background:var(--cyan); color:#000; border-color:var(--cyan); font-weight:700; }
+
+        /* ── PROGRESS SEEK PREVIEW ── */
+        .seek-preview {
+            position:absolute; bottom:calc(100% + 10px);
+            left:50%; transform:translateX(-50%);
+            font-family:'Share Tech Mono',monospace; font-size:.6rem;
+            letter-spacing:.15em; color:#000; background:var(--cyan);
+            padding:3px 10px; pointer-events:none; opacity:0;
+            transition:opacity .2s; z-index:50;
+            clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
+        }
+
+        /* ── METADATA STRIP ── */
+        .meta-strip {
+            display:flex; gap:0; margin-top:16px; border:1px solid var(--border);
+            overflow:hidden; flex-wrap:wrap;
+        }
+        .meta-item {
+            flex:1; min-width:120px;
+            padding:14px 18px; border-right:1px solid var(--border);
+            background:rgba(0,245,255,.02); position:relative; overflow:hidden;
+        }
+        .meta-item:last-child { border-right:none; }
+        .meta-item::before {
+            content:''; position:absolute; top:0; left:0;
+            width:0; height:2px; background:var(--cyan);
+            transition:width .4s;
+        }
+        .meta-item:hover::before { width:100%; }
+        .mi-label {
+            font-family:'Share Tech Mono',monospace; font-size:.48rem;
+            letter-spacing:.3em; color:var(--cyan); margin-bottom:4px; display:block;
+        }
+        .mi-val {
+            font-family:'Orbitron',monospace; font-size:.78rem;
+            font-weight:700; color:rgba(255,255,255,.85);
+        }
+
+        /* ── SECTION DIVIDER ── */
+        .s-divider {
+            height:1px;
+            background:linear-gradient(90deg,transparent,var(--border),transparent);
+            margin: 36px 0;
+        }
+
+        /* ── CHANNEL CARD ── */
+        .channel-section {
+            border:1px solid var(--border);
+            background:rgba(0,245,255,.025);
+            backdrop-filter:blur(20px);
+            padding:36px 32px;
+            display:grid; grid-template-columns:1fr auto;
+            align-items:center; gap:24px;
+        }
+        @media(max-width:600px){ .channel-section{ grid-template-columns:1fr; } }
+        .ch-left .ch-tag {
+            font-family:'Share Tech Mono',monospace; font-size:.52rem;
+            letter-spacing:.4em; color:var(--cyan); display:block; margin-bottom:10px;
+        }
+        .ch-left h2 {
+            font-family:'Orbitron',monospace; font-size:1.3rem; font-weight:900;
+            letter-spacing:.05em; margin-bottom:8px;
+        }
+        .ch-left h2 span { color:var(--cyan); }
+        .ch-left p { font-size:.95rem; color:var(--muted); line-height:1.7; font-weight:300; }
+        .ch-links { display:flex; flex-direction:column; gap:10px; flex-shrink:0; }
+        .ch-btn {
+            display:flex; align-items:center; gap:8px;
+            padding:12px 24px; text-decoration:none;
+            font-family:'Share Tech Mono',monospace; font-size:.6rem; letter-spacing:.2em;
+            border:1px solid var(--border); color:var(--text);
+            transition:all .3s;
+            clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+        }
+        .ch-btn.primary {
+            background:var(--cyan); color:#000; border-color:var(--cyan);
+        }
+        .ch-btn.primary:hover { box-shadow:0 0 25px rgba(0,245,255,.4); }
+        .ch-btn:not(.primary):hover { border-color:var(--cyan); color:var(--cyan); }
+
+        /* ── DISCLAIMER ── */
+        .disclaimer {
+            border:1px solid rgba(255,255,255,.06);
+            background:rgba(0,0,8,.4);
+            padding:24px 28px; margin-top:20px;
+            display:flex; gap:14px; align-items:flex-start;
+        }
+        .disc-icon { font-size:1.1rem; color:var(--muted); flex-shrink:0; margin-top:3px; }
+        .disc-text { font-size:.88rem; color:var(--muted); line-height:1.75; font-weight:300; }
+        .disc-text strong {
+            color:var(--cyan); font-family:'Share Tech Mono',monospace;
+            font-size:.6rem; letter-spacing:.2em; font-weight:400;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            border-top:1px solid var(--border); padding:28px 32px;
+            display:flex; align-items:center; justify-content:space-between;
+            flex-wrap:wrap; gap:12px; margin-top:40px;
+        }
+        .footer-logo {
+            font-family:'Orbitron',monospace; font-weight:900; font-size:.95rem;
+            letter-spacing:.15em;
+        }
+        .footer-logo span { color:var(--cyan); }
+        .footer-copy {
+            font-family:'Share Tech Mono',monospace; font-size:.5rem;
+            letter-spacing:.25em; color:rgba(255,255,255,.2);
+        }
+        .footer-status { display:flex; align-items:center; gap:7px; }
+        .f-dot { width:5px; height:5px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); animation:lp 2s infinite; }
+        .f-status-txt { font-family:'Share Tech Mono',monospace; font-size:.48rem; letter-spacing:.2em; color:var(--green); }
+
+        /* ── MOBILE ── */
+        @media(max-width:600px){
+            .nav { padding:0 16px; }
+            .main { padding:74px 12px 48px; }
+            .info-card { padding:18px 16px 16px; }
+            .actions { gap:6px; }
+            .act-btn { min-width:90px; font-size:.52rem; }
+            .ctrl-btns { flex-wrap:wrap; }
+            .ctrl-pill { min-width:36px; }
+            .meta-strip { flex-direction:column; }
+            .meta-item { border-right:none; border-bottom:1px solid var(--border); }
+            .channel-section { padding:28px 20px; }
+            .footer { padding:20px 16px; }
+        }
+
+        /* Scroll bar */
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-track { background:var(--dark); }
+        ::-webkit-scrollbar-thumb { background:rgba(0,245,255,.2); border-radius:2px; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1><i class="fa-solid fa-compact-disc fa-spin"></i> UHD NETWORK</h1>
-      <p class="subtitle">Luxury UHD Streaming Platform</p>
+
+<!-- BG -->
+<canvas id="bg-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="vignette"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<div class="content">
+
+<!-- NAV -->
+<nav class="nav">
+    <a href="https://t.me/your_channel" class="nav-logo">
+        <div class="logo-pulse"></div>UHD<span class="logo-c">BOTS</span>
+    </a>
+    <div class="nav-right">
+        <span class="nav-tag">// UHD NETWORK //</span>
+        <a href="https://t.me/UHDBots" class="nav-tg"><i class="fab fa-telegram" style="margin-right:5px"></i>JOIN</a>
+    </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- PLAYER SECTION -->
+    <div class="player-section">
+        <div class="player-wrap" id="player-wrap">
+
+            <!-- Top bar HUD -->
+            <div class="player-top-bar">
+                <div class="player-live-dot">
+                    <div class="live-dot"></div>
+                    STREAMING
+                </div>
+                <div class="player-res" id="stream-res">LOADING...</div>
+            </div>
+
+            <!-- Speed toast -->
+            <div class="spd-toast" id="spd-toast"></div>
+
+            <div class="video-box" id="video-box">
+                <video id="player" playsinline controls preload="metadata">
+                    <source src="{{file_url}}" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- INFO CARD -->
+        <div class="info-card">
+
+            <div class="info-top">
+                <div class="quality-badge">⬡ UHD STREAM</div>
+                <div class="file-title" id="file-title">{{file_name}}</div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="actions">
+                <a href="#" class="act-btn dl-btn" id="dl-btn" onclick="downloadFile(event)">
+                    <i class="fas fa-download"></i> DOWNLOAD
+                </a>
+                <button class="act-btn" id="copy-btn" onclick="copyUrl()">
+                    <i class="fas fa-copy"></i> COPY LINK
+                </button>
+                <button class="act-btn" id="share-btn" onclick="shareUrl()">
+                    <i class="fas fa-share-alt"></i> SHARE
+                </button>
+                <button class="act-btn" onclick="toggleFullscreen()">
+                    <i class="fas fa-expand"></i> FULLSCREEN
+                </button>
+            </div>
+
+            <!-- EXT PLAYERS -->
+            <div class="ext-section">
+                <button class="ext-toggle" id="ext-toggle" onclick="toggleExt()">
+                    <i class="fas fa-external-link-alt"></i>
+                    OPEN IN EXTERNAL PLAYER
+                    <i class="fas fa-chevron-down ext-arrow"></i>
+                </button>
+                <div class="ext-players" id="ext-players">
+                    <button class="ext-btn" onclick="openVLC()">
+                        <img src="https://i.postimg.cc/15TQ4y7B/vlc.png" alt="VLC">
+                        VLC PLAYER
+                    </button>
+                    <button class="ext-btn" onclick="openMX()">
+                        <img src="https://i.postimg.cc/sx4Msv4T/mx.png" alt="MX">
+                        MX PLAYER
+                    </button>
+                    <button class="ext-btn" onclick="openPlayIt()">
+                        <img src="https://i.postimg.cc/RVGWYJFF/playit.png" alt="PlayIt">
+                        PLAY IT
+                    </button>
+                </div>
+            </div>
+
+            <!-- AUDIO WARNING -->
+            <div class="audio-warn" id="audio-warn">
+                <i class="fas fa-volume-mute"></i>
+                EAC3 audio detected. No sound? Use an external player above.
+            </div>
+
+            <!-- SPEED & ASPECT -->
+            <div class="control-row">
+                <div class="ctrl-group">
+                    <span class="ctrl-label">// PLAYBACK SPEED</span>
+                    <div class="ctrl-btns" id="speed-btns">
+                        <button class="ctrl-pill" onclick="setSpeed(.5,this)">0.5x</button>
+                        <button class="ctrl-pill" onclick="setSpeed(.75,this)">0.75x</button>
+                        <button class="ctrl-pill active" onclick="setSpeed(1,this)">1x</button>
+                        <button class="ctrl-pill" onclick="setSpeed(1.25,this)">1.25x</button>
+                        <button class="ctrl-pill" onclick="setSpeed(1.5,this)">1.5x</button>
+                        <button class="ctrl-pill" onclick="setSpeed(2,this)">2x</button>
+                    </div>
+                </div>
+                <div class="ctrl-group">
+                    <span class="ctrl-label">// ASPECT RATIO</span>
+                    <div class="ctrl-btns" id="aspect-btns">
+                        <button class="ctrl-pill active" onclick="setAspect('contain',this)">FIT</button>
+                        <button class="ctrl-pill" onclick="setAspect('cover',this)">FILL</button>
+                        <button class="ctrl-pill" onclick="setAspect('16:9',this)">16:9</button>
+                        <button class="ctrl-pill" onclick="setAspect('4:3',this)">4:3</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- META STRIP -->
+            <div class="meta-strip">
+                <div class="meta-item">
+                    <span class="mi-label">FORMAT</span>
+                    <span class="mi-val" id="meta-fmt">MP4</span>
+                </div>
+                <div class="meta-item">
+                    <span class="mi-label">RESOLUTION</span>
+                    <span class="mi-val" id="meta-res">—</span>
+                </div>
+                <div class="meta-item">
+                    <span class="mi-label">DURATION</span>
+                    <span class="mi-val" id="meta-dur">—</span>
+                </div>
+                <div class="meta-item">
+                    <span class="mi-label">NODE</span>
+                    <span class="mi-val">UHD-01</span>
+                </div>
+            </div>
+
+        </div><!-- /info-card -->
+    </div><!-- /player-section -->
+
+    <div class="s-divider"></div>
+
+    <!-- CHANNEL SECTION -->
+    <div class="channel-section">
+        <div class="ch-left">
+            <span class="ch-tag">// 0x01 — THE HUB</span>
+            <h2>Everything on <span>Telegram.</span></h2>
+            <p>Join the UHDBOTS channel for instant access to all bots, streaming updates, new releases, and priority support. 24/7 automated systems.</p>
+        </div>
+        <div class="ch-links">
+            <a href="https://t.me/UHDBots" class="ch-btn primary">
+                <i class="fab fa-telegram"></i> JOIN CHANNEL
+            </a>
+            <a href="https://uhdbots.vercel.app/" class="ch-btn">
+                <i class="fas fa-robot"></i> OUR BOTS
+            </a>
+        </div>
     </div>
 
-    <div class="card">
-      <h2 class="card-title"><i class="fas fa-play-circle"></i> {{ file_name }}</h2>
-      <video controls preload="metadata" playsinline>
-        <source src="{{ file_url }}">
-        Your browser does not support video playback.
-      </video>
-      <div class="file-info"><p><b>Size:</b> {{ file_size }}</p></div>
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+        <i class="fas fa-shield-alt disc-icon"></i>
+        <p class="disc-text">
+            <strong>// DISCLAIMER //</strong><br>
+            UHD BOTS does not host any content. All media is served via third-party sources. This service is intended for personal use only. We are not responsible for the content of linked files or any legal implications arising from their use.
+        </p>
     </div>
 
-    <div class="btn-group">
-      <a class="btn btn-primary" href="{{ file_url }}" download><i class="fas fa-bolt"></i> Fast Download</a>
-      <a class="btn btn-primary" href="{{ file_url }}" target="_blank"><i class="fas fa-desktop"></i> Watch Online</a>
-      <a class="btn btn-alt" href="intent:{{ file_url }}#Intent;package=com.mxtech.videoplayer.ad;S.title={{ file_name }};end">
-        <i class="fas fa-play"></i> MX Player
-      </a>
-      <a class="btn btn-alt" href="vlc://{{ file_url }}"><i class="fas fa-play-circle"></i> VLC Player</a>
-      <button class="btn btn-alt" onclick="copyLink()"><i class="fas fa-link"></i> Copy Link</button>
-    </div>
+</div><!-- /main -->
 
-    <a href="https://t.me/UHDBots" class="telegram-float" target="_blank" aria-label="Telegram">
-  <i class="fa-brands fa-telegram fa-beat"></i>
-</a>
-    
-    <footer>
-      <p>© 2022–2026 <b>UHD Bots</b> All Rights Reserved</p>
-    </footer>
-  </div>
+<!-- FOOTER -->
+<div class="footer">
+    <div class="footer-logo">UHD<span>BOTS</span></div>
+    <span class="footer-copy">© 2026 UHD BOTS // STREAM_NODE // ALL SYSTEMS NOMINAL</span>
+    <div class="footer-status"><div class="f-dot"></div><span class="f-status-txt">NODE ONLINE</span></div>
+</div>
 
-  <div id="toast" class="toast">✅ Link copied!</div>
+</div><!-- /content -->
 
-  <script>
-    function copyLink() {
-      navigator.clipboard.writeText("{{ file_url }}").then(() => {
-        const toast = document.getElementById("toast");
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 3000);
-      });
+<!-- SCRIPTS -->
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.min.js"></script>
+
+<script>
+/* ─── BG CANVAS PARTICLES ─── */
+(function(){
+    const c=document.getElementById('bg-canvas'),ctx=c.getContext('2d');
+    let W,H,pts=[];
+    function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+    resize(); window.addEventListener('resize',resize);
+    class P{constructor(){this.reset();}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.25;this.vy=(Math.random()-.5)*.25;this.r=Math.random()*1.2+.3;this.c=['#00f5ff','#9d00ff','#ff0080'][Math.floor(Math.random()*3)];}}
+    for(let i=0;i<80;i++)pts.push(new P());
+    function draw(){
+        ctx.clearRect(0,0,W,H);
+        pts.forEach(p=>{
+            p.x+=p.vx;p.y+=p.vy;
+            if(p.x<0||p.x>W||p.y<0||p.y>H)p.reset();
+            ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+            ctx.fillStyle=p.c;ctx.globalAlpha=.5;ctx.fill();ctx.globalAlpha=1;
+        });
+        for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+            const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+            if(d<110){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(0,245,255,${(1-d/110)*.08})`;ctx.lineWidth=.5;ctx.stroke();}
+        }
+        requestAnimationFrame(draw);
     }
-  </script>
+    draw();
+})();
+
+/* ─── VARS ─── */
+let plyrInst, videoEl;
+const rawURL  = "{{file_url}}";
+const dlURL   = window.location.href.replace('/watch/','/dl/');
+const ext     = rawURL.split('?')[0].split('.').pop().toLowerCase();
+
+/* ─── INIT ─── */
+document.addEventListener('DOMContentLoaded', () => {
+    videoEl = document.getElementById('player');
+
+    // File title cleanup
+    const titleEl = document.getElementById('file-title');
+    if(titleEl){
+        let n = titleEl.textContent
+            .replace(/\[.*?\]/g,'').replace(/\(.*?\)/g,'')
+            .replace(/\bwww\.[^\s]+/gi,'').replace(/@\S+/g,'')
+            .replace(/https?:\S+/g,'')
+            .replace(/\.[^.]+$/,'').replace(/[._\-+]/g,' ')
+            .replace(/\s+/g,' ').trim();
+        titleEl.textContent = n || titleEl.textContent;
+    }
+
+    // Format badge
+    const fmtEl = document.getElementById('meta-fmt');
+    if(fmtEl && ext) fmtEl.textContent = ext.toUpperCase();
+
+    // Init player
+    if(['flv','ts'].includes(ext) && typeof mpegts !== 'undefined'){
+        const mp = mpegts.createPlayer({type:'flv', url:rawURL, isLive:false});
+        mp.attachMediaElement(videoEl); mp.load();
+    }
+    setTimeout(() => initPlyr(), 100);
+
+    // Audio warning
+    const t = document.createElement('video');
+    if(t.canPlayType('audio/mp4; codecs="ec-3"') === '')
+        document.getElementById('audio-warn').style.display = 'flex';
+
+    // Video metadata
+    videoEl.addEventListener('loadedmetadata', () => {
+        const dur = videoEl.duration;
+        if(!isNaN(dur)){
+            const m = Math.floor(dur/60), s = Math.floor(dur%60);
+            document.getElementById('meta-dur').textContent =
+                String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+        }
+        if(videoEl.videoWidth){
+            document.getElementById('meta-res').textContent =
+                videoEl.videoWidth+'×'+videoEl.videoHeight;
+            document.getElementById('stream-res').textContent =
+                videoEl.videoWidth+'p NODE';
+        }
+    });
+});
+
+/* ─── PLYR ─── */
+function initPlyr(){
+    if(plyrInst) plyrInst.destroy();
+    plyrInst = new Plyr(videoEl, {
+        controls:['play-large','play','progress','current-time','duration','mute','volume','settings','fullscreen'],
+        settings:['quality','speed'],
+        speed:{ selected:1, options:[0.5,0.75,1,1.25,1.5,1.75,2] },
+        keyboard:{ focused:true, global:true },
+        tooltips:{ controls:true, seek:true },
+        invertTime:false,
+    });
+    plyrInst.on('ready', () => {
+        // keyboard shortcuts overlay hint (no-op visual only)
+    });
+}
+
+/* ─── SPEED ─── */
+function setSpeed(val, btn){
+    if(videoEl) videoEl.playbackRate = val;
+    if(plyrInst) plyrInst.speed = val;
+    document.querySelectorAll('#speed-btns .ctrl-pill').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const t = document.getElementById('spd-toast');
+    t.textContent = val+'x SPEED';
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 1400);
+}
+
+/* ─── ASPECT ─── */
+function setAspect(val, btn){
+    const v = document.getElementById('player');
+    if(!v) return;
+    v.style.objectFit = (val==='16:9'||val==='4:3') ? 'fill' : val;
+    if(val==='16:9'){ v.style.width='100%'; v.style.height='100%'; }
+    if(val==='4:3'){
+        const box = document.getElementById('video-box');
+        const cw = box.offsetWidth, ch = box.offsetHeight;
+        const tw = ch * 4/3;
+        v.style.width = (tw/cw*100)+'%';
+        v.style.marginLeft = ((cw-tw)/2/cw*100)+'%';
+    } else { v.style.width='100%'; v.style.marginLeft='0'; }
+    document.querySelectorAll('#aspect-btns .ctrl-pill').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+/* ─── FULLSCREEN ─── */
+function toggleFullscreen(){
+    const el = document.getElementById('player-wrap');
+    if(!document.fullscreenElement){
+        el.requestFullscreen().catch(()=>{});
+        if(screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(()=>{});
+    } else { document.exitFullscreen(); }
+}
+
+/* ─── DOWNLOAD ─── */
+function downloadFile(e){
+    e.preventDefault();
+    const a = document.createElement('a');
+    a.href = dlURL; a.download='';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+/* ─── COPY ─── */
+function copyUrl(){
+    const btn = document.getElementById('copy-btn');
+    const orig = btn.innerHTML;
+    const doIt = async () => {
+        try {
+            if(navigator.clipboard && window.isSecureContext)
+                await navigator.clipboard.writeText(window.location.href);
+            else {
+                const tmp = document.createElement('textarea');
+                tmp.value = window.location.href;
+                tmp.style.position='fixed'; tmp.style.left='-9999px';
+                document.body.appendChild(tmp); tmp.select();
+                document.execCommand('copy'); document.body.removeChild(tmp);
+            }
+            btn.innerHTML = '<i class="fas fa-check"></i> COPIED!';
+            btn.classList.add('success');
+            setTimeout(()=>{ btn.innerHTML=orig; btn.classList.remove('success'); }, 2200);
+        } catch(err){}
+    };
+    doIt();
+}
+
+/* ─── SHARE ─── */
+async function shareUrl(){
+    const btn = document.getElementById('share-btn');
+    const orig = btn.innerHTML;
+    try {
+        if(navigator.share){
+            await navigator.share({ title:document.title, url:window.location.href });
+            btn.innerHTML='<i class="fas fa-check"></i> SHARED!';
+            btn.classList.add('success');
+        } else {
+            await navigator.clipboard.writeText(window.location.href);
+            btn.innerHTML='<i class="fas fa-check"></i> COPIED!';
+            btn.classList.add('success');
+        }
+    } catch(e){}
+    setTimeout(()=>{ btn.innerHTML=orig; btn.classList.remove('success'); }, 2200);
+}
+
+/* ─── EXT PLAYERS ─── */
+function toggleExt(){
+    const panel = document.getElementById('ext-players');
+    const toggle = document.getElementById('ext-toggle');
+    const open = panel.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+}
+
+function openVLC(){
+    const link = dlURL.replace(/^https?:\/\//,'');
+    const fb = 'https://play.google.com/store/apps/details?id=org.videolan.vlc';
+    window.location.href=`intent://${link}#Intent;scheme=https;package=org.videolan.vlc;action=android.intent.action.VIEW;type=video/*;S.browser_fallback_url=${encodeURIComponent(fb)};end`;
+}
+function openMX(){
+    const link = dlURL.replace(/^https?:\/\//,'');
+    const fb='https://play.google.com/store/apps/details?id=com.mxtech.videoplayer.ad';
+    window.location.href=`intent://${link}#Intent;scheme=https;package=com.mxtech.videoplayer.ad;action=android.intent.action.VIEW;type=video/*;S.browser_fallback_url=${encodeURIComponent(fb)};end`;
+}
+function openPlayIt(){
+    const link = dlURL.replace(/^https?:\/\//,'');
+    const fb='https://play.google.com/store/apps/details?id=com.playit.videoplayer';
+    window.location.href=`intent://${link}#Intent;scheme=https;package=com.playit.videoplayer;action=android.intent.action.VIEW;type=video/*;S.browser_fallback_url=${encodeURIComponent(fb)};end`;
+}
+
+/* ─── KEYBOARD SHORTCUTS ─── */
+document.addEventListener('keydown', e => {
+    if(!videoEl) return;
+    if(e.target.tagName==='INPUT') return;
+    if(e.code==='Space'){ e.preventDefault(); videoEl.paused?videoEl.play():videoEl.pause(); }
+    if(e.code==='ArrowRight'){ e.preventDefault(); videoEl.currentTime+=10; }
+    if(e.code==='ArrowLeft'){ e.preventDefault(); videoEl.currentTime-=10; }
+    if(e.code==='ArrowUp'){ e.preventDefault(); videoEl.volume=Math.min(1,videoEl.volume+.1); }
+    if(e.code==='ArrowDown'){ e.preventDefault(); videoEl.volume=Math.max(0,videoEl.volume-.1); }
+    if(e.code==='KeyF'){ toggleFullscreen(); }
+});
+
+/* ─── CLOSE EXT ON OUTSIDE CLICK ─── */
+document.addEventListener('click', e => {
+    if(!e.target.closest('#ext-toggle') && !e.target.closest('#ext-players')){
+        const p=document.getElementById('ext-players');
+        const t=document.getElementById('ext-toggle');
+        if(p.classList.contains('open')){ p.classList.remove('open'); t.classList.remove('open'); }
+    }
+});
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
