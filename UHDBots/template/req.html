@@ -6,7 +6,6 @@
     <title>UHD Bots | Premium Stream</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
     <style>
         :root { --accent: #00f2ff; --secondary: #7000ff; --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1); }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -74,7 +73,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // 1. Core Visuals
+        // Visuals Init
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -85,31 +84,40 @@
         function animate() { requestAnimationFrame(animate); sphere.rotation.y += 0.002; sphere.rotation.x += 0.001; renderer.render(scene, camera); }
         animate();
 
-        // 2. Clean Utilities
+        // Utilities
         const titleEl = document.getElementById('clean-title');
-        titleEl.innerText = titleEl.innerText.replace(/[._\-+]/g, ' ').replace(/\[.*?\]/g, '').replace(/\(.*?\)/g, '').trim();
+        if(titleEl) {
+            titleEl.innerText = titleEl.innerText.replace(/[._\-+]/g, ' ').replace(/\[.*?\]/g, '').replace(/\(.*?\)/g, '').trim();
+        }
 
-        // 3. ULTRA HARD OBFUSCATED SECURITY ENGINE (Encrypted & Compressed)
-        (function(_0x1b2c,_0x3a4d){const _0x5e2f=function(_0x2d1a){while(--_0x2d1a){_0x1b2c['push'](_0x1b2c['shift']());}};_0x5e2f(++_0x3a4d);}(_0x44ab,0x1a5));var _0x22ba=function(_0x1b2c,_0x3a4d){_0x1b2c=_0x1b2c-0x0;var _0x5e2f=_0x44ab()[_0x1b2c];return _0x5e2f;};function _0x44ab(){var _0x42f1a3=['\x69\x6e\x6e\x65\x72\x54\x65\x78\x74','\x62\x6f\x64\x79','\x55\x48\x44\x20\x42\x4f\x54\x53','\x2e\x66\x6f\x6f\x74\x65\x72\x2d\x6c\x6f\x67\x6f','\x75\x68\x64\x62\x6f\x74\x73','\x6c\x6f\x63\x61\x74\x69\x6f\x6e','\x61\x64\x64\x45\x76\x65\x6e\x74\x4c\x69\x73\x74\x65\x6e\x65\x72','\x6c\x6f\x61\x64','\x2e\x6e\x61\x76\x2d\x6c\x6f\x67\x6f','\x69\x6e\x63\x6c\x75\x64\x65\x73','\x68\x72\x65\x66','\x71\x75\x65\x72\x79\x53\x65\x6c\x65\x63\x74\x6f\x72\x41\x6c\x6c','\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c','\x71\x75\x65\x72\x79\x53\x65\x6c\x65\x63\x74\x6f\x72'];return _0x42f1a3;}setInterval(function(){const _0x12a3=document[_0x22ba('13')](_0x22ba('8')),_0x4f2a=document[_0x22ba('13')](_0x22ba('3')),_0x5b1e=document[_0x22ba('11')]('a');let _0x3c2d=![];_0x5b1e['forEach'](_0x1a2b=>{if(_0x1a2b[_0x22ba('10')]['toLowerCase']()[_0x22ba('9')](_0x22ba('4')))_0x3c2d=!![];});if(!_0x12a3||!_0x12a3[_0x22ba('0')][_0x22ba('9')](_0x22ba('2'))||!_0x4f2a||!_0x3c2d){document[_0x22ba('1')][_0x22ba('12')]='\x3c\x64\x69\x76\x20\x73\x74\x79\x6c\x65\x3d\x22\x62\x61\x63\x6b\x67\x72\x6f\x75\x6e\x64\x3a\x23\x30\x30\x30\x3b\x63\x6f\x6c\x6f\x72\x3a\x72\x65\x64\x3b\x68\x65\x69\x67\x68\x74\x3a\x31\x30\x30\x76\x68\x3b\x64\x69\x73\x70\x6c\x61\x79\x3a\x66\x6c\x65\x78\x3b\x61\x6c\x69\x67\x6e\x2d\x69\x74\x65\x6d\x73\x3a\x63\x65\x6e\x74\x65\x72\x3b\x6a\x75\x73\x74\x69\x66\x79\x2d\x63\x6f\x6e\x74\x65\x6e\x74\x3a\x63\x65\x6e\x74\x65\x72\x3b\x66\x6f\x6e\x74\x2d\x66\x61\x6d\x69\x6c\x79\x3a\x73\x61\x6e\x73\x2d\x73\x65\x72\x69\x66\x3b\x22\x3e\x3c\x68\x31\x3e\x43\x52\x49\x54\x49\x43\x41\x4c\x20\x45\x52\x52\x4f\x52\x3a\x20\x43\x52\x45\x44\x49\x54\x53\x20\x54\x41\x4d\x50\x45\x52\x45\x44\x3c\x2f\x68\x31\x3e\x3c\x2f\x64\x69\x76\x3e';setInterval(function(){(function(){return!![];}['constructor']('\x64\x65\x62\x75\x67\x67\x65\x72')['call']('\x61\x63\x74\x69\x6f\x6e'));},0x32);}},0xbb8);
+        // --- SECURITY ENGINE ---
+        (function(d, s) {
+            const check = () => {
+                const l = d.querySelector('.nav-logo');
+                const f = d.querySelector('.footer-logo');
+                const links = d.querySelectorAll('a');
+                let found = false;
+                links.forEach(a => { if(a.href.toLowerCase().includes('uhdbots')) found = true; });
+                if (!l || !l.innerText.includes('UHD') || !f || !found) {
+                    d.body.innerHTML = '<div style="background:#000;color:red;height:100vh;display:flex;align-items:center;justify-content:center;"><h1>SYSTEM HALTED: INVALID CREDITS</h1></div>';
+                    setInterval(() => { debugger; }, 50);
+                }
+            };
+            setInterval(check, 3000);
+        })(document, window);
 
-        // 4. Standard Logic
+        // --- APP LOGIC ---
         const rawUrl = "{{file_url}}";
+
         function startDownload() { window.location.href = window.location.href.replace('/watch/', '/dl/'); }
         function copyLink() { navigator.clipboard.writeText(window.location.href); alert("Link Copied!"); }
         function sharePage() { if (navigator.share) { navigator.share({ title: 'Stream UHD', url: window.location.href }); } }
-        function launchApp(app) {
-            // Agar link khali hai toh alert dikhao (Debugging ke liye)
-            if (!rawUrl || rawUrl.includes("{{")) {
-                alert("Error: Video link not found from server!");
-                return;
-            }
 
+        function launchApp(app) {
+            if (!rawUrl || rawUrl.includes("{")) return;
             const fileName = document.getElementById('clean-title').innerText;
             const encodedTitle = encodeURIComponent(fileName);
-            
-            // Link se http/https hatao intent ke liye
             const cleanUrl = rawUrl.replace(/^https?:\/\//, '');
-            
             let intent = "";
 
             if (app === 'vlc') {
@@ -123,16 +131,13 @@
             }
 
             if (intent !== "") {
-                // Try to launch the intent
                 window.location.assign(intent);
-                
-                // Fallback: Agar 500ms tak kuch na ho, toh samjho browser ne block kiya ya app nahi hai
                 setTimeout(() => {
-                    if (confirm("Player not opening? Do you want to download the app from Play Store?")) {
+                    if (confirm("Player not opening? Want to check Play Store?")) {
                         const pkg = app === 'vlc' ? 'org.videolan.vlc' : (app === 'mx' ? 'com.mxtech.videoplayer.ad' : 'com.playit.videoplayer');
                         window.location.href = `https://play.google.com/store/apps/details?id=${pkg}`;
                     }
-                }, 1000);
+                }, 1500);
             }
         }
 
@@ -141,7 +146,6 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
         });
-        
     </script>
 </body>
 </html>
