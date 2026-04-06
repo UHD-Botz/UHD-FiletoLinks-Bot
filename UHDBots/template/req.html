@@ -97,11 +97,38 @@
         function copyLink() { navigator.clipboard.writeText(window.location.href); alert("Link Copied!"); }
         function sharePage() { if (navigator.share) { navigator.share({ title: 'Stream UHD', url: window.location.href }); } }
         function launchApp(app) {
-            const clean = rawUrl.replace(/^https?:\/\//, '');
-            let pkg = app === 'vlc' ? 'org.videolan.vlc' : (app === 'mx' ? 'com.mxtech.videoplayer.ad' : 'com.playit.videoplayer');
-            window.location.href = `intent://${clean}#Intent;scheme=https;package=${pkg};end`;
-        }
-        window.addEventListener('resize', () => { renderer.setSize(window.innerWidth, window.innerHeight); camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); });
+    // 1. Link ko clean karo
+    const videoUrl = rawUrl; // {{file_url}}
+    const fileName = document.getElementById('clean-title').innerText;
+    
+    // 2. Intents Database
+    let intent = "";
+    const encodedUrl = encodeURIComponent(videoUrl);
+    const encodedTitle = encodeURIComponent(fileName);
+
+    if (app === 'vlc') {
+        // VLC Official Intent Format
+        intent = `intent://${encodedUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=org.videolan.vlc;action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
+    } 
+    else if (app === 'mx') {
+        // MX Player Official Intent Format
+        intent = `intent://${encodedUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.mxtech.videoplayer.ad;action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
+    } 
+    else if (app === 'playit') {
+        // PlayIt Intent
+        intent = `intent://${encodedUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.playit.videoplayer;action=android.intent.action.VIEW;type=video/*;end`;
+    }
+    else if (app === 'km') {
+        // KM Player Intent
+        intent = `intent://${encodedUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.kmplayer;action=android.intent.action.VIEW;type=video/*;end`;
+    }
+
+    // 3. Launch with fallback logic
+    if (intent !== "") {
+        window.location.href = intent;
+    }
+}
+        
     </script>
 </body>
 </html>
