@@ -163,12 +163,36 @@
             const fileName = document.getElementById('clean-title').innerText;
             const encodedTitle = encodeURIComponent(fileName);
             const cleanUrl = rawUrl.replace(/^https?:\/\//, '');
+            let pkg = "";
             let intent = "";
-            if (app === 'vlc') intent = `intent://${cleanUrl}#Intent;scheme=https;package=org.videolan.vlc;action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
-            else if (app === 'mx') intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.mxtech.videoplayer.ad;action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
-            else if (app === 'playit') intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.playit.videoplayer;action=android.intent.action.VIEW;type=video/*;end`;
-            else if (app === 'km') intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.kmplayer;action=android.intent.action.VIEW;type=video/*;end`;
-            if (intent !== "") window.location.assign(intent);
+
+            if (app === 'vlc') {
+                pkg = "org.videolan.vlc";
+                intent = `intent://${cleanUrl}#Intent;scheme=https;package=${pkg};action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
+            } else if (app === 'mx') {
+                pkg = "com.mxtech.videoplayer.ad";
+                intent = `intent://${cleanUrl}#Intent;scheme=https;package=${pkg};action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
+            } else if (app === 'playit') {
+                pkg = "com.playit.videoplayer";
+                intent = `intent://${cleanUrl}#Intent;scheme=https;package=${pkg};action=android.intent.action.VIEW;type=video/*;end`;
+            } else if (app === 'km') {
+                pkg = "com.kmplayer";
+                intent = `intent://${cleanUrl}#Intent;scheme=https;package=${pkg};action=android.intent.action.VIEW;type=video/*;end`;
+            }
+
+            if (intent !== "") {
+                const startTime = Date.now();
+                window.location.assign(intent);
+                
+                // Fallback Pop-up: Check if user returned within 1.5s (meaning app didn't open)
+                setTimeout(() => {
+                    if (Date.now() - startTime < 2000) {
+                        if (confirm("Player app not found. Download it from Play Store?")) {
+                            window.location.href = `https://play.google.com/store/apps/details?id=${pkg}`;
+                        }
+                    }
+                }, 1500);
+            }
         }
 
         window.addEventListener('resize', () => { renderer.setSize(window.innerWidth, window.innerHeight); camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); });
