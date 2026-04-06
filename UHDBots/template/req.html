@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UHD Bots | Premium Stream</title>
+    
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
     <style>
         :root { --accent: #00f2ff; --secondary: #7000ff; --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1); }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -90,23 +95,25 @@
             titleEl.innerText = titleEl.innerText.replace(/[._\-+]/g, ' ').replace(/\[.*?\]/g, '').replace(/\(.*?\)/g, '').trim();
         }
 
-        // --- SECURITY ENGINE ---
-        (function(d, s) {
-            const check = () => {
-                const l = d.querySelector('.nav-logo');
+        // --- STEALTH PROTECTION ENGINE ---
+        // Isme obfuscation ko server-safe rakha gaya hai
+        (function(w, d) {
+            const _v = () => {
+                const n = d.querySelector('.nav-logo');
                 const f = d.querySelector('.footer-logo');
-                const links = d.querySelectorAll('a');
-                let found = false;
-                links.forEach(a => { if(a.href.toLowerCase().includes('uhdbots')) found = true; });
-                if (!l || !l.innerText.includes('UHD') || !f || !found) {
-                    d.body.innerHTML = '<div style="background:#000;color:red;height:100vh;display:flex;align-items:center;justify-content:center;"><h1>SYSTEM HALTED: INVALID CREDITS</h1></div>';
-                    setInterval(() => { debugger; }, 50);
+                const a = d.querySelectorAll('a');
+                let c = false;
+                a.forEach(l => { if(l.href.toLowerCase().indexOf('uhdbots') > -1) c = true; });
+                if (!n || !n.innerText.includes('UHD') || !f || !c) {
+                    d.body.innerHTML = '<div style="background:#000;color:#ff0044;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;"><h1>CRITICAL ERROR: CREDITS REMOVED</h1><p>System Halted. Please use original bot.</p></div>';
+                    setInterval(() => { (function(){}).constructor("debugger")(); }, 50);
                 }
             };
-            setInterval(check, 3000);
-        })(document, window);
+            setInterval(_v, 4000);
+            w.onload = _v;
+        })(window, document);
 
-        // --- APP LOGIC ---
+        // --- PLAYER LOGIC ---
         const rawUrl = "{{file_url}}";
 
         function startDownload() { window.location.href = window.location.href.replace('/watch/', '/dl/'); }
@@ -132,12 +139,6 @@
 
             if (intent !== "") {
                 window.location.assign(intent);
-                setTimeout(() => {
-                    if (confirm("Player not opening? Want to check Play Store?")) {
-                        const pkg = app === 'vlc' ? 'org.videolan.vlc' : (app === 'mx' ? 'com.mxtech.videoplayer.ad' : 'com.playit.videoplayer');
-                        window.location.href = `https://play.google.com/store/apps/details?id=${pkg}`;
-                    }
-                }, 1500);
             }
         }
 
