@@ -20,7 +20,7 @@
         .logo { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .main-wrapper { max-width: 1100px; margin: 30px auto; padding: 0 15px; animation: fadeInUp 0.8s ease-out; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .video-card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; backdrop-filter: blur(20px); box-shadow: 0 30px 80px rgba(0,0,0,0.7); min-height: 200px; display: flex; flex-direction: column; justify-content: center; }
+        .video-card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; backdrop-filter: blur(20px); box-shadow: 0 30px 80px rgba(0,0,0,0.7); min-height: 200px; }
         video { width: 100%; display: block; aspect-ratio: 16/9; background: #000; outline: none; }
         .info-panel { padding: 25px; }
         .status-tag { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(45deg, var(--secondary), var(--accent)); padding: 5px 12px; border-radius: 50px; font-size: 11px; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; }
@@ -30,6 +30,15 @@
         .btn-uhd:hover { background: rgba(255,255,255,0.1); border-color: #fff; transform: translateY(-3px); }
         .btn-primary { background: #fff; color: #000; border: none; }
         .btn-primary:hover { background: var(--accent); color: #000; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4); }
+        
+        /* New Bots Section Style */
+        .bots-intro-card { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-top: 20px; text-align: center; }
+        .bots-intro-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; color: var(--accent); margin-bottom: 10px; font-weight: 700; }
+        .bots-intro-text { font-size: 0.85rem; color: #aaa; margin-bottom: 15px; line-height: 1.5; }
+        .bots-btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-mini { background: var(--glass); border: 1px solid var(--border); color: #fff; padding: 10px; border-radius: 10px; font-size: 12px; text-decoration: none; transition: 0.3s; }
+        .btn-mini:hover { border-color: var(--accent); background: rgba(0, 242, 255, 0.1); }
+
         .app-section { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 18px; border: 1px solid var(--border); }
         .app-list { display: flex; gap: 10px; overflow-x: auto; padding: 5px 0; }
         .app-list::-webkit-scrollbar { display: none; }
@@ -37,7 +46,7 @@
         .app-item:hover { border-color: var(--accent); }
         .tg-join { margin-top: 30px; background: linear-gradient(135deg, rgba(36, 161, 222, 0.1), transparent); border: 1px solid rgba(36, 161, 222, 0.2); border-radius: 20px; padding: 30px; text-align: center; }
         .tg-link { color: #24A1DE; font-weight: 800; text-decoration: none; font-size: 1.2rem; display: block; margin-top: 10px; }
-        @media (max-width: 600px) { .movie-title { font-size: 1.3rem; } .action-row { grid-template-columns: 1fr 1fr; } .full-mobile { grid-column: span 2; } }
+        @media (max-width: 600px) { .movie-title { font-size: 1.3rem; } .action-row { grid-template-columns: 1fr 1fr; } .full-mobile { grid-column: span 2; } .bots-btn-group { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -68,6 +77,15 @@
                         <div class="app-item" onclick="launchApp('km')"><i class="fas fa-play"></i><br>KM Player</div>
                     </div>
                 </div>
+
+                <div class="bots-intro-card">
+                    <div class="bots-intro-title"><i class="fas fa-robot"></i> UHD BOTS ECOSYSTEM</div>
+                    <p class="bots-intro-text">We provide a wide range of intelligent Telegram bots designed for high-speed streaming and file management. Explore our professional services below.</p>
+                    <div class="bots-btn-group">
+                        <a href="https://t.me/UHDBots" class="btn-mini"><i class="fab fa-telegram-plane"></i> Updates Channel</a>
+                        <a href="#" class="btn-mini"><i class="fas fa-globe"></i> Visit Bots Site</a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="tg-join">
@@ -80,7 +98,7 @@
     <script>
         const rawUrl = "{{file_url}}";
 
-        // 1. Visuals & Three.js
+        // 1. Three.js Background
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -95,82 +113,43 @@
         const titleEl = document.getElementById('clean-title');
         if(titleEl) { titleEl.innerText = titleEl.innerText.replace(/[._\-+]/g, ' ').replace(/\[.*?\]/g, '').replace(/\(.*?\)/g, '').trim(); }
 
-        // 3. Stealth Protection
+        // 3. Stealth Protection Engine
         (function(w, d) {
             const _v = () => {
-                const n = d.querySelector('.nav-logo');
-                const f = d.querySelector('.footer-logo');
-                const a = d.querySelectorAll('a');
-                let c = false;
-                a.forEach(l => { if(l.href.toLowerCase().indexOf('uhdbots') > -1) c = true; });
+                const n = d.querySelector('.nav-logo'); const f = d.querySelector('.footer-logo'); const a = d.querySelectorAll('a');
+                let c = false; a.forEach(l => { if(l.href.toLowerCase().indexOf('uhdbots') > -1) c = true; });
                 if (!n || !n.innerText.includes('UHD BOTS') || !f || !c) {
-                    d.body.innerHTML = '<div style="background:#000;color:#ff0044;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;"><h1>CRITICAL ERROR: CREDITS REMOVED</h1></div>';
+                    d.body.innerHTML = '<div style="background:#000;color:#ff0044;height:100vh;display:flex;align-items:center;justify-content:center;"><h1>CRITICAL ERROR: CREDITS TAMPERED</h1></div>';
                     setInterval(() => { (function(){}).constructor("debugger")(); }, 50);
                 }
             };
-            setInterval(_v, 4000);
-            w.onload = _v;
+            setInterval(_v, 4000); w.onload = _v;
         })(window, document);
 
         // 4. --- BULLETPROOF AUTO-DETECTION ENGINE ---
-        // 4. --- ADVANCED AUTO-DETECTION ENGINE (Network + Format Check) ---
         const v = document.getElementById('main-player');
-        
         if (v) {
-            // SINGLE ULTIMATE ERROR FUNCTION
             const triggerVideoError = () => {
-                // 1. Agar internet offline hai toh alert do aur ruk jao
-                if (!navigator.onLine) {
-                    alert("Oops! Tera internet band hai. Connection check kar.");
-                    return; 
-                }
-
+                if (!navigator.onLine) { alert("Oops! Check your internet."); return; }
                 if(document.getElementById('error-box')) return;
-                
                 v.style.display = 'none';
                 const errorDiv = document.createElement('div');
                 errorDiv.id = 'error-box';
-                errorDiv.innerHTML = `
-                    <div style="padding:40px 20px; text-align:center; background:rgba(255,0,0,0.15); border:2px dashed #ff0044; border-radius:15px; margin:10px; animation: fadeInUp 0.5s;">
-                        <i class="fas fa-exclamation-triangle" style="font-size:40px; color:#ff0044; margin-bottom:15px;"></i>
-                        <h2 style="color:#fff; font-size:1.2rem;">Playback Issue!</h2>
-                        <p style="color:#ccc; font-size:0.85rem; margin:10px 0 20px;">Slow Internet or Unsupported Format detected.</p>
-                        <div style="display:flex; gap:10px; justify-content:center;">
-                            <button onclick="location.reload()" style="background:#fff; color:#000; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">Retry</button>
-                            <button onclick="launchApp('vlc')" style="background:#ff9500; color:#000; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">VLC</button>
-                            <button onclick="launchApp('mx')" style="background:#00f2ff; color:#000; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">MX</button>
-                        </div>
-                    </div>`;
+                errorDiv.innerHTML = `<div style="padding:40px 20px; text-align:center; background:rgba(255,0,0,0.15); border:2px dashed #ff0044; border-radius:15px; margin:10px;"><i class="fas fa-exclamation-triangle" style="font-size:40px; color:#ff0044; margin-bottom:15px;"></i><h2 style="color:#fff; font-size:1.1rem;">Playback Issue!</h2><p style="color:#ccc; font-size:0.8rem; margin:10px 0 20px;">Slow Net or Unsupported Format. Use VLC/MX.</p><div style="display:flex; gap:10px; justify-content:center;"><button onclick="location.reload()" style="background:#fff; color:#000; border:none; padding:8px 15px; border-radius:8px; font-weight:bold; cursor:pointer;">Retry</button><button onclick="launchApp('vlc')" style="background:#ff9500; color:#000; border:none; padding:8px 15px; border-radius:8px; font-weight:bold; cursor:pointer;">VLC</button></div></div>`;
                 v.parentNode.insertBefore(errorDiv, v);
             };
 
-            // Forcefully check after 10 seconds (Slow Net Friendly)
-            let playCheck = setTimeout(() => {
-                if (v.readyState < 3 && !v.paused) { 
-                    triggerVideoError();
-                }
-            }, 10000); 
-
-            v.onplaying = () => clearTimeout(playCheck); 
+            let playCheck = setTimeout(() => { if (v.readyState < 3 && !v.paused) triggerVideoError(); }, 10000);
+            v.onplaying = () => clearTimeout(playCheck);
             v.onerror = () => { clearTimeout(playCheck); triggerVideoError(); };
-
-            // Audio detection
-            v.onloadedmetadata = function() {
-                if (v.canPlayType('audio/mp4; codecs="ec-3"') === "" && rawUrl.toLowerCase().includes(".mkv")) {
-                    showAudioPopup();
-                }
-            };
+            v.onloadedmetadata = function() { if (v.canPlayType('audio/mp4; codecs="ec-3"') === "" && rawUrl.toLowerCase().includes(".mkv")) showAudioPopup(); };
         }
 
         function showAudioPopup() {
             if(document.getElementById('audio-pop')) return;
             const popup = document.createElement('div');
             popup.id = 'audio-pop';
-            popup.innerHTML = `<div style="position:fixed; bottom:25px; left:50%; transform:translateX(-50%); background:rgba(112,0,255,0.98); color:white; padding:15px 20px; border-radius:15px; z-index:9999; width:90%; max-width:380px; border:1px solid #00f2ff; display:flex; align-items:center; gap:12px; box-shadow:0 15px 40px rgba(0,0,0,0.6);">
-                <i class="fas fa-volume-mute" style="font-size:22px; color:#00f2ff;"></i>
-                <div style="flex:1; font-size:12px; line-height:1.4;"><b>Audio Not Supported?</b> Try VLC or MX Player for DTS/AC3 sound.</div>
-                <button onclick="this.parentElement.remove()" style="background:none; border:none; color:white; font-size:20px; cursor:pointer;">&times;</button>
-            </div>`;
+            popup.innerHTML = `<div style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(112,0,255,0.98); color:white; padding:15px 20px; border-radius:12px; z-index:9999; width:90%; max-width:350px; border:1px solid #00f2ff; display:flex; align-items:center; gap:10px; box-shadow:0 10px 30px rgba(0,0,0,0.5);"><i class="fas fa-volume-mute"></i><div style="flex:1; font-size:11px;"><b>No Sound?</b> Try VLC/MX Player for DTS/AC3.</div><button onclick="this.parentElement.remove()" style="background:none; border:none; color:white; font-size:18px;">&times;</button></div>`;
             document.body.appendChild(popup);
         }
 
@@ -192,11 +171,7 @@
             if (intent !== "") window.location.assign(intent);
         }
 
-        window.addEventListener('resize', () => {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-        });
+        window.addEventListener('resize', () => { renderer.setSize(window.innerWidth, window.innerHeight); camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); });
     </script>
 </body>
 </html>
