@@ -146,6 +146,67 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
         });
+
+// --- SMART AUTO-DETECTION ENGINE (Video & Audio Check) ---
+const v = document.getElementById('main-player');
+const vCard = document.querySelector('.video-card');
+
+if (v) {
+    // 1. Check if Video Fails to Load/Play
+    v.onerror = function() {
+        console.error("Video Playback Failed!");
+        // Player ko hide karke Error Message dikhao
+        v.style.display = 'none';
+        const errorDiv = document.createElement('div');
+        errorDiv.innerHTML = `
+            <div style="padding: 40px 20px; text-align: center; background: rgba(255,0,0,0.1); border: 2px dashed #ff0044; border-radius: 15px; margin: 10px;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 40px; color: #ff0044; margin-bottom: 15px;"></i>
+                <h2 style="color: #fff; font-size: 1.2rem;">Format Not Supported in Browser!</h2>
+                <p style="color: #aaa; font-size: 0.9rem; margin: 10px 0 20px;">This MKV/Video format needs an External Player to play.</p>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button onclick="launchApp('vlc')" style="background:#ff9500; color:#000; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">Open VLC</button>
+                    <button onclick="launchApp('mx')" style="background:#00f2ff; color:#000; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">Open MX</button>
+                </div>
+            </div>
+        `;
+        v.parentNode.insertBefore(errorDiv, v);
+    };
+
+    // 2. Check for Audio Issues (AAC/AC3/DTS Detection)
+    v.onloadedmetadata = function() {
+        // Browser specific check for audio support
+        const testVideo = document.createElement('video');
+        const canPlayAudio = v.mozAudioCapturedType || v.webkitAudioDecodedByteCount !== 0;
+
+        // Agar file load ho gayi par audio track detect nahi ho raha ya EAC3 hai
+        if (v.readyState >= 1) {
+            const audioTrack = v.audioTracks ? v.audioTracks.length : 1; // Basic fallback
+            
+            // EAC3/DTS mostly browser pe khali canPlayType dete hain
+            if (v.canPlayType('audio/mp4; codecs="ec-3"') === "" && rawUrl.toLowerCase().includes(".mkv")) {
+                showAudioPopup();
+            }
+        }
+    };
+}
+
+function showAudioPopup() {
+    const popup = document.createElement('div');
+    popup.id = 'audio-pop';
+    popup.innerHTML = `
+        <div style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(112, 0, 255, 0.95); color: white; padding: 15px 25px; border-radius: 12px; z-index: 10000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 15px; width: 90%; max-width: 400px; border: 1px solid #00f2ff; animation: slideUp 0.5s ease-out;">
+            <i class="fas fa-volume-mute" style="font-size: 20px;"></i>
+            <div style="flex: 1; font-size: 13px;">
+                <b>No Sound?</b> Browser doesn't support this audio. Use External Player.
+            </div>
+            <button onclick="document.getElementById('audio-pop').remove()" style="background:transparent; border:none; color:white; font-size:20px; cursor:pointer;">&times;</button>
+        </div>
+        <style>@keyframes slideUp { from { bottom: -100px; } to { bottom: 20px; } }</style>
+    `;
+    document.body.appendChild(popup);
+    setTimeout(() => { if(document.getElementById('audio-pop')) document.getElementById('audio-pop').remove(); }, 8000);
+}
+        
     </script>
 </body>
 </html>
