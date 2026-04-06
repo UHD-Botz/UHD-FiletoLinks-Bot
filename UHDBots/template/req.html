@@ -20,7 +20,7 @@
         .logo { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .main-wrapper { max-width: 1100px; margin: 30px auto; padding: 0 15px; animation: fadeInUp 0.8s ease-out; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .video-card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; backdrop-filter: blur(20px); box-shadow: 0 30px 80px rgba(0,0,0,0.7); }
+        .video-card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; backdrop-filter: blur(20px); box-shadow: 0 30px 80px rgba(0,0,0,0.7); min-height: 200px; display: flex; flex-direction: column; justify-content: center; }
         video { width: 100%; display: block; aspect-ratio: 16/9; background: #000; outline: none; }
         .info-panel { padding: 25px; }
         .status-tag { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(45deg, var(--secondary), var(--accent)); padding: 5px 12px; border-radius: 50px; font-size: 11px; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; }
@@ -78,7 +78,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // 1. Core Visuals & Background
+        const rawUrl = "{{file_url}}";
+
+        // 1. Visuals & Three.js
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -89,13 +91,11 @@
         function animate() { requestAnimationFrame(animate); sphere.rotation.y += 0.002; sphere.rotation.x += 0.001; renderer.render(scene, camera); }
         animate();
 
-        // 2. Title Cleaner Utility
+        // 2. Title Cleaner
         const titleEl = document.getElementById('clean-title');
-        if(titleEl) {
-            titleEl.innerText = titleEl.innerText.replace(/[._\-+]/g, ' ').replace(/\[.*?\]/g, '').replace(/\(.*?\)/g, '').trim();
-        }
+        if(titleEl) { titleEl.innerText = titleEl.innerText.replace(/[._\-+]/g, ' ').replace(/\[.*?\]/g, '').replace(/\(.*?\)/g, '').trim(); }
 
-        // 3. --- STEALTH PROTECTION ENGINE ---
+        // 3. Stealth Protection
         (function(w, d) {
             const _v = () => {
                 const n = d.querySelector('.nav-logo');
@@ -104,7 +104,7 @@
                 let c = false;
                 a.forEach(l => { if(l.href.toLowerCase().indexOf('uhdbots') > -1) c = true; });
                 if (!n || !n.innerText.includes('UHD BOTS') || !f || !c) {
-                    d.body.innerHTML = '<div style="background:#000;color:#ff0044;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;"><h1>CRITICAL ERROR: CREDITS REMOVED</h1><p>System Halted. Please use original bot.</p></div>';
+                    d.body.innerHTML = '<div style="background:#000;color:#ff0044;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;"><h1>CRITICAL ERROR: CREDITS REMOVED</h1></div>';
                     setInterval(() => { (function(){}).constructor("debugger")(); }, 50);
                 }
             };
@@ -112,22 +112,14 @@
             w.onload = _v;
         })(window, document);
 
-// 4. --- ADVANCED AUTO-DETECTION ENGINE (Video & Audio Check) ---
+        // 4. ADVANCED AUTO-DETECTION ENGINE
         const v = document.getElementById('main-player');
-        const rawUrl = "{{file_url}}";
-
         if (v) {
-            // A. Video Timeout Logic (For MKV/Unsupported Formats)
             let checkTimeout = setTimeout(() => {
-                if (v.readyState < 3 && !v.paused) { 
-                    // Agar 7 sec tak video ready nahi hui, toh External Player ka option do
-                    triggerVideoError();
-                }
-            }, 7000); // 7 Seconds wait time
+                if (v.readyState < 3 && !v.paused) { triggerVideoError(); }
+            }, 8000); 
 
-            v.onplay = () => clearTimeout(checkTimeout); // Agar chal gayi toh timeout cancel
-
-            // B. Direct Error Logic
+            v.onplay = () => clearTimeout(checkTimeout);
             v.onerror = () => triggerVideoError();
 
             function triggerVideoError() {
@@ -135,12 +127,11 @@
                 if(!document.getElementById('error-box')) {
                     const errorDiv = document.createElement('div');
                     errorDiv.id = 'error-box';
-                    errorDiv.innerHTML = `<div style="padding:40px 20px;text-align:center;background:rgba(255,0,0,0.1);border:2px dashed #ff0044;border-radius:15px;margin:10px;"><i class="fas fa-exclamation-triangle" style="font-size:40px;color:#ff0044;margin-bottom:15px;"></i><h2 style="color:#fff;font-size:1.2rem;">Format Not Supported!</h2><p style="color:#aaa;font-size:0.9rem;margin:10px 0 20px;">Browser cannot play this MKV/DTS file directly.</p><div style="display:flex;gap:10px;justify-content:center;"><button onclick="launchApp('vlc')" style="background:#ff9500;color:#000;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;">Open VLC</button><button onclick="launchApp('mx')" style="background:#00f2ff;color:#000;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;">Open MX</button></div></div>`;
+                    errorDiv.innerHTML = `<div style="padding:40px 20px;text-align:center;background:rgba(255,0,0,0.1);border:2px dashed #ff0044;border-radius:15px;margin:10px;"><i class="fas fa-exclamation-triangle" style="font-size:40px;color:#ff0044;margin-bottom:15px;"></i><h2 style="color:#fff;font-size:1.2rem;">Format Not Supported!</h2><p style="color:#aaa;font-size:0.9rem;margin:10px 0 20px;">Use External Player for MKV/DTS files.</p><div style="display:flex;gap:10px;justify-content:center;"><button onclick="launchApp('vlc')" style="background:#ff9500;color:#000;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;">Open VLC</button><button onclick="launchApp('mx')" style="background:#00f2ff;color:#000;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;">Open MX</button></div></div>`;
                     v.parentNode.insertBefore(errorDiv, v);
                 }
             }
 
-            // C. Audio Detection (Perfectly working as you said)
             v.onloadedmetadata = function() {
                 if (v.readyState >= 1) {
                     if (v.canPlayType('audio/mp4; codecs="ec-3"') === "" && rawUrl.toLowerCase().includes(".mkv")) {
@@ -150,7 +141,16 @@
             };
         }
 
-        // 5. --- STANDARD LOGIC & APP LAUNCHER ---
+        function showAudioPopup() {
+            if(document.getElementById('audio-pop')) return;
+            const popup = document.createElement('div');
+            popup.id = 'audio-pop';
+            popup.innerHTML = `<div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(112,0,255,0.95);color:white;padding:15px 25px;border-radius:12px;z-index:10000;box-shadow:0 10px 30px rgba(0,0,0,0.5);display:flex;align-items:center;gap:15px;width:90%;max-width:400px;border:1px solid #00f2ff;animation:slideUp 0.5s ease-out;"><i class="fas fa-volume-mute" style="font-size:20px;"></i><div style="flex:1;font-size:13px;"><b>No Sound?</b> Browser doesn't support this audio. Use External Player.</div><button onclick="document.getElementById('audio-pop').remove()" style="background:transparent;border:none;color:white;font-size:20px;cursor:pointer;">&times;</button></div><style>@keyframes slideUp { from { bottom:-100px; } to { bottom:20px; } }</style>`;
+            document.body.appendChild(popup);
+            setTimeout(() => { if(document.getElementById('audio-pop')) document.getElementById('audio-pop').remove(); }, 8000);
+        }
+
+        // 5. Standard Functions
         function startDownload() { window.location.href = window.location.href.replace('/watch/', '/dl/'); }
         function copyLink() { navigator.clipboard.writeText(window.location.href); alert("Link Copied!"); }
         function sharePage() { if (navigator.share) { navigator.share({ title: 'Stream UHD', url: window.location.href }); } }
@@ -161,18 +161,11 @@
             const encodedTitle = encodeURIComponent(fileName);
             const cleanUrl = rawUrl.replace(/^https?:\/\//, '');
             let intent = "";
-
-            if (app === 'vlc') {
-                intent = `intent://${cleanUrl}#Intent;scheme=https;package=org.videolan.vlc;action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
-            } else if (app === 'mx') {
-                intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.mxtech.videoplayer.ad;action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
-            } else if (app === 'playit') {
-                intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.playit.videoplayer;action=android.intent.action.VIEW;type=video/*;end`;
-            } else if (app === 'km') {
-                intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.kmplayer;action=android.intent.action.VIEW;type=video/*;end`;
-            }
-
-            if (intent !== "") { window.location.assign(intent); }
+            if (app === 'vlc') intent = `intent://${cleanUrl}#Intent;scheme=https;package=org.videolan.vlc;action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
+            else if (app === 'mx') intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.mxtech.videoplayer.ad;action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
+            else if (app === 'playit') intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.playit.videoplayer;action=android.intent.action.VIEW;type=video/*;end`;
+            else if (app === 'km') intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.kmplayer;action=android.intent.action.VIEW;type=video/*;end`;
+            if (intent !== "") window.location.assign(intent);
         }
 
         window.addEventListener('resize', () => {
