@@ -112,31 +112,43 @@
             w.onload = _v;
         })(window, document);
 
-        // 4. ADVANCED AUTO-DETECTION ENGINE
+        // 4. --- BULLETPROOF AUTO-DETECTION ENGINE ---
         const v = document.getElementById('main-player');
+        
         if (v) {
-            let checkTimeout = setTimeout(() => {
-                if (v.readyState < 3 && !v.paused) { triggerVideoError(); }
-            }, 8000); 
-
-            v.onplay = () => clearTimeout(checkTimeout);
-            v.onerror = () => triggerVideoError();
-
-            function triggerVideoError() {
+            // Function jo error box dikhayega
+            const triggerVideoError = () => {
+                if(document.getElementById('error-box')) return;
                 v.style.display = 'none';
-                if(!document.getElementById('error-box')) {
-                    const errorDiv = document.createElement('div');
-                    errorDiv.id = 'error-box';
-                    errorDiv.innerHTML = `<div style="padding:40px 20px;text-align:center;background:rgba(255,0,0,0.1);border:2px dashed #ff0044;border-radius:15px;margin:10px;"><i class="fas fa-exclamation-triangle" style="font-size:40px;color:#ff0044;margin-bottom:15px;"></i><h2 style="color:#fff;font-size:1.2rem;">Format Not Supported!</h2><p style="color:#aaa;font-size:0.9rem;margin:10px 0 20px;">Use External Player for MKV/DTS files.</p><div style="display:flex;gap:10px;justify-content:center;"><button onclick="launchApp('vlc')" style="background:#ff9500;color:#000;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;">Open VLC</button><button onclick="launchApp('mx')" style="background:#00f2ff;color:#000;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;">Open MX</button></div></div>`;
-                    v.parentNode.insertBefore(errorDiv, v);
-                }
-            }
+                const errorDiv = document.createElement('div');
+                errorDiv.id = 'error-box';
+                errorDiv.innerHTML = `
+                    <div style="padding:40px 20px; text-align:center; background:rgba(255,0,0,0.15); border:2px dashed #ff0044; border-radius:15px; margin:10px; animation: fadeInUp 0.5s;">
+                        <i class="fas fa-exclamation-triangle" style="font-size:40px; color:#ff0044; margin-bottom:15px;"></i>
+                        <h2 style="color:#fff; font-size:1.2rem;">Playback Failed!</h2>
+                        <p style="color:#ccc; font-size:0.85rem; margin:10px 0 20px;">Browser cannot play this format. Use External Player for MKV/DTS.</p>
+                        <div style="display:flex; gap:10px; justify-content:center;">
+                            <button onclick="launchApp('vlc')" style="background:#ff9500; color:#000; border:none; padding:12px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">VLC</button>
+                            <button onclick="launchApp('mx')" style="background:#00f2ff; color:#000; border:none; padding:12px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">MX Player</button>
+                        </div>
+                    </div>`;
+                v.parentNode.insertBefore(errorDiv, v);
+            };
 
+            // Forcefully check after 6 seconds
+            let playCheck = setTimeout(() => {
+                if (v.readyState < 3) { // readyState 3 matlab buffering successful
+                    triggerVideoError();
+                }
+            }, 6000);
+
+            v.onplaying = () => clearTimeout(playCheck); // Agar chal gayi toh timer band
+            v.onerror = () => { clearTimeout(playCheck); triggerVideoError(); };
+
+            // Audio detection
             v.onloadedmetadata = function() {
-                if (v.readyState >= 1) {
-                    if (v.canPlayType('audio/mp4; codecs="ec-3"') === "" && rawUrl.toLowerCase().includes(".mkv")) {
-                        showAudioPopup();
-                    }
+                if (v.canPlayType('audio/mp4; codecs="ec-3"') === "" && rawUrl.toLowerCase().includes(".mkv")) {
+                    showAudioPopup();
                 }
             };
         }
@@ -145,9 +157,12 @@
             if(document.getElementById('audio-pop')) return;
             const popup = document.createElement('div');
             popup.id = 'audio-pop';
-            popup.innerHTML = `<div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(112,0,255,0.95);color:white;padding:15px 25px;border-radius:12px;z-index:10000;box-shadow:0 10px 30px rgba(0,0,0,0.5);display:flex;align-items:center;gap:15px;width:90%;max-width:400px;border:1px solid #00f2ff;animation:slideUp 0.5s ease-out;"><i class="fas fa-volume-mute" style="font-size:20px;"></i><div style="flex:1;font-size:13px;"><b>No Sound?</b> Browser doesn't support this audio. Use External Player.</div><button onclick="document.getElementById('audio-pop').remove()" style="background:transparent;border:none;color:white;font-size:20px;cursor:pointer;">&times;</button></div><style>@keyframes slideUp { from { bottom:-100px; } to { bottom:20px; } }</style>`;
+            popup.innerHTML = `<div style="position:fixed; bottom:25px; left:50%; transform:translateX(-50%); background:rgba(112,0,255,0.98); color:white; padding:15px 20px; border-radius:15px; z-index:9999; width:90%; max-width:380px; border:1px solid #00f2ff; display:flex; align-items:center; gap:12px; box-shadow:0 15px 40px rgba(0,0,0,0.6);">
+                <i class="fas fa-volume-mute" style="font-size:22px; color:#00f2ff;"></i>
+                <div style="flex:1; font-size:12px; line-height:1.4;"><b>Audio Not Supported?</b> Try VLC or MX Player for DTS/AC3 sound.</div>
+                <button onclick="this.parentElement.remove()" style="background:none; border:none; color:white; font-size:20px; cursor:pointer;">&times;</button>
+            </div>`;
             document.body.appendChild(popup);
-            setTimeout(() => { if(document.getElementById('audio-pop')) document.getElementById('audio-pop').remove(); }, 8000);
         }
 
         // 5. Standard Functions
