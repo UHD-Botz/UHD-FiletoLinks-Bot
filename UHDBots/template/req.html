@@ -97,26 +97,44 @@
         function copyLink() { navigator.clipboard.writeText(window.location.href); alert("Link Copied!"); }
         function sharePage() { if (navigator.share) { navigator.share({ title: 'Stream UHD', url: window.location.href }); } }
         function launchApp(app) {
-            const videoUrl = rawUrl;
+            // Agar link khali hai toh alert dikhao (Debugging ke liye)
+            if (!rawUrl || rawUrl.includes("{{")) {
+                alert("Error: Video link not found from server!");
+                return;
+            }
+
             const fileName = document.getElementById('clean-title').innerText;
-            const encodedUrl = encodeURIComponent(videoUrl);
             const encodedTitle = encodeURIComponent(fileName);
+            
+            // Link se http/https hatao intent ke liye
+            const cleanUrl = rawUrl.replace(/^https?:\/\//, '');
+            
             let intent = "";
 
             if (app === 'vlc') {
-                intent = `intent://${encodedUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=org.videolan.vlc;action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
+                intent = `intent://${cleanUrl}#Intent;scheme=https;package=org.videolan.vlc;action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
             } else if (app === 'mx') {
-                intent = `intent://${encodedUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.mxtech.videoplayer.ad;action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
+                intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.mxtech.videoplayer.ad;action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
             } else if (app === 'playit') {
-                intent = `intent://${encodedUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.playit.videoplayer;action=android.intent.action.VIEW;type=video/*;end`;
+                intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.playit.videoplayer;action=android.intent.action.VIEW;type=video/*;end`;
             } else if (app === 'km') {
-                intent = `intent://${encodedUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.kmplayer;action=android.intent.action.VIEW;type=video/*;end`;
+                intent = `intent://${cleanUrl}#Intent;scheme=https;package=com.kmplayer;action=android.intent.action.VIEW;type=video/*;end`;
             }
 
-            if (intent !== "") { window.location.href = intent; }
+            if (intent !== "") {
+                // Try to launch the intent
+                window.location.assign(intent);
+                
+                // Fallback: Agar 500ms tak kuch na ho, toh samjho browser ne block kiya ya app nahi hai
+                setTimeout(() => {
+                    if (confirm("Player not opening? Do you want to download the app from Play Store?")) {
+                        const pkg = app === 'vlc' ? 'org.videolan.vlc' : (app === 'mx' ? 'com.mxtech.videoplayer.ad' : 'com.playit.videoplayer');
+                        window.location.href = `https://play.google.com/store/apps/details?id=${pkg}`;
+                    }
+                }, 1000);
+            }
         }
 
-        // Handle Responsive Resize
         window.addEventListener('resize', () => {
             renderer.setSize(window.innerWidth, window.innerHeight);
             camera.aspect = window.innerWidth / window.innerHeight;
