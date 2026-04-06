@@ -156,7 +156,30 @@
         // 5. Standard Functions
         function startDownload() { window.location.href = window.location.href.replace('/watch/', '/dl/'); }
         function copyLink() { navigator.clipboard.writeText(window.location.href); alert("Link Copied!"); }
-        function sharePage() { if (navigator.share) { navigator.share({ title: 'Stream UHD', url: window.location.href }); } }
+        
+        function sharePage() {
+            const shareData = {
+                title: 'UHD Bots | Premium Stream',
+                text: 'Check out this amazing Movie on UHD Bots!',
+                url: window.location.href
+            };
+
+            // 1. Check if Mobile Share API is available
+            if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+                navigator.share(shareData)
+                    .then(() => console.log('Shared successfully'))
+                    .catch((err) => console.log('Error sharing:', err));
+            } else {
+                // 2. Fallback for PC, TV, and others: Just Copy the Link
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert("Sharing not supported on this device. Link copied to clipboard instead!");
+                }).catch(() => {
+                    // 3. Ultra Fallback: Manual alert for very old devices/TVs
+                    alert("Copy this link to share: " + window.location.href);
+                });
+            }
+        }
+        
 
         function launchApp(app) {
             if (!rawUrl || rawUrl.includes("{")) return;
