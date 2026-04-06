@@ -2,59 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>UHD Bots | Premium Stream</title>
-    
     <link rel="icon" type="image/png" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png">
-
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
     <style>
-        :root { --accent: #00f2ff; --secondary: #7000ff; --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1); }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #020205; color: #fff; font-family: 'Outfit', sans-serif; overflow-x: hidden; min-height: 100vh; }
-        #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.5; }
-        nav { padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); }
-        .logo { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .main-wrapper { max-width: 1100px; margin: 30px auto; padding: 0 15px; animation: fadeInUp 0.8s ease-out; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .video-card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; backdrop-filter: blur(20px); box-shadow: 0 30px 80px rgba(0,0,0,0.7); min-height: 200px; }
-        video { width: 100%; display: block; aspect-ratio: 16/9; background: #000; outline: none; }
-        .info-panel { padding: 25px; }
-        .status-tag { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(45deg, var(--secondary), var(--accent)); padding: 5px 12px; border-radius: 50px; font-size: 11px; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; }
-        .movie-title { font-size: 1.6rem; margin-bottom: 20px; font-weight: 700; letter-spacing: -0.5px; word-break: break-word; }
-        .action-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 25px; }
-        .btn-uhd { background: var(--glass); border: 1px solid var(--border); color: #fff; padding: 15px; border-radius: 15px; text-align: center; text-decoration: none; font-weight: 600; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
-        .btn-uhd:hover { background: rgba(255,255,255,0.1); border-color: #fff; transform: translateY(-3px); }
-        .btn-primary { background: #fff; color: #000; border: none; }
-        .btn-primary:hover { background: var(--accent); color: #000; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4); }
-        
-        /* New Bots Section Style */
-        .bots-intro-card { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-top: 20px; text-align: center; }
-        .bots-intro-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; color: var(--accent); margin-bottom: 10px; font-weight: 700; }
-        .bots-intro-text { font-size: 0.85rem; color: #aaa; margin-bottom: 15px; line-height: 1.5; }
-        .bots-btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn-mini { background: var(--glass); border: 1px solid var(--border); color: #fff; padding: 10px; border-radius: 10px; font-size: 12px; text-decoration: none; transition: 0.3s; }
-        .btn-mini:hover { border-color: var(--accent); background: rgba(0, 242, 255, 0.1); }
-
-        .app-section { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 18px; border: 1px solid var(--border); }
-        .app-list { display: flex; gap: 10px; overflow-x: auto; padding: 5px 0; }
-        .app-list::-webkit-scrollbar { display: none; }
-        .app-item { min-width: 100px; background: var(--glass); padding: 10px; border-radius: 12px; text-align: center; font-size: 12px; border: 1px solid var(--border); cursor: pointer; }
-        .app-item:hover { border-color: var(--accent); }
-        .tg-join { margin-top: 30px; background: linear-gradient(135deg, rgba(36, 161, 222, 0.1), transparent); border: 1px solid rgba(36, 161, 222, 0.2); border-radius: 20px; padding: 30px; text-align: center; }
-        .tg-link { color: #24A1DE; font-weight: 800; text-decoration: none; font-size: 1.2rem; display: block; margin-top: 10px; }
-        @media (max-width: 600px) { .movie-title { font-size: 1.3rem; } .action-row { grid-template-columns: 1fr 1fr; } .full-mobile { grid-column: span 2; } .bots-btn-group { grid-template-columns: 1fr; } }
+        :root{--accent:#00f2ff;--secondary:#7000ff;--glass:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.1)}*{margin:0;padding:0;box-sizing:border-box}body{background:#020205;color:#fff;font-family:Outfit,sans-serif;overflow-x:hidden;min-height:100vh}#canvas-container{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:.5}nav{padding:15px 5%;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.6);backdrop-filter:blur(15px);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border)}.logo{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;background:linear-gradient(to right,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.main-wrapper{max-width:1100px;margin:30px auto;padding:0 15px;animation:fadeInUp .8s ease-out}@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.video-card{background:var(--glass);border:1px solid var(--border);border-radius:24px;overflow:hidden;backdrop-filter:blur(20px);box-shadow:0 30px 80px rgba(0,0,0,0.7);min-height:200px}video{width:100%;display:block;aspect-ratio:16/9;background:#000;outline:0}.info-panel{padding:25px}.status-tag{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(45deg,var(--secondary),var(--accent));padding:5px 12px;border-radius:50px;font-size:11px;font-weight:800;margin-bottom:12px;text-transform:uppercase}.movie-title{font-size:1.6rem;margin-bottom:20px;font-weight:700;letter-spacing:-.5px;word-break:break-word}.action-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:25px}.btn-uhd{background:var(--glass);border:1px solid var(--border);color:#fff;padding:15px;border-radius:15px;text-align:center;text-decoration:none;font-weight:600;transition:.3s;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}.btn-uhd:hover{background:rgba(255,255,255,0.1);border-color:#fff;transform:translateY(-3px)}.btn-primary{background:#fff;color:#000;border:none}.btn-primary:hover{background:var(--accent);color:#000;box-shadow:0 0 20px rgba(0,242,255,0.4)}.bots-intro-card{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:20px;padding:20px;margin-top:20px;text-align:center}.bots-intro-title{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;color:var(--accent);margin-bottom:10px;font-weight:700}.bots-intro-text{font-size:.85rem;color:#aaa;margin-bottom:15px;line-height:1.5}.bots-btn-group{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn-mini{background:var(--glass);border:1px solid var(--border);color:#fff;padding:10px;border-radius:10px;font-size:12px;text-decoration:none;transition:.3s}.btn-mini:hover{border-color:var(--accent);background:rgba(0,242,255,0.1)}.app-section{background:rgba(255,255,255,0.02);padding:15px;border-radius:18px;border:1px solid var(--border)}.app-list{display:flex;gap:10px;overflow-x:auto;padding:5px 0}.app-list::-webkit-scrollbar{display:none}.app-item{min-width:100px;background:var(--glass);padding:10px;border-radius:12px;text-align:center;font-size:12px;border:1px solid var(--border);cursor:pointer}.app-item:hover{border-color:var(--accent)}.tg-join{margin-top:30px;background:linear-gradient(135deg,rgba(36,161,222,0.1),transparent);border:1px solid rgba(36,161,222,0.2);border-radius:20px;padding:30px;text-align:center}.tg-link{color:#24A1DE;font-weight:800;text-decoration:none;font-size:1.2rem;display:block;margin-top:10px}@media (max-width:600px){.movie-title{font-size:1.3rem}.action-row{grid-template-columns:1fr 1fr}.full-mobile{grid-column:span 2}.bots-btn-group{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
     <div id="canvas-container"></div>
-    <nav>
-        <div class="logo nav-logo">UHD BOTS</div>
-        <a href="https://t.me/UHDBots" style="color:var(--accent); text-decoration:none;"><i class="fab fa-telegram"></i></a>
-    </nav>
+    <nav><div class="logo nav-logo">UHD BOTS</div><a href="https://t.me/UHDBots" style="color:var(--accent);text-decoration:none"><i class="fab fa-telegram"></i></a></nav>
     <div class="main-wrapper">
         <div class="video-card">
             <video id="main-player" controls poster="https://i.postimg.cc/Hkwyv5m9/upscalemedia-transformed.png" preload="metadata">
@@ -64,23 +24,22 @@
                 <div class="status-tag"><i class="fas fa-check-circle"></i> Google Native Engine</div>
                 <h1 class="movie-title" id="clean-title">{{file_name}}</h1>
                 <div class="action-row">
-                    <a href="#" class="btn-uhd btn-primary full-mobile" onclick="startDownload()"><i class="fas fa-download"></i> Direct Download</a>
-                    <div class="btn-uhd" onclick="copyLink()"><i class="fas fa-link"></i> Copy</div>
-                    <div class="btn-uhd" onclick="sharePage()"><i class="fas fa-share-alt"></i> Share</div>
+                    <div class="btn-uhd btn-primary full-mobile" onclick="_0x5a1b('dl')"><i class="fas fa-download"></i> Direct Download</div>
+                    <div class="btn-uhd" onclick="_0x5a1b('cp')"><i class="fas fa-link"></i> Copy</div>
+                    <div class="btn-uhd" onclick="_0x5a1b('sh')"><i class="fas fa-share-alt"></i> Share</div>
                 </div>
                 <div class="app-section">
-                    <p style="font-size:11px; opacity:0.6; margin-bottom:10px;">FAST PLAY IN EXTERNAL APPS</p>
+                    <p style="font-size:11px;opacity:0.6;margin-bottom:10px">FAST PLAY IN EXTERNAL APPS</p>
                     <div class="app-list">
-                        <div class="app-item" onclick="launchApp('vlc')"><i class="fas fa-play"></i><br>VLC</div>
-                        <div class="app-item" onclick="launchApp('mx')"><i class="fas fa-play"></i><br>MX Player</div>
-                        <div class="app-item" onclick="launchApp('playit')"><i class="fas fa-play"></i><br>PlayIt</div>
-                        <div class="app-item" onclick="launchApp('km')"><i class="fas fa-play"></i><br>KM Player</div>
+                        <div class="app-item" onclick="_0x2b1c('vlc')"><i class="fas fa-play"></i><br>VLC</div>
+                        <div class="app-item" onclick="_0x2b1c('mx')"><i class="fas fa-play"></i><br>MX Player</div>
+                        <div class="app-item" onclick="_0x2b1c('playit')"><i class="fas fa-play"></i><br>PlayIt</div>
+                        <div class="app-item" onclick="_0x2b1c('km')"><i class="fas fa-play"></i><br>KM Player</div>
                     </div>
                 </div>
-
                 <div class="bots-intro-card">
                     <div class="bots-intro-title"><i class="fas fa-robot"></i> UHD BOTS ECOSYSTEM</div>
-                    <p class="bots-intro-text">We provide a wide range of intelligent Telegram bots designed for high-speed streaming and file management. Explore our professional services below.</p>
+                    <p class="bots-intro-text">Professional high-speed streaming and file management ecosystem.</p>
                     <div class="bots-btn-group">
                         <a href="https://t.me/UHDBots" class="btn-mini"><i class="fab fa-telegram-plane"></i> Updates Channel</a>
                         <a href="https://bit.ly/4dCws8h" class="btn-mini"><i class="fas fa-globe"></i> Visit Bots Site</a>
@@ -88,137 +47,16 @@
                 </div>
             </div>
         </div>
-        <div class="tg-join">
-            <p style="opacity:0.7; font-size:14px;">Powered By</p>
-            <a href="https://t.me/UHDBots" class="tg-link footer-logo">UHD Bots</a>
-        </div>
+        <div class="tg-join"><p style="opacity:0.7;font-size:14px">Powered By</p><a href="https://t.me/UHDBots" class="tg-link footer-logo">UHD Bots</a></div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        const rawUrl = "{{file_url}}";
-
-        // 1. Three.js Background
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
-        const sphere = new THREE.Mesh(new THREE.IcosahedronGeometry(15, 1), new THREE.MeshBasicMaterial({ color: 0x7000ff, wireframe: true, transparent: true, opacity: 0.2 }));
-        scene.add(sphere); camera.position.z = 30;
-        function animate() { requestAnimationFrame(animate); sphere.rotation.y += 0.002; sphere.rotation.x += 0.001; renderer.render(scene, camera); }
-        animate();
-
-        // 2. Title Cleaner
-        const titleEl = document.getElementById('clean-title');
-        if(titleEl) { titleEl.innerText = titleEl.innerText.replace(/[._\-+]/g, ' ').replace(/\[.*?\]/g, '').replace(/\(.*?\)/g, '').trim(); }
-
-        // 3. Stealth Protection Engine
-        (function(w, d) {
-            const _v = () => {
-                const n = d.querySelector('.nav-logo'); const f = d.querySelector('.footer-logo'); const a = d.querySelectorAll('a');
-                let c = false; a.forEach(l => { if(l.href.toLowerCase().indexOf('uhdbots') > -1) c = true; });
-                if (!n || !n.innerText.includes('UHD BOTS') || !f || !c) {
-                    d.body.innerHTML = '<div style="background:#000;color:#ff0044;height:100vh;display:flex;align-items:center;justify-content:center;"><h1>CRITICAL ERROR: CREDITS TAMPERED</h1></div>';
-                    setInterval(() => { (function(){}).constructor("debugger")(); }, 50);
-                }
-            };
-            setInterval(_v, 4000); w.onload = _v;
-        })(window, document);
-
-        // 4. --- BULLETPROOF AUTO-DETECTION ENGINE ---
-        const v = document.getElementById('main-player');
-        if (v) {
-            const triggerVideoError = () => {
-                if (!navigator.onLine) { alert("Oops! Check your internet."); return; }
-                if(document.getElementById('error-box')) return;
-                v.style.display = 'none';
-                const errorDiv = document.createElement('div');
-                errorDiv.id = 'error-box';
-                errorDiv.innerHTML = `<div style="padding:40px 20px; text-align:center; background:rgba(255,0,0,0.15); border:2px dashed #ff0044; border-radius:15px; margin:10px;"><i class="fas fa-exclamation-triangle" style="font-size:40px; color:#ff0044; margin-bottom:15px;"></i><h2 style="color:#fff; font-size:1.1rem;">Playback Issue!</h2><p style="color:#ccc; font-size:0.8rem; margin:10px 0 20px;">Slow Net or Unsupported Format. Use VLC/MX.</p><div style="display:flex; gap:10px; justify-content:center;"><button onclick="location.reload()" style="background:#fff; color:#000; border:none; padding:8px 15px; border-radius:8px; font-weight:bold; cursor:pointer;">Retry</button><button onclick="launchApp('vlc')" style="background:#ff9500; color:#000; border:none; padding:8px 15px; border-radius:8px; font-weight:bold; cursor:pointer;">VLC</button></div></div>`;
-                v.parentNode.insertBefore(errorDiv, v);
-            };
-
-            let playCheck = setTimeout(() => { if (v.readyState < 3 && !v.paused) triggerVideoError(); }, 10000);
-            v.onplaying = () => clearTimeout(playCheck);
-            v.onerror = () => { clearTimeout(playCheck); triggerVideoError(); };
-            v.onloadedmetadata = function() { if (v.canPlayType('audio/mp4; codecs="ec-3"') === "" && rawUrl.toLowerCase().includes(".mkv")) showAudioPopup(); };
-        }
-
-        function showAudioPopup() {
-            if(document.getElementById('audio-pop')) return;
-            const popup = document.createElement('div');
-            popup.id = 'audio-pop';
-            popup.innerHTML = `<div style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(112,0,255,0.98); color:white; padding:15px 20px; border-radius:12px; z-index:9999; width:90%; max-width:350px; border:1px solid #00f2ff; display:flex; align-items:center; gap:10px; box-shadow:0 10px 30px rgba(0,0,0,0.5);"><i class="fas fa-volume-mute"></i><div style="flex:1; font-size:11px;"><b>No Sound?</b> Try VLC/MX Player for DTS/AC3.</div><button onclick="this.parentElement.remove()" style="background:none; border:none; color:white; font-size:18px;">&times;</button></div>`;
-            document.body.appendChild(popup);
-        }
-
-        // 5. Standard Functions
-        function startDownload() { window.location.href = window.location.href.replace('/watch/', '/dl/'); }
-        function copyLink() { navigator.clipboard.writeText(window.location.href); alert("Link Copied!"); }
-        
-        function sharePage() {
-            const shareData = {
-                title: 'UHD Bots | Premium Stream',
-                text: 'Check out this amazing Movie on UHD Bots!',
-                url: window.location.href
-            };
-
-            // 1. Check if Mobile Share API is available
-            if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
-                navigator.share(shareData)
-                    .then(() => console.log('Shared successfully'))
-                    .catch((err) => console.log('Error sharing:', err));
-            } else {
-                // 2. Fallback for PC, TV, and others: Just Copy the Link
-                navigator.clipboard.writeText(window.location.href).then(() => {
-                    alert("Sharing not supported on this device. Link copied to clipboard instead!");
-                }).catch(() => {
-                    // 3. Ultra Fallback: Manual alert for very old devices/TVs
-                    alert("Copy this link to share: " + window.location.href);
-                });
-            }
-        }
-        
-
-        function launchApp(app) {
-            if (!rawUrl || rawUrl.includes("{")) return;
-            const fileName = document.getElementById('clean-title').innerText;
-            const encodedTitle = encodeURIComponent(fileName);
-            const cleanUrl = rawUrl.replace(/^https?:\/\//, '');
-            let pkg = "";
-            let intent = "";
-
-            if (app === 'vlc') {
-                pkg = "org.videolan.vlc";
-                intent = `intent://${cleanUrl}#Intent;scheme=https;package=${pkg};action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
-            } else if (app === 'mx') {
-                pkg = "com.mxtech.videoplayer.ad";
-                intent = `intent://${cleanUrl}#Intent;scheme=https;package=${pkg};action=android.intent.action.VIEW;type=video/*;S.title=${encodedTitle};end`;
-            } else if (app === 'playit') {
-                pkg = "com.playit.videoplayer";
-                intent = `intent://${cleanUrl}#Intent;scheme=https;package=${pkg};action=android.intent.action.VIEW;type=video/*;end`;
-            } else if (app === 'km') {
-                pkg = "com.kmplayer";
-                intent = `intent://${cleanUrl}#Intent;scheme=https;package=${pkg};action=android.intent.action.VIEW;type=video/*;end`;
-            }
-
-            if (intent !== "") {
-                const startTime = Date.now();
-                window.location.assign(intent);
-                
-                // Fallback Pop-up: Check if user returned within 1.5s (meaning app didn't open)
-                setTimeout(() => {
-                    if (Date.now() - startTime < 2000) {
-                        if (confirm("Player app not found. Download it from Play Store?")) {
-                            window.location.href = `https://play.google.com/store/apps/details?id=${pkg}`;
-                        }
-                    }
-                }, 1500);
-            }
-        }
-
-        window.addEventListener('resize', () => { renderer.setSize(window.innerWidth, window.innerHeight); camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); });
+        /* NOTICE: THIS CODE IS PROTECTED BY UHD BOTS SECURITY. 
+           UNAUTHORIZED TAMPERING WILL RESULT IN SYSTEM FAILURE.
+        */
+        const _0xurl = "{{file_url}}";
+        (function(_0x1,_0x2){const _0x3=function(_0x4){while(--_0x4){_0x1['push'](_0x1['shift']());}};_0x3(++_0x2);}(_0x4a1b,0x1f4));function _0x2c1a(_0x1,_0x2){const _0x3=_0x4a1b();return _0x2c1a=function(_0x4,_0x5){_0x4=_0x4-0x0;let _0x6=_0x3[_0x4];return _0x6;},_0x2c1a(_0x1,_0x2);}function _0x4a1b(){const _0x1=['\x69\x6e\x6e\x65\x72\x54\x65\x78\x74','\x55\x48\x44\x20\x42\x4f\x54\x53','\x2e\x6e\x61\x76\x2d\x6c\x6f\x67\x6f','\x2e\x66\x6f\x6f\x74\x65\x72\x2d\x6c\x6f\x67\x6f','\x75\x68\x64\x62\x6f\x74\x73','\x6c\x6f\x63\x61\x74\x69\x6f\x6e','\x68\x72\x65\x66','\x62\x6f\x64\x79','\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c','\x64\x65\x62\x75\x67\x67\x65\x72'];return _0x1;}const _0x5f2e=setInterval(function(){const _0x1=document['querySelector'](_0x2c1a('0x2')),_0x2=document['querySelector'](_0x2c1a('0x3')),_0x3=document['querySelectorAll']('a');let _0x4=![];_0x3['forEach'](_0x5=>{if(_0x5[_0x2c1a('0x6')]['toLowerCase']()['includes'](_0x2c1a('0x4')))_0x4=!![];});if(!_0x1||_0x1[_0x2c1a('0x0')]!==_0x2c1a('0x1')||!_0x2||!_0x4){document[_0x2c1a('0x7')][_0x2c1a('0x8')]='\x3c\x64\x69\x76\x20\x73\x74\x79\x6c\x65\x3d\x22\x62\x61\x63\x6b\x67\x72\x6f\x75\x6e\x64\x3a\x23\x30\x30\x30\x3b\x63\x6f\x6c\x6f\x72\x3a\x72\x65\x64\x3b\x68\x65\x69\x67\x68\x74\x3a\x31\x30\x30\x76\x68\x3b\x64\x69\x73\x70\x6c\x61\x79\x3a\x66\x6c\x65\x78\x3b\x61\x6c\x69\x67\x6e\x2d\x69\x74\x65\x6d\x73\x3a\x63\x65\x6e\x74\x65\x72\x3b\x6a\x75\x73\x74\x69\x66\x79\x2d\x63\x6f\x6e\x74\x65\x6e\x74\x3a\x63\x65\x6e\x74\x65\x72\x3b\x22\x3e\x3c\x68\x31\x3e\x53\x59\x53\x54\x45\x4d\x20\x43\x52\x41\x53\x48\x45\x44\x3a\x20\x54\x41\x4d\x50\x45\x52\x49\x4e\x47\x20\x44\x45\x54\x45\x43\x54\x45\x44\x3c\x2f\x68\x31\x3e\x3c\x2f\x64\x69\x76\x3e';setInterval(()=>{eval(_0x2c1a('0x9'));},0x32);}},0xbb8);const _0x1a2b=new THREE['Scene'](),_0x2b3c=new THREE['PerspectiveCamera'](0x4b,window['innerWidth']/window['innerHeight'],0.1,0x3e8),_0x3c4d=new THREE['WebGLRenderer']({'antialias':!![],'alpha':!![]});_0x3c4d['setSize'](window['innerWidth'],window['innerHeight']);document['getElementById']('canvas-container')['appendChild'](_0x3c4d['domElement']);const _0x4d5e=new THREE['Mesh'](new THREE['IcosahedronGeometry'](0xf,0x1),new THREE['MeshBasicMaterial']({'color':0x7000ff,'wireframe':!![],'transparent':!![],'opacity':0.2}));_0x1a2b['add'](_0x4d5e);_0x2b3c['position']['z']=0x1e;function animate(){requestAnimationFrame(animate);_0x4d5e['rotation']['y']+=0.002;_0x4d5e['rotation']['x']+=0.001;_0x3c4d['render'](_0x1a2b,_0x2b3c);}animate();const _0x6a7b=document['getElementById']('clean-title');if(_0x6a7b){_0x6a7b['innerText']=_0x6a7b['innerText']['replace'](/[._\-+]/g,'\x20')['replace'](/\[.*?\]/g,'')['replace'](/\(.*?\)/g,'')['trim']();}const _0x7b8c=document['getElementById']('main-player');if(_0x7b8c){let _0x8c9d=setTimeout(()=>{if(_0x7b8c['readyState']<0x3&&!_0x7b8c['paused'])_0x9d0e();},0x2710);_0x7b8c['onplaying']=()=>clearTimeout(_0x8c9d);_0x7b8c['onerror']=()=>{clearTimeout(_0x8c9d);_0x9d0e();};function _0x9d0e(){if(!navigator['onLine']){alert('Check Internet!');return;}_0x7b8c['style']['display']='none';const _0x1=document['createElement']('div');_0x1['innerHTML']='\x3c\x64\x69\x76\x20\x73\x74\x79\x6c\x65\x3d\x22\x70\x61\x64\x64\x69\x6e\x67\x3a\x34\x30\x70\x78\x20\x32\x30\x70\x78\x3b\x74\x65\x78\x74\x2d\x61\x6c\x69\x67\x6e\x3a\x63\x65\x6e\x74\x65\x72\x3b\x62\x61\x63\x6b\x67\x72\x6f\x75\x6e\x64\x3a\x72\x67\x62\x61\x28\x32\x35\x35\x2c\x30\x2c\x30\x2c\x30\x2e\x31\x35\x29\x3b\x62\x6f\x72\x64\x65\x72\x3a\x32\x70\x78\x20\x64\x61\x73\x68\x65\x64\x20\x23\x66\x66\x30\x30\x34\x34\x3b\x62\x6f\x72\x64\x65\x72\x2d\x72\x61\x64\x69\x75\x73\x3a\x31\x35\x70\x78\x3b\x6d\x61\x72\x67\x69\x6e\x3a\x31\x30\x70\x78\x3b\x22\x3e\x3c\x69\x20\x63\x6c\x61\x73\x73\x3d\x22\x66\x61\x73\x20\x66\x61\x2d\x65\x78\x63\x6c\x61\x6d\x61\x74\x69\x6f\x6e\x2d\x74\x72\x69\x61\x6e\x67\x6c\x65\x22\x20\x73\x74\x79\x6c\x65\x3d\x22\x66\x6f\x6e\x74\x2d\x73\x69\x7a\x65\x3a\x34\x30\x70\x78\x3b\x63\x6f\x6c\x6f\x72\x3a\x23\x66\x66\x30\x30\x34\x34\x3b\x6d\x61\x72\x67\x69\x6e\x2d\x62\x6f\x74\x74\x6f\x6d\x3a\x31\x35\x70\x78\x3b\x22\x3e\x3c\x2f\x69\x3e\x3c\x68\x32\x3e\x50\x6c\x61\x79\x62\x61\x63\x6b\x20\x49\x73\x73\x75\x65\x21\x3c\x2f\x68\x32\x3e\x3c\x70\x3e\x53\x6c\x6f\x77\x20\x4e\x65\x74\x20\x6f\x72\x20\x55\x6e\x73\x75\x70\x70\x6f\x72\x74\x65\x64\x20\x46\x6f\x72\x6d\x61\x74\x2e\x3c\x2f\x70\x3e\x3c\x64\x69\x76\x20\x73\x74\x79\x6c\x65\x3d\x22\x64\x69\x73\x70\x6c\x61\x79\x3a\x66\x6c\x65\x78\x3b\x67\x61\x70\x3a\x31\x30\x70\x78\x3b\x6a\x75\x73\x74\x69\x66\x79\x2d\x63\x6f\x6e\x74\x65\x6e\x74\x3a\x63\x65\x6e\x74\x65\x72\x3b\x22\x3e\x3c\x62\x75\x74\x74\x6f\x6e\x20\x6f\x6e\x63\x6c\x69\x63\x6b\x3d\x22\x6c\x6f\x63\x61\x74\x69\x6f\x6e\x2e\x72\x65\x6c\x6f\x61\x64\x28\x29\x22\x20\x73\x74\x79\x6c\x65\x3d\x22\x62\x61\x63\x6b\x67\x72\x6f\x75\x6e\x64\x3a\x23\x66\x66\x66\x3b\x63\x6f\x6c\x6f\x72\x3a\x23\x30\x30\x30\x3b\x62\x6f\x72\x64\x65\x72\x3a\x6e\x6f\x6e\x65\x3b\x70\x61\x64\x64\x69\x6e\x67\x3a\x31\x30\x70\x78\x20\x32\x30\x70\x78\x3b\x62\x6f\x72\x64\x65\x72\x2d\x72\x61\x64\x69\x75\x73\x3a\x31\x30\x70\x78\x3b\x66\x6f\x6e\x74\x2d\x77\x65\x69\x67\x68\x74\x3a\x62\x6f\x6c\x64\x3b\x63\x75\x72\x73\x6f\x72\x3a\x70\x6f\x69\x6e\x74\x65\x72\x3b\x22\x3e\x52\x65\x74\x72\x79\x3c\x2f\x62\x75\x74\x74\x6f\x6e\x3e\x3c\x2f\x64\x69\x76\x3e\x3c\x2f\x64\x69\x76\x3e';_0x7b8c['parentNode']['insertBefore'](_0x1,_0x7b8c);}_0x7b8c['onloadedmetadata']=function(){if(_0x7b8c['canPlayType']('audio/mp4; codecs="ec-3"')===''&&_0xurl['toLowerCase']()['includes']('.mkv'))_0xa1b2();};}function _0xa1b2(){if(document['getElementById']('audio-pop'))return;const _0x1=document['createElement']('div');_0x1['id']='audio-pop';_0x1['innerHTML']='\x3c\x64\x69\x76\x20\x73\x74\x79\x6c\x65\x3d\x22\x70\x6f\x73\x69\x74\x69\x6f\x6e\x3a\x66\x69\x78\x65\x64\x3b\x62\x6f\x74\x74\x6f\x6d\x3a\x32\x30\x70\x78\x3b\x6c\x65\x66\x74\x3a\x35\x30\x25\x3b\x74\x72\x61\x6e\x73\x66\x6f\x72\x6d\x3a\x74\x72\x61\x6e\x73\x6c\x61\x74\x65\x58\x28\x2d\x35\x30\x25\x29\x3b\x62\x61\x63\x6b\x67\x72\x6f\x75\x6e\x64\x3a\x72\x67\x62\x61\x28\x31\x31\x32\x2c\x30\x2c\x32\x35\x35\x2c\x30\x2e\x39\x38\x29\x3b\x63\x6f\x6c\x6f\x72\x3a\x77\x68\x69\x74\x65\x3b\x70\x61\x64\x64\x69\x6e\x67\x3a\x31\x35\x70\x78\x20\x32\x30\x70\x78\x3b\x62\x6f\x72\x64\x65\x72\x2d\x72\x61\x64\x69\x75\x73\x3a\x31\x32\x70\x78\x3b\x7a\x2d\x69\x6e\x64\x65\x78\x3a\x39\x39\x39\x39\x3b\x77\x69\x64\x74\x68\x3a\x39\x30\x25\x3b\x6d\x61\x74\x68\x2d\x77\x69\x64\x74\x68\x3a\x33\x35\x30\x70\x78\x3b\x62\x6f\x72\x64\x65\x72\x3a\x31\x70\x78\x20\x73\x6f\x6c\x69\x64\x20\x23\x30\x30\x66\x32\x66\x66\x3b\x64\x69\x73\x70\x6c\x61\x79\x3a\x66\x6c\x65\x78\x3b\x61\x6c\x69\x67\x6e\x2d\x69\x74\x65\x6d\x73\x3a\x63\x65\x6e\x74\x65\x72\x3b\x67\x61\x70\x3a\x31\x30\x70\x78\x3b\x22\x3e\x3c\x69\x20\x63\x6c\x61\x73\x73\x3d\x22\x66\x61\x20\x66\x61\x2d\x76\x6f\x6c\x75\x6d\x65\x2d\x6d\x75\x74\x65\x22\x3e\x3c\x2f\x69\x3e\x3c\x64\x69\x76\x20\x73\x74\x79\x6c\x65\x3d\x22\x66\x6c\x65\x78\x3a\x31\x3b\x66\x6f\x6e\x74\x2d\x73\x69\x7a\x65\x3a\x31\x31\x70\x78\x3b\x22\x3e\x4e\x6f\x20\x53\x6f\x75\x6e\x64\x3f\x20\x55\x73\x65\x20\x45\x78\x74\x65\x72\x6e\x61\x6c\x20\x50\x6c\x61\x79\x65\x72\x20\x66\x6f\x72\x20\x44\x54\x53\x2f\x41\x43\x33\x2e\x3c\x2f\x64\x69\x76\x3e\x3c\x2f\x64\x69\x76\x3e';document['body']['appendChild'](_0x1);}function _0x5a1b(_0x1){if(_0x1==='dl')window['location']['href']=window['location']['href']['replace']('/watch/','/dl/');else if(_0x1==='cp'){navigator['clipboard']['writeText'](window['location']['href']);alert('Link Copied!');}else if(_0x1==='sh'){const _0x2={'title':'UHD Bots','text':'Stream Movie on UHD Bots!','url':window['location']['href']};if(navigator['share']&&navigator['canShare']&&navigator['canShare'](_0x2))navigator['share'](_0x2);else{navigator['clipboard']['writeText'](window['location']['href']);alert('Link Copied!');}}}function _0x2b1c(_0x1){if(!_0xurl||_0xurl['includes']('{'))return;const _0x2=document['getElementById']('clean-title')['innerText'],_0x3=encodeURIComponent(_0x2),_0x4=_0xurl['replace'](/^https?:\/\//,'');let _0x5=_0x1==='vlc'?'org.videolan.vlc':_0x1==='mx'?'com.mxtech.videoplayer.ad':_0x1==='playit'?'com.playit.videoplayer':'com.kmplayer';let _0x6=`intent://${_0x4}#Intent;scheme=https;package=${_0x5};action=android.intent.action.VIEW;type=video/*;S.title=${_0x3};end`;const _0x7=Date['now']();window['location']['assign'](_0x6);setTimeout(()=>{if(Date['now']()-_0x7<2000)if(confirm('App not found. Go to Play Store?'))window['location']['href']=`https://play.google.com/store/apps/details?id=${_0x5}`;},1500);}window['addEventListener']('resize',()=>{_0x3c4d['setSize'](window['innerWidth'],window['innerHeight']);_0x2b3c['aspect']=window['innerWidth']/window['innerHeight'];_0x2b3c['updateProjectionMatrix']();});
     </script>
 </body>
 </html>
