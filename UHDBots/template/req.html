@@ -113,61 +113,45 @@
         })(window, document);
 
         // 4. --- BULLETPROOF AUTO-DETECTION ENGINE ---
+        // 4. --- ADVANCED AUTO-DETECTION ENGINE (Network + Format Check) ---
         const v = document.getElementById('main-player');
         
         if (v) {
-            // Function jo error box dikhayega
+            // SINGLE ULTIMATE ERROR FUNCTION
             const triggerVideoError = () => {
+                // 1. Agar internet offline hai toh alert do aur ruk jao
+                if (!navigator.onLine) {
+                    alert("Oops! Tera internet band hai. Connection check kar.");
+                    return; 
+                }
+
                 if(document.getElementById('error-box')) return;
+                
                 v.style.display = 'none';
                 const errorDiv = document.createElement('div');
                 errorDiv.id = 'error-box';
                 errorDiv.innerHTML = `
                     <div style="padding:40px 20px; text-align:center; background:rgba(255,0,0,0.15); border:2px dashed #ff0044; border-radius:15px; margin:10px; animation: fadeInUp 0.5s;">
                         <i class="fas fa-exclamation-triangle" style="font-size:40px; color:#ff0044; margin-bottom:15px;"></i>
-                        <h2 style="color:#fff; font-size:1.2rem;">Playback Failed!</h2>
-                        <p style="color:#ccc; font-size:0.85rem; margin:10px 0 20px;">Browser cannot play this format. Use External Player for MKV/DTS.</p>
+                        <h2 style="color:#fff; font-size:1.2rem;">Playback Issue!</h2>
+                        <p style="color:#ccc; font-size:0.85rem; margin:10px 0 20px;">Slow Internet or Unsupported Format detected.</p>
                         <div style="display:flex; gap:10px; justify-content:center;">
-                            <button onclick="launchApp('vlc')" style="background:#ff9500; color:#000; border:none; padding:12px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">VLC</button>
-                            <button onclick="launchApp('mx')" style="background:#00f2ff; color:#000; border:none; padding:12px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">MX Player</button>
+                            <button onclick="location.reload()" style="background:#fff; color:#000; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">Retry</button>
+                            <button onclick="launchApp('vlc')" style="background:#ff9500; color:#000; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">VLC</button>
+                            <button onclick="launchApp('mx')" style="background:#00f2ff; color:#000; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">MX</button>
                         </div>
                     </div>`;
                 v.parentNode.insertBefore(errorDiv, v);
             };
 
-function triggerVideoError() {
-    // 1. Pehle check karo internet hai ya nahi
-    if (!navigator.onLine) {
-        alert("Oops! Tera internet band hai. Connection check kar.");
-        return; // Box mat dikhao, user ko net sahi karne do
-    }
-
-    if(document.getElementById('error-box')) return;
-    
-    v.style.display = 'none';
-    const errorDiv = document.createElement('div');
-    errorDiv.id = 'error-box';
-    errorDiv.innerHTML = `
-        <div style="padding:40px 20px; text-align:center; background:rgba(255,0,0,0.15); border:2px dashed #ff0044; border-radius:15px; margin:10px;">
-            <i class="fas fa-network-wired" style="font-size:40px; color:#ff0044; margin-bottom:15px;"></i>
-            <h2 style="color:#fff; font-size:1.2rem;">Playback Issue!</h2>
-            <p style="color:#ccc; font-size:0.85rem; margin:10px 0 20px;">Slow Internet or Unsupported Format detected.</p>
-            <div style="display:flex; gap:10px; justify-content:center;">
-                <button onclick="location.reload()" style="background:#fff; color:#000; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">Retry</button>
-                <button onclick="launchApp('vlc')" style="background:#ff9500; color:#000; border:none; padding:10px 20px; border-radius:10px; font-weight:bold; cursor:pointer;">VLC</button>
-            </div>
-        </div>`;
-    v.parentNode.insertBefore(errorDiv, v);
-}
-            
-            // Forcefully check after 6 seconds
+            // Forcefully check after 10 seconds (Slow Net Friendly)
             let playCheck = setTimeout(() => {
-                if (v.readyState < 3) { // readyState 3 matlab buffering successful
+                if (v.readyState < 3 && !v.paused) { 
                     triggerVideoError();
                 }
-            }, 6000);
+            }, 10000); 
 
-            v.onplaying = () => clearTimeout(playCheck); // Agar chal gayi toh timer band
+            v.onplaying = () => clearTimeout(playCheck); 
             v.onerror = () => { clearTimeout(playCheck); triggerVideoError(); };
 
             // Audio detection
