@@ -30,7 +30,8 @@ async def file_stream_handler(request: web.Request):
         match = re.search(r"^([a-zA-Z0-9_-]{6})(\d+)$", path)
         secure_hash, file_id = (match.group(1), int(match.group(2))) if match else (request.rel_url.query.get("hash"), int(re.search(r"(\d+)", path).group(1)))
         return await _stream_file(request, file_id, secure_hash)
-    except Exception:
+    except Exception as e:
+        logging.error(f"Stream Error: {e}")
         raise web.HTTPInternalServerError(text="Stream Error")
 
 async def _stream_file(request: web.Request, file_id: int, secure_hash: str):
@@ -38,7 +39,6 @@ async def _stream_file(request: web.Request, file_id: int, secure_hash: str):
     client_index = min(work_loads, key=work_loads.get)
     active_client = multi_clients[client_index]
 
-    # Caching Streamer for speed
     tg_client = _stream_cache.get(active_client) or ByteStreamer(active_client)
     _stream_cache[active_client] = tg_client
 
@@ -49,12 +49,24 @@ async def _stream_file(request: web.Request, file_id: int, secure_hash: str):
     start = request.http_range.start or 0
     end = (request.http_range.stop or file_size) - 1
 
-    # Chunk Optimization for Fast Playback
-    chunk_size = 2 * 1024 * 1024 # 2MB Chunks for better speed
+    # --- FIX: Standard Chunk Size to avoid LIMIT_INVALID ---
+    # 1MB is the safe limit for Telegram GetFile
+    chunk_size = 1024 * 1024 
     offset = start - (start % chunk_size)
     total_length = end - start + 1
+    
+    # Calculate parts accurately
+    parts = math.ceil(end / chunk_size) - math.floor(offset / chunk_size)
 
-    body = tg_client.yield_file(file, client_index, offset, start - offset, end % chunk_size + 1, math.ceil(end / chunk_size) - math.floor(offset / chunk_size), chunk_size)
+    body = tg_client.yield_file(
+        file, 
+        client_index, 
+        offset, 
+        start - offset, 
+        end % chunk_size + 1, 
+        parts, 
+        chunk_size
+    )
 
     return web.Response(
         status=206 if range_header else 200,
@@ -65,6 +77,6 @@ async def _stream_file(request: web.Request, file_id: int, secure_hash: str):
             "Content-Length": str(total_length),
             "Content-Disposition": f'attachment; filename="{file.file_name}"',
             "Accept-Ranges": "bytes",
-            "Access-Control-Allow-Origin": "*" # Fast load for web players
+            "Access-Control-Allow-Origin": "*"
         }
     )
