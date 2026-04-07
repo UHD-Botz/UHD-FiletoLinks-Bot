@@ -1,4 +1,4 @@
-import re, math, logging, secrets, mimetypes, asyncio
+import re, math, logging, secrets, mimetypes, asyncio, base64
 from aiohttp import web
 from config import *
 from UHDBots.bot import multi_clients, work_loads, UHDBots
@@ -6,89 +6,72 @@ from UHDBots.server.exceptions import FileNotFound, InvalidHash
 from UHDBots.util.custom_dl import ByteStreamer
 from UHDBots.util.render_template import render_page
 
-routes = web.RouteTableDef()
-_stream_cache = {}
+_0x_r = web.RouteTableDef()
+_0x_c = {}
 
-@routes.get("/", allow_head=True)
-async def home(request: web.Request):
-    return web.json_response({"status": "active", "service": "UHD Bots Premium"})
+def _0x_dec(_0x_s):
+    return base64.b64decode(_0x_s).decode('utf-8')
 
-@routes.get(r"/watch/{path:\S+}", allow_head=True)
-async def watch_handler(request: web.Request):
+@_0x_r.get("/", allow_head=True)
+async def _0x_h(_0x_req):
+    return web.json_response({_0x_dec('c3RhdHVz'): _0x_dec('YWN0aXZl'), _0x_dec('c2VydmljZQ=='): _0x_dec('VUhEIEJvdHMgUHJlbWl1bQ==')})
+
+@_0x_r.get(r"/watch/{path:\S+}", allow_head=True)
+async def _0x_w(_0x_req):
     try:
-        path = request.match_info["path"]
-        match = re.search(r"^([a-zA-Z0-9_-]{6})(\d+)$", path)
-        secure_hash, file_id = (match.group(1), int(match.group(2))) if match else (request.rel_url.query.get("hash"), int(re.search(r"(\d+)", path).group(1)))
-        return web.Response(text=await render_page(file_id, secure_hash), content_type="text/html")
+        _0x_p = _0x_req.match_info["path"]
+        _0x_m = re.search(r"^([a-zA-Z0-9_-]{6})(\d+)$", _0x_p)
+        _0x_h, _0x_f = (_0x_m.group(1), int(_0x_m.group(2))) if _0x_m else (_0x_req.rel_url.query.get(_0x_dec('aGFzaA==')), int(re.search(r"(\d+)", _0x_p).group(1)))
+        return web.Response(text=await render_page(_0x_f, _0x_h), content_type=_0x_dec('dGV4dC9odG1s'))
     except Exception:
-        raise web.HTTPNotFound(text="Invalid Link")
+        raise web.HTTPNotFound(text=_0x_dec('SW52YWxpZCBMaW5r'))
 
-@routes.get(r"/{path:\S+}", allow_head=True)
-async def file_stream_handler(request: web.Request):
+@_0x_r.get(r"/{path:\S+}", allow_head=True)
+async def _0x_fs(_0x_req):
     try:
-        path = request.match_info["path"]
-        match = re.search(r"^([a-zA-Z0-9_-]{6})(\d+)$", path)
-        secure_hash, file_id = (match.group(1), int(match.group(2))) if match else (request.rel_url.query.get("hash"), int(re.search(r"(\d+)", path).group(1)))
-        return await _stream_file(request, file_id, secure_hash)
-    except Exception as e:
-        logging.error(f"Stream Error: {e}")
-        raise web.HTTPInternalServerError(text="Stream Error")
+        _0x_p = _0x_req.match_info["path"]
+        _0x_m = re.search(r"^([a-zA-Z0-9_-]{6})(\d+)$", _0x_p)
+        _0x_h, _0x_f = (_0x_m.group(1), int(_0x_m.group(2))) if _0x_m else (_0x_req.rel_url.query.get(_0x_dec('aGFzaA==')), int(re.search(r"(\d+)", _0x_p).group(1)))
+        return await _0x_sf(_0x_req, _0x_f, _0x_h)
+    except Exception as _0x_e:
+        logging.error(f"ERR: {_0x_e}")
+        raise web.HTTPInternalServerError(text=_0x_dec('U3RyZWFtIEVycm9y'))
 
-async def _stream_file(request: web.Request, file_id: int, secure_hash: str):
-    range_header = request.headers.get("Range", 0)
-    client_index = min(work_loads, key=work_loads.get)
-    active_client = multi_clients[client_index]
-
-    tg_client = _stream_cache.get(active_client) or ByteStreamer(active_client)
-    _stream_cache[active_client] = tg_client
-
-    file = await tg_client.get_file_properties(file_id)
-    if file.unique_id[:6] != secure_hash: raise InvalidHash
-
-    file_size = file.file_size
-    start = request.http_range.start or 0
-    end = (request.http_range.stop or file_size) - 1
-
-    # --- AUTO-RENAME LOGIC ---
-    # Aapka channel name yahan define hai
-    tag = "@UHDBots"
-    orig_name = file.file_name or f"{secrets.token_hex(2)}.bin"
+async def _0x_sf(_0x_rq, _0x_fid, _0x_hsh):
+    _0x_rh = _0x_rq.headers.get(_0x_dec('UmFuZ2U='), 0)
+    _0x_ci = min(work_loads, key=work_loads.get)
+    _0x_ac = multi_clients[_0x_ci]
+    _0x_tc = _0x_c.get(_0x_ac) or ByteStreamer(_0x_ac)
+    _0x_c[_0x_ac] = _0x_tc
+    _0x_f = await _0x_tc.get_file_properties(_0x_fid)
+    if _0x_f.unique_id[:6] != _0x_hsh: raise InvalidHash
     
-    # File name se faltu characters hatao aur tag lagao
-    # Agar pehle se tag hai toh double nahi hoga
-    if tag not in orig_name:
-        final_name = f"[{tag}] {orig_name.replace('_', ' ').replace('-', ' ')}"
-    else:
-        final_name = orig_name
+    _0x_fsz = _0x_f.file_size
+    _0x_st = _0x_rq.http_range.start or 0
+    _0x_en = (_0x_rq.http_range.stop or _0x_fsz) - 1
 
-    # --- FIX: Standard Chunk Size to avoid LIMIT_INVALID ---
-    # 1MB is the safe limit for Telegram GetFile
-    chunk_size = 1024 * 1024 
-    offset = start - (start % chunk_size)
-    total_length = end - start + 1
-    
-    # Calculate parts accurately
-    parts = math.ceil(end / chunk_size) - math.floor(offset / chunk_size)
+    # --- ENCRYPTED RENAME & CHUNK LOGIC ---
+    _0x_t = _0x_dec('QFVIREJvdHM=') # @UHDBots
+    _0x_on = _0x_f.file_name or f"{secrets.token_hex(2)}.bin"
+    _0x_fn = f"[{_0x_t}] {_0x_on.replace('_', ' ').replace('-', ' ')}" if _0x_t not in _0x_on else _0x_on
 
-    body = tg_client.yield_file(
-        file, 
-        client_index, 
-        offset, 
-        start - offset, 
-        end % chunk_size + 1, 
-        parts, 
-        chunk_size
-    )
+    _0x_cs = 1048576 # 1MB Fix
+    _0x_os = _0x_st - (_0x_st % _0x_cs)
+    _0x_tl = _0x_en - _0x_st + 1
+    _0x_pr = math.ceil(_0x_en / _0x_cs) - math.floor(_0x_os / _0x_cs)
+
+    _0x_bd = _0x_tc.yield_file(_0x_f, _0x_ci, _0x_os, _0x_st - _0x_os, _0x_en % _0x_cs + 1, _0x_pr, _0x_cs)
 
     return web.Response(
-        status=206 if range_header else 200,
-        body=body,
+        status=206 if _0x_rh else 200,
+        body=_0x_bd,
         headers={
-            "Content-Type": file.mime_type or "video/mp4",
-            "Content-Range": f"bytes {start}-{end}/{file_size}",
-            "Content-Length": str(total_length),
-            "Content-Disposition": f'attachment; filename="{final_name}"',
-            "Accept-Ranges": "bytes",
-            "Access-Control-Allow-Origin": "*"
+            _0x_dec('Q29udGVudC1UeXBl'): _0x_f.mime_type or _0x_dec('dmlkZW8vbXA0'),
+            _0x_dec('Q29udGVudC1SYW5nZQ=='): f"bytes {_0x_st}-{_0x_en}/{_0x_fsz}",
+            _0x_dec('Q29udGVudC1MZW5ndGg='): str(_0x_tl),
+            _0x_dec('Q29udGVudC1EaXNwb3NpdGlvbg=='): f'attachment; filename="{_0x_fn}"',
+            _0x_dec('QWNjZXB0LVJhbmdlcw=='): _0x_dec('Ynl0ZXM='),
+            _0x_dec('QWNjZXNzLUNvbnRyb2wtQWxsb3ctT3JpZ2lu'): "*"
         }
     )
+    
