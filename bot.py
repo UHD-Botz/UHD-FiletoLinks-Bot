@@ -145,13 +145,8 @@ async def start():
 
 # ---------------- Run Bot ----------------
 if __name__ == "__main__":
-    # uvloop ko poori tarah hata diya hai crash fix karne ke liye
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    
     try:
-        loop.run_until_complete(start())
+        asyncio.get_event_loop().run_until_complete(start())
+
     except KeyboardInterrupt:
-        print("🛑 Stopped.")
-    except Exception as e:
-        print(f"❌ Error: {e}")
+        logging.info("🛑 Service Stopped. Bye 👋")
