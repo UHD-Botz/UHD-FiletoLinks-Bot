@@ -143,13 +143,21 @@ async def start():
     print(" ✅ Bot is Up and Running! Have fun.\n")
     await idle()
 
-# ---------------- Main Execution ----------------
+# ---------------- Main Execution (FIXED) ----------------
 if __name__ == "__main__":
+    # 1. Speed Optimization (uvloop)
     try:
         import uvloop
         asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+        logging.info("🚀 uvloop speed booster active!")
     except ImportError:
-        pass
-        
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(start())
+        logging.info("⚠️ uvloop not found, using standard asyncio.")
+
+    # 2. Run the Bot (Modern Method)
+    try:
+        # Purane get_event_loop() ki jagah asyncio.run use karo
+        asyncio.run(start())
+    except KeyboardInterrupt:
+        logging.info("🛑 Service Stopped by User. Bye 👋")
+    except Exception as e:
+        logging.error(f"❌ Critical Error on Startup: {e}")
