@@ -175,8 +175,7 @@ class ByteStreamer:
 
         try:
             while current_part <= part_count:
-                # Telegram requirement: offset must be a multiple of the limit (chunk_size)
-                # Humne route.py mein pehle hi offset align kiya tha, toh ye valid hoga
+                
                 r = await media_session.send(
                     raw.functions.upload.GetFile(
                         location=location, 
@@ -188,7 +187,7 @@ class ByteStreamer:
                 if isinstance(r, raw.types.upload.File):
                     chunk = r.bytes
                 else:
-                    # Agar response partial hai (upload.FileWeb), tab bhi bytes nikalo
+                    
                     chunk = getattr(r, "bytes", None)
 
                 if not chunk:
