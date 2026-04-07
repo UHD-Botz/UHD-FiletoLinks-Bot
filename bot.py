@@ -12,7 +12,6 @@ from datetime import date, datetime
 from pyrogram import Client, filters, idle
 from aiohttp import web
 
-# Faltu warnings ko hide karo
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 from database.users_chats_db import db
@@ -25,7 +24,7 @@ from UHDBots.bot import UHDBots
 from UHDBots.util.keepalive import ping_server
 from UHDBots.bot.clients import initialize_clients
 
-# ---------------- LOGS CLEANER (Sirf Errors dikhayega) ----------------
+
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger("UHD")
 logger.setLevel(logging.INFO)
@@ -111,10 +110,9 @@ def add_command_handlers():
 
 # ---------------- Bot Startup ----------------
 async def start():
-    # --- CLEAN LOGS (Sirf tere messages aayenge) ---
     print("\n" + "═"*35)
-    print(" 🚀 UHD BOTS ENGINE STARTING...")
-    print(" ✨ Status: Premium Speed Active")
+    print(" 🚀 UHD BOTS STARTING...")
+    print(" ✨ Status: Speed Boosted")
     print(" 📢 Visit: t.me/UHDBots")
     print(" 🌐 Site: bit.ly/4dCws8h")
     print(" ⭐ Repo: github.com/UHD-Botz/UHD-FiletoLinks-Bot")
