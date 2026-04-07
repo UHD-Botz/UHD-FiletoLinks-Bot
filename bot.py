@@ -146,19 +146,29 @@ async def start():
     # 5. Keep Alive (idle block fix)
     await idle()
 
-# ---------------- Main Execution ----------------
+# ---------------- Main Execution (THE ULTIMATE FIX) ----------------
 if __name__ == "__main__":
+    # 1. Start Speed Booster (uvloop)
     try:
         import uvloop
         asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     except ImportError:
         pass
 
-    # Yahan hum try-except loop banayenge taaki crash na ho
-    loop = asyncio.get_event_loop()
+    # 2. Fix for "RuntimeError: There is no current event loop"
     try:
+        loop = asyncio.get_event_loop()
+    except RuntimeError:
+        # Agar loop nahi mila, toh naya banao aur set karo
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
+    try:
+        # 3. Start the Engine
         loop.run_until_complete(start())
     except KeyboardInterrupt:
-        pass
+        logging.info("🛑 Stopped by User.")
     except Exception as e:
-        logging.error(f"❌ Error: {e}")
+        logging.error(f"❌ Startup Error: {e}")
+    finally:
+        loop.close()
