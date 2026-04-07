@@ -144,6 +144,7 @@ async def start():
     await idle()
 
 # ---------------- Main Execution ----------------
+# ---------------- Main Execution (PURANA STYLE + FIX) ----------------
 if __name__ == "__main__":
     try:
         import uvloop
@@ -151,5 +152,11 @@ if __name__ == "__main__":
     except ImportError:
         pass
         
-    loop = asyncio.get_event_loop()
+    # FIX: Direct get_event_loop() ki jagah ye logic use kar crash nahi hoga
+    try:
+        loop = asyncio.get_event_loop()
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        
     loop.run_until_complete(start())
