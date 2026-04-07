@@ -25,7 +25,7 @@ from UHDBots.bot import UHDBots
 from UHDBots.util.keepalive import ping_server
 from UHDBots.bot.clients import initialize_clients
 
-# ---------------- LOGS CLEANER (Sirf Errors dikhayega) ----------------
+# ---------------- LOGS CLEANER ----------------
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger("UHD")
 logger.setLevel(logging.INFO)
@@ -54,7 +54,6 @@ def add_command_handlers():
         try: await message.react(random.choice(EMOJI_LIST))
         except: pass
 
-    # PING CMD
     @UHDBots.on_message(filters.command("ping") & filters.user(ADMINS))
     async def ping_handler(client, message):
         await react_command(message)
@@ -62,7 +61,6 @@ def add_command_handlers():
         m = await message.reply_text("🏓 Pinging...")
         await m.edit_text(f"✅ Pong! `{round((time.time() - start_t) * 1000)} ms`")
 
-    # UPTIME CMD
     @UHDBots.on_message(filters.command("uptime") & filters.user(ADMINS))
     async def uptime_handler(client, message):
         await react_command(message)
@@ -72,58 +70,30 @@ def add_command_handlers():
         minutes, seconds = divmod(rem, 60)
         await message.reply_text(f"⏱ Uptime: `{days}d {hours}h {minutes}m {seconds}s`")
 
-    # BAN CMD
-    @UHDBots.on_message(filters.command("ban") & filters.user(ADMINS))
-    async def ban_handler(client, message):
-        await react_command(message)
-        if not message.reply_to_message:
-            return await message.reply_text("⚠️ Reply to a user to ban them.")
-        user_id = message.reply_to_message.from_user.id
-        await db.banned_users.update_one(
-            {"user_id": user_id},
-            {"$set": {"user_id": user_id, "banned_at": datetime.utcnow()}},
-            upsert=True
-        )
-        await message.reply_text(f"🚫 User `{user_id}` has been banned.")
-
-    # UNBAN CMD
-    @UHDBots.on_message(filters.command("unban") & filters.user(ADMINS))
-    async def unban_handler(client, message):
-        await react_command(message)
-        if not message.reply_to_message:
-            return await message.reply_text("⚠️ Reply to a user to unban them.")
-        user_id = message.reply_to_message.from_user.id
-        result = await db.banned_users.delete_one({"user_id": user_id})
-        if result.deleted_count:
-            await message.reply_text(f"✅ User `{user_id}` has been unbanned.")
-        else:
-            await message.reply_text("⚠️ This user is not banned.")
-
-    # STATS CMD
     @UHDBots.on_message(filters.command("stats"))
     async def stats_handler(client, message):
         await react_command(message)
-        try: total_users = await db.users.count_documents({})
-        except: total_users = 0
-        try: total_chats = await db.chats.count_documents({})
-        except: total_chats = 0
+        try: 
+            total_users = await db.users.count_documents({})
+            total_chats = await db.chats.count_documents({})
+        except: 
+            total_users = total_chats = 0
         await message.reply_text(f"📊 **Statistics**\n\n👤 Users: {total_users}\n💬 Chats: {total_chats}")
 
 # ---------------- Bot Startup ----------------
 async def start():
-    # --- CLEAN LOGS (Sirf tere messages aayenge) ---
     print("\n" + "═"*35)
     print(" 🚀 UHD BOTS ENGINE STARTING...")
-    print(" ✨ Status: Premium Speed Active")
-    print(" 📢 Visit: t.me/UHDBots")
-    print(" 🌐 Site: bit.ly/4dCws8h")
-    print(" ⭐ Repo: github.com/UHD-Botz/UHD-FiletoLinks-Bot")
     print("═"*35 + "\n")
 
     await UHDBots.start()
+    
+    # Handlers aur Plugins load karo
+    add_command_handlers()
+    load_plugins()
+    
     bot_info = await UHDBots.get_me()
     await initialize_clients()
-    load_plugins()
     
     if ON_HEROKU:
         asyncio.create_task(ping_server())
@@ -131,32 +101,23 @@ async def start():
     temp.BOT, temp.ME = UHDBots, bot_info.id
     temp.U_NAME, temp.B_NAME = bot_info.username, bot_info.first_name
 
-    tz = pytz.timezone("Asia/Kolkata")
-    now = datetime.now(tz)
-    await UHDBots.send_message(chat_id=LOG_CHANNEL, text=f"🚀 **UHD Bot Restarted!**\n📅 {date.today()}\n🕒 {now.strftime('%I:%M:%S %p')}")
-
+    # Web Server Startup
     app = web.AppRunner(await web_server())
     await app.setup()
     await web.TCPSite(app, "0.0.0.0", PORT).start()
 
-    add_command_handlers()
-    print(" ✅ Bot is Up and Running! Have fun.\n")
+    print(f" ✅ Bot @{bot_info.username} is UP & RUNNING!\n")
     await idle()
 
-# ---------------- Main Execution ----------------
-# ---------------- Main Execution (PURANA STYLE + FIX) ----------------
+# ---------------- Main Execution (SIMPLE & CLEAN) ----------------
 if __name__ == "__main__":
+    # uvloop ko poori tarah hata diya hai crash fix karne ke liye
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    
     try:
-        import uvloop
-        asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-    except ImportError:
-        pass
-        
-    # FIX: Direct get_event_loop() ki jagah ye logic use kar crash nahi hoga
-    try:
-        loop = asyncio.get_event_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        
-    loop.run_until_complete(start())
+        loop.run_until_complete(start())
+    except KeyboardInterrupt:
+        print("🛑 Stopped.")
+    except Exception as e:
+        print(f"❌ Error: {e}")
