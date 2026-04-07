@@ -75,3 +75,5 @@ async def _0x_sf(_0x_rq, _0x_fid, _0x_hsh):
         }
     )
     
+# Yeh line purane system se connect karegi
+routes = _0x_r
