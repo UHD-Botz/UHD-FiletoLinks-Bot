@@ -152,10 +152,22 @@ class ByteStreamer:
         part_count: int,
         chunk_size: int,
     ):
-        """Yield chunks of a Telegram file for streaming."""
+        """Yield chunks of a Telegram file for streaming with Fix for LIMIT_INVALID."""
         client = self.client
         work_loads[index] += 1
-        logging.debug(f"[{index}] Start streaming | offset={offset} | parts={part_count}")
+        
+        # --- FIX: Ensure chunk_size is aligned with Telegram's 128KB requirement ---
+        # Agar chunk_size 128KB ka multiple nahi hai, toh usey align karo
+        alignment = 128 * 1024
+        if chunk_size % alignment != 0:
+            chunk_size = (chunk_size // alignment) * alignment
+            if chunk_size == 0: chunk_size = alignment
+        
+        # Max limit for upload.GetFile is 1MB
+        if chunk_size > 1024 * 1024:
+            chunk_size = 1024 * 1024
+
+        logging.debug(f"[{index}] Start streaming | offset={offset} | aligned_chunk={chunk_size}")
 
         media_session = await self.generate_media_session(client, file_id)
         location = await self.get_location(file_id)
@@ -163,39 +175,47 @@ class ByteStreamer:
 
         try:
             while current_part <= part_count:
+                # Telegram requirement: offset must be a multiple of the limit (chunk_size)
+                # Humne route.py mein pehle hi offset align kiya tha, toh ye valid hoga
                 r = await media_session.send(
-                    raw.functions.upload.GetFile(location=location, offset=offset, limit=chunk_size)
+                    raw.functions.upload.GetFile(
+                        location=location, 
+                        offset=offset, 
+                        limit=chunk_size
+                    )
                 )
-                if not isinstance(r, raw.types.upload.File):
-                    logging.error(f"Unexpected response type at offset {offset}")
-                    break
 
-                chunk = r.bytes
+                if isinstance(r, raw.types.upload.File):
+                    chunk = r.bytes
+                else:
+                    # Agar response partial hai (upload.FileWeb), tab bhi bytes nikalo
+                    chunk = getattr(r, "bytes", None)
+
                 if not chunk:
-                    logging.debug("No more chunks received, stopping.")
+                    logging.debug("No more chunks received or empty bytes.")
                     break
 
-                
+                # Stream parts handling
                 if part_count == 1:
                     yield chunk[first_part_cut:last_part_cut]
                 elif current_part == 1:
                     yield chunk[first_part_cut:]
                 elif current_part == part_count:
+                    # Ensure we don't exceed the last_part_cut
                     yield chunk[:last_part_cut]
                 else:
                     yield chunk
 
-                
                 offset += chunk_size
                 current_part += 1
+                del chunk
 
-                del chunk  
-
-        except (TimeoutError, AttributeError) as e:
+        except Exception as e:
             logging.error(f"Stream error at offset {offset}: {e}")
         finally:
             work_loads[index] -= 1
             logging.debug(f"[{index}] Finished streaming {current_part-1}/{part_count} parts")
+            
 
     async def clean_cache(self) -> None:
         """Periodically clean unused cache entries."""
