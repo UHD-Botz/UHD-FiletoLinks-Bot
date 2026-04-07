@@ -49,6 +49,18 @@ async def _stream_file(request: web.Request, file_id: int, secure_hash: str):
     start = request.http_range.start or 0
     end = (request.http_range.stop or file_size) - 1
 
+    # --- AUTO-RENAME LOGIC ---
+    # Aapka channel name yahan define hai
+    tag = "@UHDBots"
+    orig_name = file.file_name or f"{secrets.token_hex(2)}.bin"
+    
+    # File name se faltu characters hatao aur tag lagao
+    # Agar pehle se tag hai toh double nahi hoga
+    if tag not in orig_name:
+        final_name = f"[{tag}] {orig_name.replace('_', ' ').replace('-', ' ')}"
+    else:
+        final_name = orig_name
+
     # --- FIX: Standard Chunk Size to avoid LIMIT_INVALID ---
     # 1MB is the safe limit for Telegram GetFile
     chunk_size = 1024 * 1024 
@@ -75,7 +87,7 @@ async def _stream_file(request: web.Request, file_id: int, secure_hash: str):
             "Content-Type": file.mime_type or "video/mp4",
             "Content-Range": f"bytes {start}-{end}/{file_size}",
             "Content-Length": str(total_length),
-            "Content-Disposition": f'attachment; filename="{file.file_name}"',
+            "Content-Disposition": f'attachment; filename="{final_name}"',
             "Accept-Ranges": "bytes",
             "Access-Control-Allow-Origin": "*"
         }
