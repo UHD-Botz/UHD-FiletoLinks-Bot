@@ -11,3 +11,4 @@ psutil
 jinja2
 humanize
 pytz
+uvloop
