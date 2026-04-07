@@ -109,21 +109,26 @@ def add_command_handlers():
         except: total_chats = 0
         await message.reply_text(f"📊 **Statistics**\n\n👤 Users: {total_users}\n💬 Chats: {total_chats}")
 
-# ---------------- Bot Startup ----------------
+# ---------------- Bot Startup (COMMANDS FIX) ----------------
 async def start():
-    # --- CLEAN LOGS (Sirf tere messages aayenge) ---
+    # --- CLEAN LOGS ---
     print("\n" + "═"*35)
     print(" 🚀 UHD BOTS ENGINE STARTING...")
     print(" ✨ Status: Premium Speed Active")
     print(" 📢 Visit: t.me/UHDBots")
-    print(" 🌐 Site: bit.ly/4dCws8h")
-    print(" ⭐ Repo: github.com/UHD-Botz/UHD-FiletoLinks-Bot")
     print("═"*35 + "\n")
 
+    # 1. Start Client First
     await UHDBots.start()
+    
+    # 2. Add Handlers IMMEDIATELY after start
+    add_command_handlers() 
+    
+    # 3. Load Plugins
+    load_plugins()
+    
     bot_info = await UHDBots.get_me()
     await initialize_clients()
-    load_plugins()
     
     if ON_HEROKU:
         asyncio.create_task(ping_server())
@@ -131,33 +136,29 @@ async def start():
     temp.BOT, temp.ME = UHDBots, bot_info.id
     temp.U_NAME, temp.B_NAME = bot_info.username, bot_info.first_name
 
-    tz = pytz.timezone("Asia/Kolkata")
-    now = datetime.now(tz)
-    await UHDBots.send_message(chat_id=LOG_CHANNEL, text=f"🚀 **UHD Bot Restarted!**\n📅 {date.today()}\n🕒 {now.strftime('%I:%M:%S %p')}")
-
+    # 4. Web Server Startup
     app = web.AppRunner(await web_server())
     await app.setup()
     await web.TCPSite(app, "0.0.0.0", PORT).start()
 
-    add_command_handlers()
-    print(" ✅ Bot is Up and Running! Have fun.\n")
+    print(f" ✅ @{bot_info.username} is now Listening to Commands!\n")
+    
+    # 5. Keep Alive (idle block fix)
     await idle()
 
-# ---------------- Main Execution (FIXED) ----------------
+# ---------------- Main Execution ----------------
 if __name__ == "__main__":
-    # 1. Speed Optimization (uvloop)
     try:
         import uvloop
         asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-        logging.info("🚀 uvloop speed booster active!")
     except ImportError:
-        logging.info("⚠️ uvloop not found, using standard asyncio.")
+        pass
 
-    # 2. Run the Bot (Modern Method)
+    # Yahan hum try-except loop banayenge taaki crash na ho
+    loop = asyncio.get_event_loop()
     try:
-        # Purane get_event_loop() ki jagah asyncio.run use karo
-        asyncio.run(start())
+        loop.run_until_complete(start())
     except KeyboardInterrupt:
-        logging.info("🛑 Service Stopped by User. Bye 👋")
+        pass
     except Exception as e:
-        logging.error(f"❌ Critical Error on Startup: {e}")
+        logging.error(f"❌ Error: {e}")
